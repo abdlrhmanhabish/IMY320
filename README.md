@@ -15,7 +15,7 @@
 | Name | Student number |
 |---|---|
 | Abdelrahman Ahmed | 24898008 |
-|  |  |
+| Cleopatra Kwenda | 23547121 |
 |  |  |
 |  |  |
 |  |  |
