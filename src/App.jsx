@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Landing from './pages/Landing';
+import Landing from './pages/Landing/Landing';
 
 export default function App() {
   return (
