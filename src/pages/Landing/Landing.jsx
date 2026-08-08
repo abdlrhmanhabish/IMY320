@@ -87,6 +87,30 @@ function Landing(){
     return(
         <main className='landing-page'>
             {/* Abdul is still working on the shared componenets */}
+
+            {/* Hero section */}
+            <section className='hero'>
+                <div className='hero-content'>
+                    <p className='section-label'></p>
+
+                    <h1 className='hero-title'>
+                        Learn skills. Build your career.
+                    </h1>
+
+                    <p className='hero-decription'>
+                        Practical courses designed to help you grow and 
+                        succeed in the workplace.
+                    </p>
+
+                    <button 
+                        className='hero-button'
+                        onClick={handleExploreCourses}>
+                            Explore Courses
+                        </button>
+                </div>
+
+                
+            </section>
         </main>
     )
 }
