@@ -160,6 +160,64 @@ export default function Landing(){
                     </div>
                 </div>
             </section>
+
+            {/* COURSES CATALOGUE */}
+            <section id="courses" className="courses-section container">
+                <h2>Featured Courses</h2>
+                <p className="subtitle">Practical courses designed for real workplace demands</p>
+
+                <div className="category-tabs">
+                    {categories.map((cat) => (
+                    <button
+                        key={cat}
+                        type="button"
+                        className={`tab-btn ${selectedCategory === cat ? 'active' : ''}`}
+                        onClick={() => setSelectedCategory(cat)}
+                    >
+                        {cat}
+                    </button>
+                    ))}
+                </div>
+
+                <div className="courses-grid">
+                    {filteredCourses.length > 0 ? (
+                    filteredCourses.map((course) => (
+                        <Card
+                        key={course.id}
+                        eyebrow={course.category}
+                        title={course.title}
+                        to={`/courses/${course.id}`}
+                        footer={
+                            <div className="card-footer-content">
+                            <span className="price">{course.price}</span>
+                            <Button
+                                variant="primary"
+                                size="sm"
+                                onClick={(e) => {
+                                e.preventDefault();
+                                navigate(`/auth?enroll=${course.id}`);
+                                }}
+                            >
+                                Enroll
+                            </Button>
+                            </div>
+                        }
+                        >
+                        <p className="instructor-info">
+                            {course.instructor} • <span>{course.role}</span>
+                        </p>
+                        <div className="course-details">
+                            <span>★ {course.rating} ({course.reviews})</span>
+                            <span>{course.duration}</span>
+                            <span>{course.level}</span>
+                        </div>
+                        </Card>
+                    ))
+                    ) : (
+                    <p className="no-results">No courses match your search criteria.</p>
+                    )}
+                </div>
+            </section>
         </main>
     )
 }
