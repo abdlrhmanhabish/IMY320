@@ -80,7 +80,7 @@ export default function Landing(){
 
     // the basic Jakobs law UI of the landing page
     return(
-        <PageShell>
+        <main className="landing-page">
             {/* Abdul is still working on the shared componenets */}
 
             {/* HERO SECTION */}
@@ -97,7 +97,7 @@ export default function Landing(){
                     </p>
 
                     <div className="hero-buttons">
-                        <Button href="#courses" variant="primary" size="lg">
+                        <Button href="/courses" variant="primary" size="lg">
                         Explore Courses
                         </Button>
                         <Button to="/auth" variant="secondary" size="lg">
@@ -126,6 +126,40 @@ export default function Landing(){
                     />
                 </div>
             </section>
-        </PageShell>
+
+            {/* HOW IT WORKS SECTION */}
+            <section id="how-it-works" className="how-it-works-section">
+                <div className="container">
+                    <h2>How SkillsUp Works</h2>
+                    <p className="subtitle">Four steps to building skills that count</p>
+
+                    <div className="steps-grid">
+                        <div className="step-card">
+                            <span className="step-number">1</span>
+                            <h3>Pick a Path</h3>
+                            <p>Select a goal-oriented career path instead of guessing random courses.</p>
+                        </div>
+
+                        <div className="step-card">
+                            <span className="step-number">2</span>
+                            <h3>Bite-Sized Modules</h3>
+                            <p>Study in short, focused evening modules built around working schedules.</p>
+                        </div>
+
+                        <div className="step-card">
+                            <span className="step-number">3</span>
+                            <h3>Build a Project</h3>
+                            <p>Complete a practical project reviewed by industry practitioners.</p>
+                        </div>
+                        
+                        <div className="step-card">
+                            <span className="step-number">4</span>
+                            <h3>Show Employers</h3>
+                            <p>Share your certificate and completed project link directly on your CV.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     )
 }
