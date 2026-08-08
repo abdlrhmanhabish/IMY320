@@ -3,6 +3,8 @@
 // Date: 2026-08-08
 
 import './Landing.css'
+import React, { useState } from 'react';
+
 
 
 // these are the career skills we offer
