@@ -4,8 +4,13 @@
 
 import './Landing.css'
 import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import testimonialsData from '../../data/testimonials.json'
 import heroImage from '../../assets/hero-career.jpg'
+import PageShell from '../components/ui/PageShell.jsx';
+import Card from '../components/ui/Card.jsx';
+import Button from '../components/ui/Button.jsx';
+import Carousel from '../components/ui/Carousel.jsx';
 
 
 
@@ -65,19 +70,16 @@ const courses=[
 
 
 // the minimal functionality of our page
-function Landing(){
-    const handleExploreCourses= ()=> {
-        console.log( 'Explore Courses clicked');
-    };
+export default function Landing(){
+    const [selectedCategory, setSelectedCategory] = useState('All');
+    const navigate = useNavigate();
 
-    const handleExploreCertificates= ()=> {
-        console.log( 'Explore Certificates clicked');
-    };
+    const categories = ['All', 'Data', 'Finance', 'Development', 'Management'];
 
-    const handleJoinSkillUp= ()=> {
-        console.log( 'Join SkillUp clicked');
-    };
-
+    const filteredCourses = courses.filter(
+    (course) => selectedCategory === 'All' || course.category === selectedCategory
+    );
+    
     // the basic Jakobs law UI of the landing page
     return(
         <main className='landing-page'>
