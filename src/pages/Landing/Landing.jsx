@@ -4,6 +4,9 @@
 
 import './Landing.css'
 import React, { useState } from 'react';
+import testimonialsData from '../../data/testimonials.json'
+import heroImage from '../../assets/hero-career.jpg'
+
 
 
 
