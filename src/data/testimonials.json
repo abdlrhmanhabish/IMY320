@@ -1,0 +1,42 @@
+[
+  {
+    "id": "t-thandi",
+    "quote": "I was doing admin work and wanted to move into data. The SQL and reporting path took me four months of evenings. My manager moved me onto the analytics team before I even finished the last module, because I was already doing the work.",
+    "name": "Thandi Mokoena",
+    "role": "Junior data analyst",
+    "context": "Completed the Data reporting path",
+    "location": "Johannesburg"
+  },
+  {
+    "id": "t-riaan",
+    "quote": "Every other course I tried taught the tool. This one taught the job. The project brief in week three was the same kind of brief I now get from actual clients, which is the part nobody else prepares you for.",
+    "name": "Riaan Botha",
+    "role": "Freelance front end developer",
+    "context": "Completed the Web fundamentals path",
+    "location": "Cape Town"
+  },
+  {
+    "id": "t-amara",
+    "quote": "I run a two person business and could not afford to disappear for a semester. Short modules meant I could learn bookkeeping on Sunday mornings and apply it on Monday. Six months later I stopped paying someone else to do my books.",
+    "name": "Amara Nwosu",
+    "role": "Owner, Nwosu Interiors",
+    "context": "Completed Small business finance",
+    "location": "Durban"
+  },
+  {
+    "id": "t-sipho",
+    "quote": "The instructor was still working as a project manager while teaching, so when I asked how to handle a stakeholder who keeps changing scope, the answer came from that week, not from a textbook written in 2014.",
+    "name": "Sipho Dlamini",
+    "role": "Project coordinator",
+    "context": "Completed the Delivery management path",
+    "location": "Pretoria"
+  },
+  {
+    "id": "t-leila",
+    "quote": "I came back to work after five years at home and had no recent references. Finishing three certificates gave me something concrete to point at in interviews. That was the thing that got me shortlisted.",
+    "name": "Leila Petersen",
+    "role": "Operations assistant",
+    "context": "Completed three certificates",
+    "location": "Gqeberha"
+  }
+]
