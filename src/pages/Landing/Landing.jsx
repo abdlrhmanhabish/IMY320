@@ -109,7 +109,14 @@ function Landing(){
                         </button>
                 </div>
 
-                
+                {/* image place holder section */}
+                <div 
+                    className='hero-image'
+                    role='img'
+                    aria-label='SkillUp learning platform visual'>
+
+                        <span>Image Placeholder</span>
+                    </div>
             </section>
         </main>
     )
