@@ -4,67 +4,57 @@
 
 import './Landing.css'
 
-// these are for the floating summary cards
-const stats=[
-    {
-        id: 1,
-        number: '50K+',
-        label: 'Learners'
-    },
-    {
-        id: 2,
-        number: '200+',
-        label: 'Career Courses'
-    },
-    {
-        id: 3,
-        number: '10K+',
-        label: 'Certificates'
-    },
-    
-];
-
-//these are cards for the benefits of our platform
-const benefits=[
-    {
-        id: 1,
-        title: 'Learn from experts'
-    },
-    {
-        id: 2,
-        title: 'Learn at your pace'
-    },
-    {
-        id: 3,
-        title: 'Practical skills'
-    }, 
-];
 
 // these are the career skills we offer
-const categories=[
+const courses=[
     {
         id: 1,
-        title: 'Technology'
+        title: "SQL for People Who Write Reports",
+        instructor: "Thandi Mokoena",
+        role: "Analytics Lead",
+        rating: "4.8",
+        reviews: "1,240",
+        duration: "9 hours",
+        level: "Beginner",
+        price: "R 690",
+        category: "Data",
     },
     {
         id: 2,
-        title: 'Business'
+        title: "Spreadsheets That Survive Who Audit",
+        instructor: "Devan Pillay",
+        role: "Finance Manager",
+        rating: "4.7",
+        reviews: "880",
+        duration: "6 hours",
+        level: "Beginner",
+        price: "R 540",
+        category: "Finance",
+
     },
     {
         id: 3,
-        title: 'Design'
+        title: "React for the First Real Project",
+        instructor: "Hannah Meyer",
+        role: "Senior Engineer",
+        rating: "4.9",
+        reviews: "2,110",
+        duration: "14 hours",
+        level: "Intermediate",
+        price: "R 890",
+        category: "Development",
     }, 
     {
         id: 4,
-        title: 'Marketing'
-    }, 
-    {
-        id: 5,
-        title: 'Finance'
-    }, 
-    {
-        id: 6,
-        title: 'Communication'
+        title: "Running a Delivery Without Chaos",
+        instructor: "Tebogo Maseko",
+        role: "Delivery Manager",
+        rating: "4.6",
+        reviews: "460",
+        duration: "8 hours",
+        level: "Intermediate",
+        price: "R 640",
+        category: "Management",
     }, 
 ];
 
