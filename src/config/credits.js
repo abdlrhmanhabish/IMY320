@@ -55,6 +55,13 @@ export const credits = [
     licence: 'MIT',
     category: CREDIT_CATEGORIES.TOOLING
   },
+  {
+    name: 'System font stack',
+    purpose:'Type is set in the operating system font of whoever is reading. No webfont is downloaded, so the build runs with no external service.',
+    url: 'https://developer.mozilla.org/en-US/docs/Web/CSS/font-family',
+    licence: 'Not applicable, no font is distributed',
+    category: CREDIT_CATEGORIES.FONT
+  },
 ];
 
 export function creditsByCategory() {

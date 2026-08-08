@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { site, footerNav, socialLinks } from '../../config/site.js';
+import { credits } from '../../config/credits.js';
 import Logo from './Logo.jsx';
 import './Footer.css';
 
@@ -9,7 +10,6 @@ export default function Footer() {
       <div className="container">
         <div className="footer__top">
           <div className="footer__brand">
-            
             <Logo />
             <p className="footer__tagline">{site.tagline}</p>
             <ul className="footer__socials">
@@ -46,9 +46,42 @@ export default function Footer() {
             ))}
           </nav>
         </div>
+
+        <div className="footer__notes">
+          <p className="footer__note">
+            <span className="footer__note-label">Built with</span>{' '}
+            <CreditsList items={credits} />.
+          </p>
+
+          <p className="footer__note">
+            <span className="footer__note-label">About the content</span> Team
+            profiles, employee figures and learner testimonials on this site are
+            fictional examples generated for this prototype. They do not describe
+            real people or real outcomes.
+          </p>
+        </div>
       </div>
     </footer>
   );
+}
+function CreditsList({ items }) {
+  return items.map((credit, index) => {
+    const isLast = index === items.length - 1;
+    const isSecondLast = index === items.length - 2;
+    return (
+      <span key={credit.name}>
+        <a
+          className="footer__note-link"
+          href={credit.url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {credit.name}
+        </a>
+        {!isLast && (isSecondLast ? ' and ' : ', ')}
+      </span>
+    );
+  });
 }
 
 function SocialIcon({ platform }) {
