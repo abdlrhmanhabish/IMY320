@@ -67,3 +67,26 @@ const categories=[
         title: 'Communication'
     }, 
 ];
+
+
+// the minimal functionality of our page
+function Landing(){
+    const handleExploreCourses= ()=> {
+        console.log( 'Explore Courses clicked');
+    };
+
+    const handleExploreCertificates= ()=> {
+        console.log( 'Explore Certificates clicked');
+    };
+
+    const handleJoinSkillUp= ()=> {
+        console.log( 'Join SkillUp clicked');
+    };
+
+    // the basic Jakobs law UI of the landing page
+    return(
+        <main className='landing-page'>
+            {/* Abdul is still working on the shared componenets */}
+        </main>
+    )
+}
