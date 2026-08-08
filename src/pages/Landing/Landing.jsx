@@ -7,12 +7,10 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import testimonialsData from '../../data/testimonials.json'
 import heroImage from '../../assets/hero-career.jpg'
-import PageShell from '../components/ui/PageShell.jsx';
-import Card from '../components/ui/Card.jsx';
-import Button from '../components/ui/Button.jsx';
-import Carousel from '../components/ui/Carousel.jsx';
-
-
+import PageShell from '../../components/layout/PageShell.jsx';
+import Card from '../../components/ui/Card.jsx';
+import Button from '../../components/ui/Button.jsx';
+import Carousel from '../../components/ui/Carousel.jsx';
 
 
 // these are the career skills we offer
@@ -79,42 +77,55 @@ export default function Landing(){
     const filteredCourses = courses.filter(
     (course) => selectedCategory === 'All' || course.category === selectedCategory
     );
-    
+
     // the basic Jakobs law UI of the landing page
     return(
-        <main className='landing-page'>
+        <PageShell>
             {/* Abdul is still working on the shared componenets */}
 
-            {/* Hero section */}
-            <section className='hero'>
-                <div className='hero-content'>
-                    <p className='section-label'></p>
-
-                    <h1 className='hero-title'>
+            {/* HERO SECTION */}
+            <section className="hero container">
+                <div className="hero-content">
+                    <span className="section-label">
+                        Career Skills Training
+                    </span>
+                    <h1 className="hero-title">
                         Learn skills. Build your career.
                     </h1>
-
-                    <p className='hero-decription'>
-                        Practical courses designed to help you grow and 
-                        succeed in the workplace.
+                    <p className="hero-description">
+                        Practical, short courses taught by people who do the work. Every learning path ends in a real project you can show an employer.
                     </p>
 
-                    <button 
-                        className='hero-button'
-                        onClick={handleExploreCourses}>
-                            Explore Courses
-                        </button>
+                    <div className="hero-buttons">
+                        <Button href="#courses" variant="primary" size="lg">
+                        Explore Courses
+                        </Button>
+                        <Button to="/auth" variant="secondary" size="lg">
+                        Join SkillsUp
+                        </Button>
+                    </div>
+
+                    <div className="hero-stats">
+                        <div>
+                            <strong>4,200+</strong> Learners
+                        </div>
+                        <div>
+                            <strong>78%</strong> Finish Rate
+                        </div>
+                        <div>
+                            <strong>4.8 ★</strong> Rating
+                        </div>
+                    </div>
                 </div>
 
-                {/* image place holder section */}
-                <div 
-                    className='hero-image'
-                    role='img'
-                    aria-label='SkillUp learning platform visual'>
-
-                        <span>Image Placeholder</span>
-                    </div>
+                <div className="hero-image-container">
+                    <img 
+                        src={heroImage} 
+                        alt="Professional working on career skills visual" 
+                        className="hero-img"
+                    />
+                </div>
             </section>
-        </main>
+        </PageShell>
     )
 }
