@@ -1,0 +1,30 @@
+[
+  {
+    "id": "p-naledi",
+    "name": "Naledi Khumalo",
+    "role": "Founder and chief executive",
+    "bio": "Spent eleven years running graduate training at a logistics firm and kept meeting people who were good at the job but had no way to prove it. Started SkillUP to close that gap.",
+    "focus": "Curriculum direction"
+  },
+  {
+    "id": "p-devan",
+    "name": "Devan Pillay",
+    "role": "Head of learning design",
+    "bio": "Former further education lecturer. Rebuilds every course around a single question: what does someone have to be able to do on Monday that they could not do on Friday.",
+    "focus": "Course structure and assessment"
+  },
+  {
+    "id": "p-hannah",
+    "name": "Hannah Meyer",
+    "role": "Head of instructor partnerships",
+    "bio": "Recruits people who still work in the field they teach. Turns down anyone who has been out of practice for more than two years, which makes her unpopular and the courses better.",
+    "focus": "Instructor recruitment and review"
+  },
+  {
+    "id": "p-tebogo",
+    "name": "Tebogo Maseko",
+    "role": "Head of learner support",
+    "bio": "Runs the team that answers when a course stops making sense at eleven at night. Publishes the response time every month, including the months it slipped.",
+    "focus": "Support and accessibility"
+  }
+]

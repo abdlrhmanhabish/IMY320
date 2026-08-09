@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "title": "SQL for people who write reports",
+    "instructor": "Thandi Mokoena",
+    "role": "Analytics lead",
+    "rating": "4.8",
+    "reviews": "1,240",
+    "duration": "9 hours",
+    "level": "Beginner",
+    "price": "R 690",
+    "category": "Data",
+    "summary": "Write the queries behind a weekly report without waiting on the data team. Ends with a report you build from a real extract."
+  },
+  {
+    "id": 2,
+    "title": "Spreadsheets that survive an audit",
+    "instructor": "Devan Pillay",
+    "role": "Finance manager",
+    "rating": "4.7",
+    "reviews": "880",
+    "duration": "6 hours",
+    "level": "Beginner",
+    "price": "R 540",
+    "category": "Finance",
+    "summary": "Build workbooks someone else can check. Covers structure, formulas that do not break, and the habits auditors look for."
+  },
+  {
+    "id": 3,
+    "title": "React for the first real project",
+    "instructor": "Hannah Meyer",
+    "role": "Senior engineer",
+    "rating": "4.9",
+    "reviews": "2,110",
+    "duration": "14 hours",
+    "level": "Intermediate",
+    "price": "R 890",
+    "category": "Development",
+    "summary": "Go from tutorials to shipping. Components, state, routing and the parts of a codebase nobody explains until you are already in one."
+  },
+  {
+    "id": 4,
+    "title": "Running a delivery without chaos",
+    "instructor": "Tebogo Maseko",
+    "role": "Delivery manager",
+    "rating": "4.6",
+    "reviews": "460",
+    "duration": "8 hours",
+    "level": "Intermediate",
+    "price": "R 640",
+    "category": "Management",
+    "summary": "Scope, estimates and the stakeholder conversation that keeps changing. Practical delivery for people who inherited the job."
+  }
+]
