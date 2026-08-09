@@ -227,6 +227,13 @@ export default function Landing(){
                     <p className="no-results">No courses match your search criteria.</p>
                     )}
                 </div>
+
+                {/* EXPLORE MORE COURSES ACTION */}
+                <div className="explore-more-container">
+                    <Button href="/courses" variant="secondary" size="lg">
+                        Explore All Courses →
+                    </Button>
+                </div>
             </section>
         </main>
     )
