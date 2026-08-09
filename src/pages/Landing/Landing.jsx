@@ -4,7 +4,7 @@
 
 import './Landing.css'
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import testimonialsData from '../../data/testimonials.json'
 import heroImage from '../../assets/hero-career.jpg'
 import PageShell from '../../components/layout/PageShell.jsx';
@@ -22,7 +22,7 @@ const courses=[
         role: "Analytics Lead",
         rating: "4.8",
         reviews: "1,240",
-        duration: "9 hours",
+        duration: "9 hours", 
         level: "Beginner",
         price: "R 690",
         category: "Data",
@@ -71,6 +71,7 @@ const courses=[
 export default function Landing(){
     const [selectedCategory, setSelectedCategory] = useState('All');
     const navigate = useNavigate();
+    const location = useLocation();
 
     const categories = ['All', 'Data', 'Finance', 'Development', 'Management'];
 
@@ -100,7 +101,13 @@ export default function Landing(){
                         <Button href="/courses" variant="primary" size="lg">
                         Explore Courses
                         </Button>
-                        <Button to="/auth" variant="secondary" size="lg">
+                        <Button 
+                            to={{
+                                pathname: location.pathname,
+                                search: '?auth=signup'
+                            }} 
+                            variant="secondary" 
+                            size="lg">
                         Join SkillsUp
                         </Button>
                     </div>
@@ -193,9 +200,12 @@ export default function Landing(){
                             <Button
                                 variant="primary"
                                 size="sm"
-                                onClick={(e) => {
-                                e.preventDefault();
-                                navigate(`/auth?enroll=${course.id}`);
+                                onClick={(event) => {
+                                event.preventDefault();
+                                navigate({
+                                    pathname: location.pathname,
+                                    search: `?auth=signup&enroll=${course.id}`
+                                });
                                 }}
                             >
                                 Enroll
