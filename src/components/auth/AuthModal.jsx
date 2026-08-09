@@ -38,6 +38,10 @@ export default function AuthModal({ mode = 'login', onClose, onModeChange }) {
         aria-labelledby={titleId}
         aria-describedby={leadId}
       >
+        <button type="button" className="auth-modal__close" onClick={onClose} aria-label="Close dialog">
+          <CloseIcon />
+        </button>
+
         <aside className={`auth-modal__promo ${isSignup ? 'auth-modal__promo--signup' : 'auth-modal__promo--login'}`}>
           <div className="auth-modal__promo-copy">
             {isSignup ? (
@@ -67,15 +71,6 @@ export default function AuthModal({ mode = 'login', onClose, onModeChange }) {
         </aside>
 
         <div className="auth-modal__content">
-          <button
-            type="button"
-            className="auth-modal__close"
-            onClick={onClose}
-            aria-label="Close dialog"
-          >
-            <CloseIcon />
-          </button>
-
           {isSignup ? (
             <SignupForm
               showPassword={showPassword}
