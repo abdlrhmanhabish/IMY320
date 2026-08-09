@@ -1,0 +1,24 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-action);
+  text-decoration: none;
+}
+
+.logo__mark {
+  flex-shrink: 0;
+}
+
+.logo__word {
+  color: var(--color-text);
+  font-family: var(--font-family-display);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.02em;
+}
+
+
+.logo:hover {
+  color: var(--color-action-hover);
+}
