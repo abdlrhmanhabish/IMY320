@@ -264,6 +264,14 @@
   color: var(--color-grey-600, #6b7280);
 }
 
+.explore-more-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 3rem;
+}
+
 /* ==========================================================================
    4. TESTIMONIALS SECTION & CAROUSEL SLIDES
    ========================================================================== */
@@ -293,23 +301,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 3rem;
+  gap: 5.5rem;
   flex-wrap: wrap;
 }
 
 .cert-logo {
-  font-size: 1.125rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--color-brand-600, #4f46e5);
-  opacity: 0.65;
+  height: 48px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+
   filter: grayscale(100%);
-  transition: all 0.2s ease;
+  opacity: 0.6;
+
+  --logo-scale: 1;
+
+  transform: scale(var(--logo-scale));
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.cert-logo-large {
+  --logo-scale: 3;
 }
 
 .cert-logo:hover {
-  opacity: 1;
   filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(var(--logo-scale)) translateY(-4px);
 }
 
 /* ==========================================================================
