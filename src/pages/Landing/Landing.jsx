@@ -5,12 +5,14 @@
 import './Landing.css'
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import testimonialsData from '../../data/testimonials.json'
 import heroImage from '../../assets/hero-career.jpg'
-import PageShell from '../../components/layout/PageShell.jsx';
 import Card from '../../components/ui/Card.jsx';
 import Button from '../../components/ui/Button.jsx';
-import Carousel from '../../components/ui/Carousel.jsx';
+import microsoftLogo from '../../assets/logos/microsoft.svg';
+import awsLogo from '../../assets/logos/aws.svg';
+import googleLogo from '../../assets/logos/google.svg';
+import metaLogo from '../../assets/logos/meta.svg';
+import salesforceLogo from '../../assets/logos/salesforce.svg';
 
 
 // these are the career skills we offer
