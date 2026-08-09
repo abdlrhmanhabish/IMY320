@@ -16,9 +16,9 @@
 |---|---|
 | Abdelrahman Ahmed | 24898008 |
 | Cleopatra Kwenda | 23547121 |
-| Mosa Leiee |  |
+| Mosa Leiee | 24735672 |
 | Kundai Ndemera | 23941996 |
-| Ndamulelo Vele |  |
+| Ndamulelo Vele | 23554607 |
 
 ## About the project
 
