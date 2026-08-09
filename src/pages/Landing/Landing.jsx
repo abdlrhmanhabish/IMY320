@@ -8,11 +8,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import heroImage from '../../assets/hero-career.jpg'
 import Card from '../../components/ui/Card.jsx';
 import Button from '../../components/ui/Button.jsx';
-import microsoftLogo from '../../assets/logos/microsoft.svg';
-import awsLogo from '../../assets/logos/aws.svg';
-import googleLogo from '../../assets/logos/google.svg';
-import metaLogo from '../../assets/logos/meta.svg';
-import salesforceLogo from '../../assets/logos/salesforce.svg';
+import microsoftLogo from '../../assets/microsoft.png';
+import awsLogo from '../../assets/aws.png';
+import googleLogo from '../../assets/google.png';
+import metaLogo from '../../assets/meta.png';
+import salesforceLogo from '../../assets/salesforce.png';
 
 
 // these are the career skills we offer
@@ -166,6 +166,20 @@ export default function Landing(){
                             <h3>Show Employers</h3>
                             <p>Share your certificate and completed project link directly on your CV.</p>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* CERTIFICATIONS / PARTNERS TRUST ROW */}
+            <section className="certifications-section">
+                <div className="container">
+                    <p className="certifications-title">Certified skills recognized by industry leads at</p>
+                    <div className="certifications-logos">
+                    <img src={microsoftLogo} alt="Microsoft Certified" className="cert-logo" />
+                    <img src={awsLogo} alt="AWS Certified" className="cert-logo" />
+                    <img src={googleLogo} alt="Google Certified" className="cert-logo" />
+                    <img src={metaLogo} alt="Meta Certified" className="cert-logo" />
+                    <img src={salesforceLogo} alt="Salesforce Certified" className="cert-logo" />
                     </div>
                 </div>
             </section>
