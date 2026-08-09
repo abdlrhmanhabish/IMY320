@@ -125,6 +125,13 @@
   color: var(--color-text-muted);
 }
 
+.info-page__callout-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
 .info-page__prose {
   max-width: var(--layout-container-narrow);
   color: var(--color-text-muted);

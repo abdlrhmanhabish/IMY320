@@ -62,6 +62,20 @@ export const credits = [
     licence: 'Not applicable, no font is distributed',
     category: CREDIT_CATEGORIES.FONT
   },
+  {
+    name: 'Landing page hero image',
+    purpose:'Hero image on the landing page (src/assets/hero-career.jpg). Generated with an image model rather than photographed, and it carries a C2PA record saying so.',
+    url: 'https://github.com/abdlrhmanhabish/IMY320',
+    licence: 'Generated image, produced for this project',
+    category: CREDIT_CATEGORIES.IMAGERY
+  },
+  {
+    name: 'Company and certification logos',
+    purpose: 'Microsoft, Google, Meta, AWS and Salesforce logos appear on the landing page to name the tools and certifications our courses prepare people for. Each logo is a trademark of its owner. No endorsement of this prototype is claimed or implied.',
+    url: 'https://github.com/abdlrhmanhabish/IMY320',
+    licence: 'Trademarks of their respective owners, used nominatively',
+    category: CREDIT_CATEGORIES.IMAGERY
+  }
 ];
 
 export function creditsByCategory() {

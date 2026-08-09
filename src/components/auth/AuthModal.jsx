@@ -1,11 +1,16 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import Button from '../ui/Button.jsx';
 import useFocusTrap from '../../hooks/useFocusTrap.js';
+import useAuth from '../../hooks/useAuth.js';
+import { site } from '../../config/site.js';
 import './AuthModal.css';
 
-export default function AuthModal({ mode = 'login', onClose, onModeChange }) {
+
+export default function AuthModal({ mode = 'login', onClose, onModeChange, enrollTitle }) {
   const panelRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState('');
+  const [confirmed, setConfirmed] = useState(null);
   const isSignup = mode === 'signup';
   const titleId = useId();
   const leadId = useId();
@@ -58,7 +63,7 @@ export default function AuthModal({ mode = 'login', onClose, onModeChange }) {
               <>
                 <p className="auth-modal__eyebrow">Welcome back!</p>
                 <h2 id={titleId} className="auth-modal__headline">
-                  Continue your learning journey with SkillsUp.
+                  Continue your learning journey with {site.name}.
                 </h2>
                 <p id={leadId} className="auth-modal__lede">
                   Pick up where you left off and access your saved courses in one place.
@@ -71,16 +76,29 @@ export default function AuthModal({ mode = 'login', onClose, onModeChange }) {
         </aside>
 
         <div className="auth-modal__content">
-          {isSignup ? (
+          {confirmed ? (
+            <AuthConfirmation
+              user={confirmed.user}
+              wasSignup={confirmed.wasSignup}
+              enrollTitle={enrollTitle}
+              onDone={onClose}
+            />
+          ) : isSignup ? (
             <SignupForm
               showPassword={showPassword}
               setShowPassword={setShowPassword}
+              email={email}
+              setEmail={setEmail}
+              onSuccess={(user) => setConfirmed({ user, wasSignup: true })}
               onSwitchMode={() => onModeChange('login')}
             />
           ) : (
             <LoginForm
               showPassword={showPassword}
               setShowPassword={setShowPassword}
+              email={email}
+              setEmail={setEmail}
+              onSuccess={(user) => setConfirmed({ user, wasSignup: false })}
               onSwitchMode={() => onModeChange('signup')}
             />
           )}
@@ -90,9 +108,107 @@ export default function AuthModal({ mode = 'login', onClose, onModeChange }) {
   );
 }
 
-function SignupForm({ showPassword, setShowPassword, onSwitchMode }) {
+function AuthConfirmation({ user, wasSignup, enrollTitle, onDone }) {
+  const doneRef = useRef(null);
+
+  useEffect(() => {
+    doneRef.current?.focus();
+  }, []);
+
   return (
-    <form className="auth-modal__form" onSubmit={(event) => event.preventDefault()}>
+    <div className="auth-confirm" role="status">
+      <span className="auth-confirm__badge" aria-hidden="true">
+        <CheckIcon />
+      </span>
+
+      <h3 ref={doneRef} tabIndex={-1} className="auth-confirm__heading">
+        {wasSignup ? 'Your account is ready' : `Welcome back, ${user.name}`}
+      </h3>
+
+      <p className="auth-confirm__body">
+        {wasSignup ? (
+          <>
+            We created an account for <strong>{user.email}</strong> and signed you in.
+          </>
+        ) : (
+          <>
+            You are signed in as <strong>{user.email}</strong>.
+          </>
+        )}
+      </p>
+
+      {enrollTitle && (
+        <p className="auth-confirm__enroll">
+          You are enrolled in <strong>{enrollTitle}</strong>. It is now in your learning
+          list.
+        </p>
+      )}
+
+      <Button variant="primary" size="lg" fullWidth onClick={onDone}>
+        Start learning
+      </Button>
+    </div>
+  );
+}
+
+const PASSWORD_RULES = [
+  { id: 'length', label: 'At least 8 characters', test: (v) => v.length >= 8 },
+  { id: 'number', label: 'One number', test: (v) => /\d/.test(v) },
+  { id: 'upper', label: 'One uppercase letter', test: (v) => /[A-Z]/.test(v) },
+  { id: 'special', label: 'One special character', test: (v) => /[^A-Za-z0-9]/.test(v) },
+];
+
+const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
+
+function SignupForm({
+  showPassword,
+  setShowPassword,
+  email,
+  setEmail,
+  onSuccess,
+  onSwitchMode,
+}) {
+  const { register, status, error, resetError } = useAuth();
+  const [values, setValues] = useState({ firstName: '', lastName: '', password: '' });
+  const [touched, setTouched] = useState({});
+  const isLoading = status === 'loading';
+
+  const fieldErrors = {
+    firstName: values.firstName.trim() ? '' : 'Enter your first name.',
+    lastName: values.lastName.trim() ? '' : 'Enter your last name.',
+    email: !email.trim()
+      ? 'Enter your email address.'
+      : isEmail(email)
+        ? ''
+        : 'That address is missing an @ or a domain.',
+    password: PASSWORD_RULES.every((rule) => rule.test(values.password))
+      ? ''
+      : 'Your password does not meet all four requirements yet.',
+  };
+
+  const change = (field) => (event) => {
+    resetError();
+    if (field === 'email') setEmail(event.target.value);
+    else setValues((current) => ({ ...current, [field]: event.target.value }));
+  };
+
+  const blur = (field) => () => setTouched((current) => ({ ...current, [field]: true }));
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setTouched({ firstName: true, lastName: true, email: true, password: true });
+
+    if (Object.values(fieldErrors).some(Boolean)) return;
+
+    try {
+      const user = await register({ ...values, email });
+      onSuccess(user);
+    } catch {
+    }
+  };
+
+  return (
+    <form className="auth-modal__form" onSubmit={handleSubmit} noValidate>
       <div className="auth-modal__form-head">
         <h3>Sign up for free</h3>
       </div>
@@ -103,12 +219,20 @@ function SignupForm({ showPassword, setShowPassword, onSwitchMode }) {
           placeholder="Enter first name"
           autoComplete="given-name"
           icon={<UserIcon />}
+          value={values.firstName}
+          onChange={change('firstName')}
+          onBlur={blur('firstName')}
+          error={touched.firstName ? fieldErrors.firstName : ''}
         />
         <TextField
           label="Last name"
           placeholder="Enter last name"
           autoComplete="family-name"
           icon={<UserIcon />}
+          value={values.lastName}
+          onChange={change('lastName')}
+          onBlur={blur('lastName')}
+          error={touched.lastName ? fieldErrors.lastName : ''}
         />
       </div>
 
@@ -118,6 +242,10 @@ function SignupForm({ showPassword, setShowPassword, onSwitchMode }) {
         placeholder="Enter your email"
         autoComplete="email"
         icon={<MailIcon />}
+        value={email}
+        onChange={change('email')}
+        onBlur={blur('email')}
+        error={touched.email ? fieldErrors.email : ''}
       />
 
       <PasswordField
@@ -127,32 +255,36 @@ function SignupForm({ showPassword, setShowPassword, onSwitchMode }) {
         showPassword={showPassword}
         setShowPassword={setShowPassword}
         icon={<LockIcon />}
+        value={values.password}
+        onChange={change('password')}
+        onBlur={blur('password')}
       />
 
       <ul className="auth-modal__rules" aria-label="Password requirements">
-        <li>At least 8 characters</li>
-        <li>One number</li>
-        <li>One uppercase letter</li>
-        <li>One special character</li>
+        {PASSWORD_RULES.map((rule) => {
+          const met = rule.test(values.password);
+          return (
+            <li
+              key={rule.id}
+              className={met ? 'auth-modal__rule--met' : undefined}
+              data-met={met ? 'true' : 'false'}
+            >
+              {rule.label}
+              <span className="visually-hidden">{met ? ', met' : ', not met yet'}</span>
+            </li>
+          );
+        })}
       </ul>
 
-      <Button type="submit" variant="primary" size="lg" fullWidth>
-        Create account
+      <FormError message={error} />
+
+      <Button type="submit" variant="primary" size="lg" fullWidth loading={isLoading}>
+        {isLoading ? 'Creating account' : 'Create account'}
       </Button>
 
       <Divider />
 
-      <div className="auth-modal__providers">
-        <Button variant="secondary" fullWidth className="auth-modal__provider" iconLeft={<GoogleIcon />}>
-          Continue with Google
-        </Button>
-        <Button variant="secondary" fullWidth className="auth-modal__provider" iconLeft={<MicrosoftIcon />}>
-          Continue with Microsoft
-        </Button>
-        <Button variant="secondary" fullWidth className="auth-modal__provider" iconLeft={<AppleIcon />}>
-          Continue with Apple
-        </Button>
-      </div>
+      <ProviderButtons />
 
       <p className="auth-modal__switchline">
         Already have an account?{' '}
@@ -164,9 +296,44 @@ function SignupForm({ showPassword, setShowPassword, onSwitchMode }) {
   );
 }
 
-function LoginForm({ showPassword, setShowPassword, onSwitchMode }) {
+function LoginForm({
+  showPassword,
+  setShowPassword,
+  email,
+  setEmail,
+  onSuccess,
+  onSwitchMode,
+}) {
+  const { login, status, error, resetError } = useAuth();
+  const [password, setPassword] = useState('');
+  const [touched, setTouched] = useState({});
+  const [notice, setNotice] = useState('');
+  const isLoading = status === 'loading';
+
+  const fieldErrors = {
+    email: !email.trim()
+      ? 'Enter your email address.'
+      : isEmail(email)
+        ? ''
+        : 'That address is missing an @ or a domain.',
+    password: password ? '' : 'Enter your password.'
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setTouched({ email: true, password: true });
+
+    if (Object.values(fieldErrors).some(Boolean)) return;
+
+    try {
+      const user = await login({ email, password });
+      onSuccess(user);
+    } catch {
+    }
+  };
+
   return (
-    <form className="auth-modal__form" onSubmit={(event) => event.preventDefault()}>
+    <form className="auth-modal__form" onSubmit={handleSubmit} noValidate>
       <div className="auth-modal__form-head">
         <h3>Log in to your account</h3>
       </div>
@@ -177,6 +344,13 @@ function LoginForm({ showPassword, setShowPassword, onSwitchMode }) {
         placeholder="Enter your email"
         autoComplete="email"
         icon={<MailIcon />}
+        value={email}
+        onChange={(event) => {
+          resetError();
+          setEmail(event.target.value);
+        }}
+        onBlur={() => setTouched((c) => ({ ...c, email: true }))}
+        error={touched.email ? fieldErrors.email : ''}
       />
 
       <PasswordField
@@ -186,6 +360,13 @@ function LoginForm({ showPassword, setShowPassword, onSwitchMode }) {
         showPassword={showPassword}
         setShowPassword={setShowPassword}
         icon={<LockIcon />}
+        value={password}
+        onChange={(event) => {
+          resetError();
+          setPassword(event.target.value);
+        }}
+        onBlur={() => setTouched((c) => ({ ...c, password: true }))}
+        error={touched.password ? fieldErrors.password : ''}
       />
 
       <div className="auth-modal__login-row">
@@ -194,28 +375,36 @@ function LoginForm({ showPassword, setShowPassword, onSwitchMode }) {
           <span>Remember me</span>
         </label>
 
-        <button type="button" className="auth-modal__switch">
+        <button
+          type="button"
+          className="auth-modal__switch"
+          onClick={() =>
+            setNotice(
+              isEmail(email)
+                ? `If ${email.trim()} has an account, a reset link is on its way.`
+                : 'Enter your email address above first, then select this again.',
+            )
+          }
+        >
           Forgot password?
         </button>
       </div>
 
-      <Button type="submit" variant="primary" size="lg" fullWidth>
-        Log In
+      {notice && (
+        <p className="auth-modal__notice" role="status">
+          {notice}
+        </p>
+      )}
+
+      <FormError message={error} />
+
+      <Button type="submit" variant="primary" size="lg" fullWidth loading={isLoading}>
+        {isLoading ? 'Logging in' : 'Log in'}
       </Button>
 
       <Divider />
 
-      <div className="auth-modal__providers">
-        <Button variant="secondary" fullWidth className="auth-modal__provider" iconLeft={<GoogleIcon />}>
-          Continue with Google
-        </Button>
-        <Button variant="secondary" fullWidth className="auth-modal__provider" iconLeft={<MicrosoftIcon />}>
-          Continue with Microsoft
-        </Button>
-        <Button variant="secondary" fullWidth className="auth-modal__provider" iconLeft={<AppleIcon />}>
-          Continue with Apple
-        </Button>
-      </div>
+      <ProviderButtons />
 
       <p className="auth-modal__switchline">
         Don&apos;t have an account?{' '}
@@ -227,8 +416,69 @@ function LoginForm({ showPassword, setShowPassword, onSwitchMode }) {
   );
 }
 
-function TextField({ label, icon, type = 'text', placeholder, autoComplete }) {
+
+function FormError({ message }) {
+  if (!message) return null;
+
+  return (
+    <p className="auth-modal__error" role="alert">
+      {message}
+    </p>
+  );
+}
+
+function ProviderButtons() {
+  const [notice, setNotice] = useState('');
+
+  const providers = [
+    { name: 'Google', icon: <GoogleIcon /> },
+    { name: 'Microsoft', icon: <MicrosoftIcon /> },
+    { name: 'Apple', icon: <AppleIcon /> }
+  ];
+
+  return (
+    <>
+      <div className="auth-modal__providers">
+        {providers.map((provider) => (
+          <Button
+            key={provider.name}
+            variant="secondary"
+            fullWidth
+            className="auth-modal__provider"
+            iconLeft={provider.icon}
+            onClick={() =>
+              setNotice(
+                `${provider.name} sign in is not connected in this prototype. Use the email form above.`,
+              )
+            }
+          >
+            Continue with {provider.name}
+          </Button>
+        ))}
+      </div>
+
+      {notice && (
+        <p className="auth-modal__notice" role="status">
+          {notice}
+        </p>
+      )}
+    </>
+  );
+}
+
+function TextField({
+  label,
+  icon,
+  type = 'text',
+  placeholder,
+  autoComplete,
+  value,
+  onChange,
+  onBlur,
+  error,
+}) {
   const id = useId();
+  const errorId = `${id}-error`;
 
   return (
     <div className="auth-field">
@@ -243,12 +493,19 @@ function TextField({ label, icon, type = 'text', placeholder, autoComplete }) {
 
         <input
           id={id}
-          className="auth-field__input"
+          className={`auth-field__input ${error ? 'auth-field__input--error' : ''}`}
           type={type}
           placeholder={placeholder}
           autoComplete={autoComplete}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          aria-invalid={error ? 'true' : undefined}
+          aria-describedby={error ? errorId : undefined}
         />
       </div>
+
+      <p id={errorId} className="auth-field__error" aria-live="polite">{error}</p>
     </div>
   );
 }
@@ -260,8 +517,13 @@ function PasswordField({
   autoComplete,
   showPassword,
   setShowPassword,
+  value,
+  onChange,
+  onBlur,
+  error
 }) {
   const id = useId();
+  const errorId = `${id}-error`;
 
   return (
     <div className="auth-field">
@@ -276,10 +538,17 @@ function PasswordField({
 
         <input
           id={id}
-          className="auth-field__input auth-field__input--password"
+          className={`auth-field__input auth-field__input--password ${
+            error ? 'auth-field__input--error' : ''
+          }`}
           type={showPassword ? 'text' : 'password'}
           placeholder={placeholder}
           autoComplete={autoComplete}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          aria-invalid={error ? 'true' : undefined}
+          aria-describedby={error ? errorId : undefined}
         />
 
         <button
@@ -291,6 +560,10 @@ function PasswordField({
           {showPassword ? <EyeOffIcon /> : <EyeIcon />}
         </button>
       </div>
+
+      <p id={errorId} className="auth-field__error" aria-live="polite">
+        {error}
+      </p>
     </div>
   );
 }
@@ -383,6 +656,21 @@ function AuthIllustration({ mode }) {
           fill="#dbeafe"
         />
       )}
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+      <path
+        d="M5 12.5l4.5 4.5L19 7.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
     </svg>
   );
 }

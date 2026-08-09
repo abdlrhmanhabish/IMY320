@@ -3,6 +3,7 @@ import { primaryNav } from '../../config/site.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import useFocusTrap from '../../hooks/useFocusTrap.js';
+import useAuth from '../../hooks/useAuth.js';
 import Button from '../ui/Button.jsx';
 import Logo from './Logo.jsx';
 import './Navbar.css';
@@ -12,6 +13,7 @@ export default function Navbar() {
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, logout } = useAuth();
 
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 
@@ -100,13 +102,27 @@ export default function Navbar() {
           </button>
         </form>
 
+        {/* this swaps for z signed in user name once a session exists */}
         <div className="navbar__end">
-          <Button to={authLink('login')} variant="ghost" size="sm">
-            Log in
-          </Button>
-          <Button to={authLink('signup')} variant="primary" size="sm">
-            Sign up
-          </Button>
+          {user ? (
+            <>
+              <span className="navbar__user" title={user.email}>
+                {user.name}
+              </span>
+              <Button variant="secondary" size="sm" onClick={logout}>
+                Log out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button to={authLink('login')} variant="ghost" size="sm">
+                Log in
+              </Button>
+              <Button to={authLink('signup')} variant="primary" size="sm">
+                Sign up
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
@@ -117,12 +133,14 @@ export default function Navbar() {
         setQuery={setQuery}
         onSearch={handleSearch}
         authLink={authLink}
+        user={user}
+        onLogout={logout}
       />
     </header>
   );
 }
 
-function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink }) {
+function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink, user, onLogout }) {
   const panelRef = useRef(null);
 
   useFocusTrap(panelRef, open, onClose);
@@ -183,12 +201,30 @@ function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink }) {
         </nav>
 
         <div className="navbar__drawer-actions">
-          <Button to={authLink('login')} variant="secondary" fullWidth onClick={onClose}>
-            Log in
-          </Button>
-          <Button to={authLink('signup')} variant="primary" fullWidth onClick={onClose}>
-            Sign up
-          </Button>
+          {user ? (
+            <>
+              <p className="navbar__drawer-user">Signed in as {user.name}</p>
+              <Button
+                variant="secondary"
+                fullWidth
+                onClick={() => {
+                  onLogout();
+                  onClose();
+                }}
+              >
+                Log out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button to={authLink('login')} variant="secondary" fullWidth onClick={onClose}>
+                Log in
+              </Button>
+              <Button to={authLink('signup')} variant="primary" fullWidth onClick={onClose}>
+                Sign up
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </div>

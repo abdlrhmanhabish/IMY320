@@ -54,12 +54,14 @@ export default function Button({
   }
 
   if (href && !disabled && !loading) {
+    const isExternal = /^(https?:)?\/\//.test(href) || href.startsWith('mailto:');
+
     return (
       <a
         href={href}
         className={classes}
-        target="_blank"
-        rel="noopener noreferrer"
+        target={isExternal ? '_blank' : undefined}
+        rel={isExternal ? 'noopener noreferrer' : undefined}
         {...rest}
       >
         {content}
