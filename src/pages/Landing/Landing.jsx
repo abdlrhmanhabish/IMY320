@@ -170,43 +170,6 @@ export default function Landing(){
                 </div>
             </section>
 
-            {/* CERTIFICATIONS / PARTNERS TRUST ROW */}
-            <section className="certifications-section">
-                <div className="container">
-                    <p className="certifications-title">Certified skills recognized by industry leads at</p>
-                    <div className="certifications-logos">
-                    <img 
-                        src={microsoftLogo} 
-                        alt="Microsoft Certified" 
-                        className="cert-logo cert-logo-large"
-                        
-                    />
-                    <img 
-                        src={googleLogo} 
-                        alt="Google Certified" 
-                        className="cert-logo" 
-                    />
-                    
-                    <img 
-                        src={metaLogo} 
-                        alt="Meta Certified" 
-                        className="cert-logo cert-logo-large"
-                    />
-                    
-                    <img 
-                        src={awsLogo} 
-                        alt="AWS Certified" 
-                        className="cert-logo" 
-                    />
-                    <img 
-                        src={salesforceLogo} 
-                        alt="Salesforce Certified" 
-                        className="cert-logo cert-logo-large"
-                    />
-                    </div>
-                </div>
-            </section>
-
             {/* COURSES CATALOGUE */}
             <section id="courses" className="courses-section container">
                 <h2>Featured Courses</h2>
@@ -272,6 +235,43 @@ export default function Landing(){
                     <Button href="/courses" variant="secondary" size="lg">
                         Explore All Courses →
                     </Button>
+                </div>
+            </section>
+
+            {/* CERTIFICATIONS / PARTNERS TRUST ROW */}
+            <section className="certifications-section">
+                <div className="container">
+                    <p className="certifications-title">Certified skills recognized by industry leads at</p>
+                    <div className="certifications-logos">
+                    <img 
+                        src={microsoftLogo} 
+                        alt="Microsoft Certified" 
+                        className="cert-logo cert-logo-large"
+                        
+                    />
+                    <img 
+                        src={googleLogo} 
+                        alt="Google Certified" 
+                        className="cert-logo" 
+                    />
+                    
+                    <img 
+                        src={metaLogo} 
+                        alt="Meta Certified" 
+                        className="cert-logo cert-logo-large"
+                    />
+                    
+                    <img 
+                        src={awsLogo} 
+                        alt="AWS Certified" 
+                        className="cert-logo" 
+                    />
+                    <img 
+                        src={salesforceLogo} 
+                        alt="Salesforce Certified" 
+                        className="cert-logo cert-logo-large"
+                    />
+                    </div>
                 </div>
             </section>
         </main>
