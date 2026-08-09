@@ -1,7 +1,7 @@
 
 import { primaryNav } from '../../config/site.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation } from 'react-router-dom';
 import useFocusTrap from '../../hooks/useFocusTrap.js';
 import Button from '../ui/Button.jsx';
 import Logo from './Logo.jsx';
@@ -11,12 +11,17 @@ export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [query, setQuery] = useState('');
   const navigate = useNavigate();
+  const location = useLocation();
 
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 
+  const authLink = (mode) => ({
+    pathname: location.pathname,
+    search: `?auth=${mode}`,
+  });
  
   useEffect(() => {
-    if (!drawerOpen) return undefined;
+    if (!drawerOpen) return undefined; 
     const previous = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
@@ -96,10 +101,10 @@ export default function Navbar() {
         </form>
 
         <div className="navbar__end">
-          <Button to="/auth" variant="ghost" size="sm">
+          <Button to={authLink('login')} variant="ghost" size="sm">
             Log in
           </Button>
-          <Button to="/auth" variant="primary" size="sm">
+          <Button to={authLink('signup')} variant="primary" size="sm">
             Sign up
           </Button>
         </div>
@@ -111,12 +116,13 @@ export default function Navbar() {
         query={query}
         setQuery={setQuery}
         onSearch={handleSearch}
+        authLink={authLink}
       />
     </header>
   );
 }
 
-function MobileDrawer({ open, onClose, query, setQuery, onSearch }) {
+function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink }) {
   const panelRef = useRef(null);
 
   useFocusTrap(panelRef, open, onClose);
@@ -177,10 +183,10 @@ function MobileDrawer({ open, onClose, query, setQuery, onSearch }) {
         </nav>
 
         <div className="navbar__drawer-actions">
-          <Button to="/auth" variant="secondary" fullWidth onClick={onClose}>
+          <Button to={authLink('login')} variant="secondary" fullWidth onClick={onClose}>
             Log in
           </Button>
-          <Button to="/auth" variant="primary" fullWidth onClick={onClose}>
+          <Button to={authLink('signup')} variant="primary" fullWidth onClick={onClose}>
             Sign up
           </Button>
         </div>
