@@ -1,0 +1,373 @@
+/* ==========================================================================
+   LANDING PAGE BASE LAYOUT
+   ========================================================================== */
+.landing-page {
+  width: 100%;
+  color: var(--color-text, #111827);
+  background-color: var(--color-bg, #ffffff);
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.subtitle {
+  font-size: 1.125rem;
+  color: var(--color-grey-600, #4b5563);
+  margin-top: 0.5rem;
+  margin-bottom: 2.5rem;
+}
+
+/* ==========================================================================
+   1. HERO SECTION
+   ========================================================================== */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 4rem;
+  padding-bottom: 5rem;
+  gap: 3rem;
+}
+
+.hero-content {
+  flex: 1;
+  max-width: 600px;
+}
+
+.section-label {
+  display: inline-block;
+  color: var(--color-brand-600, #4f46e5);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.hero-title {
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-text, #111827);
+  margin-bottom: 1.25rem;
+}
+
+.hero-description {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--color-grey-700, #374151);
+  margin-bottom: 2rem;
+}
+
+.hero-buttons {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  font-size: 0.875rem;
+  color: var(--color-grey-700, #4b5563);
+  border-top: 1px solid var(--color-border, #e5e7eb);
+  padding-top: 1.5rem;
+}
+
+.hero-stats strong {
+  font-size: 1.125rem;
+  color: var(--color-text, #111827);
+  font-weight: 700;
+  margin-right: 0.25rem;
+}
+
+.hero-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.hero-img {
+  width: 100%;
+  max-width: 520px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* ==========================================================================
+   2. HOW IT WORKS SECTION
+   ========================================================================== */
+.how-it-works-section {
+  background-color: var(--color-grey-50, #f9fafb);
+  padding: 5rem 0;
+  text-align: center;
+  border-top: 1px solid var(--color-border, #f3f4f6);
+  border-bottom: 1px solid var(--color-border, #f3f4f6);
+}
+
+.how-it-works-section h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-text, #111827);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2rem;
+}
+
+.step-card {
+  background: var(--color-bg, #ffffff);
+  border: 1px solid var(--color-border, #e5e7eb);
+  border-radius: 12px;
+  padding: 2rem 1.5rem;
+  text-align: left;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05);
+}
+
+.step-number {
+  background-color: var(--color-brand-600, #4f46e5);
+  color: #ffffff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.step-card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--color-text, #111827);
+}
+
+.step-card p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-grey-600, #4b5563);
+}
+
+/* ==========================================================================
+   3. COURSES SECTION & FILTER TABS
+   ========================================================================== */
+.courses-section {
+  padding: 5rem 1.5rem;
+}
+
+.courses-section h2 {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-text, #111827);
+}
+
+.category-tabs {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  background-color: var(--color-grey-100, #f3f4f6);
+  border: 1px solid transparent;
+  color: var(--color-grey-700, #374151);
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-btn:hover {
+  background-color: var(--color-grey-200, #e5e7eb);
+}
+
+.tab-btn.active {
+  background-color: var(--color-text, #111827);
+  color: #ffffff;
+}
+
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 2rem;
+}
+
+/* Styling Card UI Component overrides inside Courses Grid */
+.courses-grid .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.instructor-info {
+  font-size: 0.875rem;
+  color: var(--color-grey-600, #6b7280);
+  margin: 0.5rem 0 0.75rem;
+}
+
+.instructor-info span {
+  font-weight: 500;
+}
+
+.course-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-size: 0.825rem;
+  color: var(--color-grey-700, #374151);
+  margin-bottom: 1rem;
+}
+
+.card-footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding-top: 0.5rem;
+}
+
+.price {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--color-text, #111827);
+}
+
+.no-results {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 4rem 0;
+  font-size: 1.125rem;
+  color: var(--color-grey-600, #6b7280);
+}
+
+.explore-more-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 3rem;
+}
+
+/* ==========================================================================
+   4. TESTIMONIALS SECTION & CAROUSEL SLIDES
+   ========================================================================== */
+
+
+   /* ==========================================================================
+   5. CERTIFICATIONS / TRUST ROW
+   ========================================================================== */
+.certifications-section {
+  background-color: var(--color-grey-50, #f9fafb);
+  border-top: 1px solid var(--color-border, #e5e7eb);
+  border-bottom: 1px solid var(--color-border, #e5e7eb);
+  padding: 2.5rem 0;
+  text-align: center;
+}
+
+.certifications-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-grey-600, #6b7280);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 1.5rem;
+}
+
+.certifications-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5.5rem;
+  flex-wrap: wrap;
+}
+
+.cert-logo {
+  height: 48px;
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+
+  filter: grayscale(100%);
+  opacity: 0.6;
+
+  --logo-scale: 1;
+
+  transform: scale(var(--logo-scale));
+  transition:
+    transform 0.25s ease,
+    filter 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.cert-logo-large {
+  --logo-scale: 3;
+}
+
+.cert-logo:hover {
+  filter: grayscale(0%);
+  opacity: 1;
+  transform: scale(var(--logo-scale)) translateY(-4px);
+}
+
+/* ==========================================================================
+   RESPONSIVE DESIGN (MOBILE & TABLET ADJUSTMENTS)
+   ========================================================================== */
+@media (max-width: 900px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+    padding-top: 2.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-buttons {
+    justify-content: center;
+  }
+
+  .hero-stats {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero-stats {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .steps-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .courses-grid {
+    grid-template-columns: 1fr;
+  }
+}

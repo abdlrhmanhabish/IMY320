@@ -5,8 +5,8 @@
 
 |  |  |
 |---|---|
-| Platform| |
-| Subject|  |
+| Platform| SkillUP |
+| Subject| Career Skills |
 | Module | IMY 320, University of Pretoria |
 | Repository | https://github.com/abdlrhmanhabish/IMY320 |
 
@@ -16,11 +16,14 @@
 |---|---|
 | Abdelrahman Ahmed | 24898008 |
 | Cleopatra Kwenda | 23547121 |
-|  |  |
-|  |  |
-|  |  |
+| Mosa Leiee | 24735672 |
+| Kundai Ndemera | 23941996 |
+| Ndamulelo Vele | 23554607 |
 
 ## About the project
+
+SkillUP is a website design for teaching career skills online. People can sign up, log in, and read about the platform, purhcase courser and track their progression. This is a front end only project, so there is no real backend. Course data and
+logins are faked so the pages still feel real to use. The main aim of the project is to develop a platform that provides excellent user experience through research and improvement.
 
 ## Tech stack
 
