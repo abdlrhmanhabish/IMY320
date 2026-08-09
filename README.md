@@ -74,4 +74,5 @@ src/
 └── utils/                     # fakeApi.js, promise plus artificial delay
 ```
 
-`docs/ux/` holds the three UEQ reports and the design-justification document.
+`docs/ux/` holds the UEQ reports.
+`docs/design/` holds the design-justification documents.
