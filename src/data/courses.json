@@ -10,7 +10,121 @@
     "level": "Beginner",
     "price": "R 690",
     "category": "Data",
-    "summary": "Write the queries behind a weekly report without waiting on the data team. Ends with a report you build from a real extract."
+    "summary": "Write the queries behind a weekly report without waiting on the data team. Ends with a report you build from a real extract.",
+    "tagline": "Stop logging a ticket every time you need a number.",
+    "language": "English",
+    "updated": "June 2026",
+    "enrolled": "4,180",
+    "description": [
+      "Most reporting jobs stall in the same place. The numbers live in a database, the database is behind a request form, and the answer arrives three days after the meeting. This course takes that dependency away for the queries you run most weeks.",
+      "You work in a copy of a real sales and support extract from the first module onwards. Every concept is introduced because the report you are building needs it, so nothing is taught in the abstract and nothing is taught twice."
+    ],
+    "outcomes": [
+      "Read a database schema and find the table you actually need",
+      "Filter, sort and group a result set without exporting it to a spreadsheet first",
+      "Join tables correctly, and recognise the join that silently duplicated your rows",
+      "Aggregate by week, month and quarter for a report that refreshes itself",
+      "Write a query someone else can read and hand over six months later",
+      "Sanity-check a number before you put it in front of a manager"
+    ],
+    "modules": [
+      {
+        "title": "Getting your bearings",
+        "duration": "1h 10m",
+        "lessons": [
+          "What a database is, in the terms a reporting job needs",
+          "Reading a schema diagram",
+          "Your first SELECT against the sample extract",
+          "WHERE, and why the report was wrong last quarter"
+        ]
+      },
+      {
+        "title": "Shaping a result set",
+        "duration": "2h",
+        "lessons": [
+          "Sorting and limiting",
+          "GROUP BY and the aggregate functions worth knowing",
+          "HAVING versus WHERE",
+          "Dates, time zones and the end-of-month trap"
+        ]
+      },
+      {
+        "title": "Joining tables",
+        "duration": "2h 30m",
+        "lessons": [
+          "Inner joins on the sales extract",
+          "Left joins, and what a NULL is telling you",
+          "The duplicate-row bug every analyst ships once",
+          "Practice: three joins the weekly report needs"
+        ]
+      },
+      {
+        "title": "Queries other people can use",
+        "duration": "1h 40m",
+        "lessons": [
+          "Subqueries and common table expressions",
+          "Naming, formatting and comments that survive handover",
+          "Saving a query as a view",
+          "Checking a total against a second source"
+        ]
+      },
+      {
+        "title": "Build the report",
+        "duration": "1h 40m",
+        "lessons": [
+          "Scoping the questions the report has to answer",
+          "Writing the queries end to end",
+          "Assembling the output",
+          "Review: a walkthrough of a finished submission"
+        ]
+      }
+    ],
+    "requirements": [
+      "Comfort with a spreadsheet, including formulas like SUMIF",
+      "No prior SQL or programming experience",
+      "A laptop that can run a browser; the query environment is online"
+    ],
+    "audience": [
+      "Analysts, coordinators and managers who assemble recurring reports",
+      "Anyone who currently requests data pulls from an engineering team",
+      "Spreadsheet-strong people whose files have outgrown the spreadsheet"
+    ],
+    "instructorBio": "Thandi leads analytics for a retail group with 300 stores, where most reporting is done by people who are not analysts. She built this course out of the internal training she runs for store and regional managers.",
+    "instructorCredential": "11 years in analytics · Teaches 4,180 learners on SkillUP",
+    "includes": [
+      "9 hours of video across 5 modules",
+      "A working copy of the sales and support extract",
+      "21 graded query exercises with solutions",
+      "A query style guide you can adopt at work",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      { "stars": 5, "share": 81 },
+      { "stars": 4, "share": 14 },
+      { "stars": 3, "share": 3 },
+      { "stars": 2, "share": 1 },
+      { "stars": 1, "share": 1 }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Refilwe M.",
+        "role": "Operations coordinator",
+        "rating": 5,
+        "body": "I used to wait two days for a number. The Monday report is now mine, start to finish, and it takes forty minutes."
+      },
+      {
+        "name": "Johan V.",
+        "role": "Category manager",
+        "rating": 5,
+        "body": "The join module alone was worth it. I found out why our unit totals had been overstating for a year."
+      },
+      {
+        "name": "Priya N.",
+        "role": "Support team lead",
+        "rating": 4,
+        "body": "Paced well and no filler. I would have liked one more exercise on dates, which is where I still slow down."
+      }
+    ]
   },
   {
     "id": 2,
@@ -23,7 +137,119 @@
     "level": "Beginner",
     "price": "R 540",
     "category": "Finance",
-    "summary": "Build workbooks someone else can check. Covers structure, formulas that do not break, and the habits auditors look for."
+    "summary": "Build workbooks someone else can check. Covers structure, formulas that do not break, and the habits auditors look for.",
+    "tagline": "The workbook is only finished when somebody else can check it.",
+    "language": "English",
+    "updated": "May 2026",
+    "enrolled": "2,640",
+    "description": [
+      "A spreadsheet that only its author can follow is a liability, and it usually becomes one at the worst possible moment. This course is about the difference between a file that works and a file that holds up when a reviewer, an auditor or your replacement opens it.",
+      "You rebuild a real budget workbook that failed a review, fixing it structurally rather than patching the numbers. The habits are small: separate inputs from calculations, name what you reference, leave a trail. Together they are what an auditor is actually looking for."
+    ],
+    "outcomes": [
+      "Lay out a workbook so inputs, calculations and outputs never mix",
+      "Write formulas that do not break when a row is inserted",
+      "Replace fragile lookups with references that explain themselves",
+      "Build in checks that fail loudly instead of quietly",
+      "Document assumptions where the reviewer will actually read them",
+      "Hand a workbook over without a thirty-minute explanation"
+    ],
+    "modules": [
+      {
+        "title": "Why workbooks fail review",
+        "duration": "50m",
+        "lessons": [
+          "Four failures behind most audit findings",
+          "A walkthrough of the broken budget file",
+          "What a reviewer opens first"
+        ]
+      },
+      {
+        "title": "Structure before formulas",
+        "duration": "1h 20m",
+        "lessons": [
+          "The input, calculation and output split",
+          "One fact in one cell",
+          "Naming ranges and why it pays back",
+          "Sheet order and navigation"
+        ]
+      },
+      {
+        "title": "Formulas that hold",
+        "duration": "1h 40m",
+        "lessons": [
+          "Absolute and relative references, decided deliberately",
+          "Lookups without the fragile column number",
+          "Handling errors on purpose",
+          "Avoiding the hardcoded number inside a formula"
+        ]
+      },
+      {
+        "title": "Controls and checks",
+        "duration": "1h 10m",
+        "lessons": [
+          "Reconciliation rows that must total zero",
+          "Data validation on every input cell",
+          "Conditional formatting as an alarm, not decoration"
+        ]
+      },
+      {
+        "title": "Handover",
+        "duration": "1h",
+        "lessons": [
+          "The assumptions sheet",
+          "Version control without a version-control system",
+          "Protecting a sheet without locking people out",
+          "Review: the rebuilt workbook, passed"
+        ]
+      }
+    ],
+    "requirements": [
+      "Everyday use of Excel or Google Sheets",
+      "Familiarity with SUM, IF and a lookup function",
+      "No accounting qualification required"
+    ],
+    "audience": [
+      "Finance, procurement and operations staff who own recurring workbooks",
+      "Small business owners who prepare their own numbers for review",
+      "Anyone who has inherited a spreadsheet nobody can explain"
+    ],
+    "instructorBio": "Devan manages finance for a mid-sized logistics group and has sat on both sides of an audit. He spends most of a year-end explaining other people's workbooks, which is where this course came from.",
+    "instructorCredential": "14 years in finance · Teaches 2,640 learners on SkillUP",
+    "includes": [
+      "6 hours of video across 5 modules",
+      "The broken workbook and the rebuilt version",
+      "A pre-handover review checklist",
+      "Templates for the assumptions and reconciliation sheets",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      { "stars": 5, "share": 76 },
+      { "stars": 4, "share": 18 },
+      { "stars": 3, "share": 4 },
+      { "stars": 2, "share": 1 },
+      { "stars": 1, "share": 1 }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Anele D.",
+        "role": "Procurement officer",
+        "rating": 5,
+        "body": "We had three findings last year on workbook documentation. This year we had none, and I did not work any harder."
+      },
+      {
+        "name": "Marie S.",
+        "role": "Practice owner",
+        "rating": 5,
+        "body": "The input and calculation split sounds obvious until you see your own file broken down. I rebuilt two workbooks the same week."
+      },
+      {
+        "name": "Kagiso L.",
+        "role": "Financial analyst",
+        "rating": 4,
+        "body": "Solid and practical. Aimed slightly below my level in places, but the controls module was new to me."
+      }
+    ]
   },
   {
     "id": 3,
@@ -36,7 +262,133 @@
     "level": "Intermediate",
     "price": "R 890",
     "category": "Development",
-    "summary": "Go from tutorials to shipping. Components, state, routing and the parts of a codebase nobody explains until you are already in one."
+    "summary": "Go from tutorials to shipping. Components, state, routing and the parts of a codebase nobody explains until you are already in one.",
+    "tagline": "The gap between finishing a tutorial and being useful on a team.",
+    "language": "English",
+    "updated": "July 2026",
+    "enrolled": "6,930",
+    "description": [
+      "Tutorials end where real work starts. You can build a counter, and then you open a repository with forty components, a router, a design system and a code review waiting, and none of it looks like the tutorial.",
+      "This course builds one application across fourteen hours, the way a team would: components first, then state, then routing, then the unglamorous parts — loading states, errors, empty states, accessibility and the review that sends it back. You finish with a project worth linking to, and with the vocabulary to follow a conversation about someone else's code."
+    ],
+    "outcomes": [
+      "Break an interface into components that stay reusable",
+      "Choose between local state, lifted state and context, and justify it",
+      "Fetch data with loading, error and empty states handled from the start",
+      "Add routing, including nested routes and URL parameters",
+      "Write accessible markup and keyboard-usable interactions by default",
+      "Read an unfamiliar codebase and find where a change belongs",
+      "Take review feedback and rework code without starting over"
+    ],
+    "modules": [
+      {
+        "title": "Components, properly",
+        "duration": "2h 20m",
+        "lessons": [
+          "Props, composition and the component that does too much",
+          "Splitting by responsibility rather than by file size",
+          "Building the first three screens of the project",
+          "Styling approaches and picking one on purpose"
+        ]
+      },
+      {
+        "title": "State without the tangle",
+        "duration": "2h 50m",
+        "lessons": [
+          "Local state and the rules of hooks",
+          "Lifting state, and when that is the wrong answer",
+          "Context, and the re-render cost of overusing it",
+          "Deriving state instead of storing it twice"
+        ]
+      },
+      {
+        "title": "Data and the states around it",
+        "duration": "2h 40m",
+        "lessons": [
+          "Effects, cleanup and the request that finished too late",
+          "Loading skeletons that do not shift the layout",
+          "Error states with a way back",
+          "Empty states as a design problem"
+        ]
+      },
+      {
+        "title": "Routing and URLs",
+        "duration": "2h",
+        "lessons": [
+          "Routes, parameters and query strings",
+          "Nested layouts",
+          "Making the URL the source of truth",
+          "404s and redirects"
+        ]
+      },
+      {
+        "title": "The parts nobody teaches",
+        "duration": "2h 30m",
+        "lessons": [
+          "Accessible components: focus, labels and keyboard paths",
+          "Reading a codebase you did not write",
+          "Debugging with the tools you already have",
+          "Performance work worth doing, and work that is not"
+        ]
+      },
+      {
+        "title": "Ship it",
+        "duration": "1h 40m",
+        "lessons": [
+          "Opening a pull request a reviewer can follow",
+          "Responding to review comments",
+          "Building and deploying the project",
+          "Review: two finished submissions, critiqued"
+        ]
+      }
+    ],
+    "requirements": [
+      "Working JavaScript: functions, arrays, objects, promises",
+      "Some HTML and CSS",
+      "Node 20 or newer installed, and any code editor",
+      "Not for absolute beginners to programming"
+    ],
+    "audience": [
+      "Self-taught developers moving from tutorials to a first job or contract",
+      "Backend developers who have to work on the front end",
+      "Students preparing for an internship or a portfolio review"
+    ],
+    "instructorBio": "Hannah is a senior engineer on a product team of nine and reviews most of the front-end work that ships there. She has onboarded a lot of junior developers and built this course around the questions they all ask in week two.",
+    "instructorCredential": "9 years building product front ends · Teaches 6,930 learners on SkillUP",
+    "includes": [
+      "14 hours of video across 6 modules",
+      "The full project repository, commit by commit",
+      "A mock API you can break on purpose",
+      "A code review checklist used by a real team",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      { "stars": 5, "share": 87 },
+      { "stars": 4, "share": 10 },
+      { "stars": 3, "share": 2 },
+      { "stars": 2, "share": 1 },
+      { "stars": 1, "share": 0 }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Sipho K.",
+        "role": "Junior developer",
+        "rating": 5,
+        "body": "The module on reading someone else's codebase is the reason I got through my first month. Nothing else I did covered that."
+      },
+      {
+        "name": "Elmarie B.",
+        "role": "Backend developer",
+        "rating": 5,
+        "body": "I stopped guessing about state. The rule about deriving rather than storing cleaned up most of my bugs."
+      },
+      {
+        "name": "Tumi R.",
+        "role": "Computer science student",
+        "rating": 4,
+        "body": "Excellent project. The routing module moved fast and I rewatched it twice, which is on me as much as the course."
+      }
+    ]
   },
   {
     "id": 4,
@@ -49,6 +401,119 @@
     "level": "Intermediate",
     "price": "R 640",
     "category": "Management",
-    "summary": "Scope, estimates and the stakeholder conversation that keeps changing. Practical delivery for people who inherited the job."
+    "summary": "Scope, estimates and the stakeholder conversation that keeps changing. Practical delivery for people who inherited the job.",
+    "tagline": "For the person who was handed the project, not trained for it.",
+    "language": "English",
+    "updated": "April 2026",
+    "enrolled": "1,510",
+    "description": [
+      "Most delivery managers were something else first. The plan is inherited, the scope moves weekly, and the certification courses are written for a project that behaves.",
+      "This course covers the three things that actually decide whether a delivery lands: what is in scope, what it will realistically take, and how you hold a conversation with a stakeholder who wants both dates. You run a delivery that goes wrong on purpose, and practise the recovery."
+    ],
+    "outcomes": [
+      "Write a scope statement that makes exclusions explicit",
+      "Produce a range estimate you can defend, and explain the range",
+      "Spot scope creep in the week it starts rather than at the deadline",
+      "Run a status conversation that surfaces bad news early",
+      "Renegotiate a date without losing credibility",
+      "Close a delivery so the next one starts from something"
+    ],
+    "modules": [
+      {
+        "title": "What you inherited",
+        "duration": "1h",
+        "lessons": [
+          "Auditing a delivery you did not start",
+          "Finding the real decision maker",
+          "The three questions to ask in week one"
+        ]
+      },
+      {
+        "title": "Scope",
+        "duration": "1h 50m",
+        "lessons": [
+          "Writing scope as inclusions and exclusions",
+          "Breaking work down to something estimable",
+          "Assumptions and dependencies in writing",
+          "Getting agreement that sticks"
+        ]
+      },
+      {
+        "title": "Estimates that hold up",
+        "duration": "1h 50m",
+        "lessons": [
+          "Ranges instead of single dates",
+          "Estimating with the people doing the work",
+          "Buffer, and where to put it honestly",
+          "Explaining an estimate to someone who wants one number"
+        ]
+      },
+      {
+        "title": "Keeping it on track",
+        "duration": "1h 40m",
+        "lessons": [
+          "A status report people read",
+          "Risk registers that are not theatre",
+          "Change requests without the bureaucracy",
+          "Escalating early and being thanked for it"
+        ]
+      },
+      {
+        "title": "When it goes wrong",
+        "duration": "1h 40m",
+        "lessons": [
+          "The simulation: a delivery slipping in week six",
+          "Renegotiating scope, date or people",
+          "The difficult stakeholder conversation, scripted and practised",
+          "Closing out and running a retrospective worth attending"
+        ]
+      }
+    ],
+    "requirements": [
+      "Experience working on a project team in any role",
+      "No certification and no prior project management training",
+      "Access to a current or recent project to apply the exercises to"
+    ],
+    "audience": [
+      "Team leads and specialists who took on delivery alongside their job",
+      "New project and delivery managers without formal training",
+      "Founders and operators coordinating work across several people"
+    ],
+    "instructorBio": "Tebogo runs delivery for a services firm and came into the role from engineering, without training. The material is the version of the job he wishes someone had handed him in his first quarter.",
+    "instructorCredential": "12 years delivering client projects · Teaches 1,510 learners on SkillUP",
+    "includes": [
+      "8 hours of video across 5 modules",
+      "A scope statement and estimate template",
+      "The slipping-delivery simulation with a facilitator guide",
+      "Scripts for four difficult stakeholder conversations",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      { "stars": 5, "share": 71 },
+      { "stars": 4, "share": 21 },
+      { "stars": 3, "share": 5 },
+      { "stars": 2, "share": 2 },
+      { "stars": 1, "share": 1 }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Nadia F.",
+        "role": "Team lead",
+        "rating": 5,
+        "body": "The exclusions habit changed my last two projects. Writing down what we are not doing ended an argument before it started."
+      },
+      {
+        "name": "Bongani T.",
+        "role": "Delivery manager",
+        "rating": 4,
+        "body": "The simulation is the strongest part. I have run the difficult conversation script twice for real since."
+      },
+      {
+        "name": "Chris O.",
+        "role": "Studio founder",
+        "rating": 5,
+        "body": "Practical rather than theoretical. No frameworks to memorise, just things I could use the next morning."
+      }
+    ]
   }
 ]

@@ -4,6 +4,7 @@ import PageShell from './components/layout/PageShell.jsx';
 import AuthModal from './components/auth/AuthModal.jsx';
 import About from './pages/About.jsx';
 import Courses from './pages/Courses.jsx';
+import CourseDetail from './pages/CourseDetail.jsx';
 import ComingSoon from './pages/ComingSoon.jsx';
 import NotFound from './pages/NotFound.jsx';
 import Landing from './pages/Landing/Landing.jsx';
@@ -58,7 +59,7 @@ export default function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/about" element={<About />} />
           <Route path="/courses" element={<Courses />} />
-          <Route path="/courses/:courseId" element={<Courses />} />
+          <Route path="/courses/:courseId" element={<CourseDetail />} />
           <Route path="/careers" element={<ComingSoon page="careers" />} />
           <Route path="/press" element={<ComingSoon page="press" />} />
           <Route path="/contact" element={<ComingSoon page="contact" />} />
