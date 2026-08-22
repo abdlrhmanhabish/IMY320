@@ -524,7 +524,7 @@ function Stars({ rating }) {
 
   return (
     <span className="course-detail__stars">
-      <span aria-hidden="true">
+      <span className="course-detail__stars-row" aria-hidden="true">
         {[1, 2, 3, 4, 5].map((star) => (
           <StarIcon key={star} filled={star <= rounded} />
         ))}

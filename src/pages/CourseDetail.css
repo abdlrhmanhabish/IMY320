@@ -462,6 +462,13 @@
   color: var(--color-warning-500);
 }
 
+/* global.css sets svg to display block, so the row has to be laid out explicitly */
+.course-detail__stars-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
 .course-detail__star {
   color: var(--color-border-strong);
 }
