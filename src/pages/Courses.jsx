@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/layout/PageHeader.jsx';
 import Button from '../components/ui/Button.jsx';
 import { getCourses } from '../utils/fakeApi.js';
+import useAuth from '../hooks/useAuth.js';
 import './InfoPage.css';
 
 const SORTS = [
@@ -21,9 +22,23 @@ function parsePrice(priceText) {
 }
 
 export default function Courses() {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const query = (searchParams.get('q') || '').trim().toLowerCase();
+  const { user } = useAuth();
+  const rawQuery = searchParams.get('q') || '';
+  const query = rawQuery.trim().toLowerCase();
+
+  //the search term lives in the URL so a filtered catalogue can be linked and shared
+  const updateQuery = (value) => {
+    const next = new URLSearchParams(searchParams);
+    if (value) {
+      next.set('q', value);
+    } 
+    else {
+      next.delete('q');
+    }
+    setSearchParams(next, { replace: true });
+  };
 
   const [status, setStatus] = useState('loading');
   const [courses, setCourses] = useState([]);
@@ -89,6 +104,14 @@ export default function Courses() {
     return sorted;
   }, [courses, query, selectedCategory, selectedLevels, sortBy]);
 
+  const hasNarrowing = Boolean(query) || selectedCategory !== 'All' || selectedLevels.length > 0;
+
+  const clearAll = () => {
+    setSelectedCategory('All');
+    setSelectedLevels([]);
+    updateQuery('');
+  };
+
   const toggleLevel = (level) => {
     setSelectedLevels((prev) =>
       prev.includes(level) ? prev.filter((item) => item !== level) : [...prev, level]
@@ -96,7 +119,7 @@ export default function Courses() {
   };
 
   const openSignup = (courseId) => {
-    const search = new URLSearchParams(window.location.search);
+    const search = new URLSearchParams(searchParams);
     search.set('auth', 'signup');
     if (courseId) search.set('enroll', String(courseId));
     navigate({ pathname: '/courses', search: `?${search.toString()}` });
@@ -124,6 +147,23 @@ export default function Courses() {
 
           <div className="courses-page__layout">
             <div>
+              <form role="search" className="courses-page__search" onSubmit={(event) => event.preventDefault()}>
+                <label htmlFor="catalogue-search" className="courses-page__search-label">Search the catalogue</label>
+                <div className="courses-page__search-field">
+                  <input
+                    id="catalogue-search"
+                    type="search"
+                    className="courses-page__search-input"
+                    placeholder="Search by title, topic, level or instructor"
+                    value={rawQuery}
+                    onChange={(event) => updateQuery(event.target.value)}
+                  />
+                  {rawQuery && (
+                    <button type="button" className="courses-page__search-clear" onClick={() => updateQuery('')}>Clear</button>
+                  )}
+                </div>
+              </form>
+
               <div className="courses-page__controls" aria-label="Sort and filter controls">
                 <div className="courses-page__control-group" role="group" aria-label="Sort">
                   {SORTS.map((sort) => (
@@ -173,8 +213,18 @@ export default function Courses() {
                 </fieldset>
               </div>
 
-              <div aria-live="polite" className="courses-page__results-note">
-                {status === 'ready' ? `${filteredAndSorted.length} course results` : 'Loading results'}
+              <div className="courses-page__results-bar">
+                <p aria-live="polite" className="courses-page__results-note">
+                  {status === 'ready'
+                    ? `${filteredAndSorted.length} ${
+                        filteredAndSorted.length === 1 ? 'course' : 'courses'
+                      }${query ? ` matching "${rawQuery.trim()}"` : ''}`
+                    : 'Loading results'}
+                </p>
+
+                {hasNarrowing && status === 'ready' && (
+                  <button className="courses-page__reset" type="button" onClick={clearAll}>Clear search and filters</button>
+                )}
               </div>
 
               {status === 'loading' && <p>Loading catalogue...</p>}
@@ -197,26 +247,29 @@ export default function Courses() {
                 <div className="info-page__callout">
                   <h2 className="info-page__callout-heading">No matching courses yet</h2>
                   <p className="info-page__callout-body">
-                    Try a different category or level filter to see more options.
+                    Nothing in the catalogue matches every filter you have set.
                   </p>
+                  <div className="info-page__callout-actions">
+                    <Button variant="primary" onClick={clearAll}>Clear search and filters</Button>
+                  </div>
                 </div>
               )}
 
               {status === 'ready' && filteredAndSorted.length > 0 && (
                 <ul className="courses-page__list">
                   {filteredAndSorted.map((course) => (
-                    <li key={course.id} className="courses-page__row">
+                    <li key={course.id} className="courses-page__row" data-category={course.category}>
                       <Link to={`/courses/${course.id}`} className="courses-page__row-link">
                         <div className="courses-page__row-head">
                           <span className="courses-page__tag">{course.category}</span>
                           <span className="courses-page__meta">
-                            {course.duration} · {course.level}
+                            {course.duration}, {course.level}
                           </span>
                         </div>
                         <h2 className="courses-page__row-title">{course.title}</h2>
                         <p className="courses-page__row-summary">{course.summary}</p>
                         <p className="courses-page__row-meta">
-                          {course.rating} rating ({course.reviews} reviews) · {course.instructor}
+                          {course.rating} rating ({course.reviews} reviews), {course.instructor}
                         </p>
                         <p className="courses-page__row-price">{course.price}</p>
                       </Link>
@@ -226,12 +279,21 @@ export default function Courses() {
               )}
             </div>
 
-            <aside className="courses-page__sticky-panel" aria-label="Primary action">
-              <h2>Start learning this week</h2>
-              <p>Join now to save courses and enroll directly from each listing.</p>
-              <Button size="lg" onClick={() => openSignup(filteredAndSorted[0]?.id)}>
-                Create free account
-              </Button>
+
+            <aside className="courses-page__sticky-panel" aria-labelledby="catalogue-panel-heading">
+              {user ? (
+                <>
+                  <h2 id="catalogue-panel-heading">Signed in as {user.name}</h2>
+                  <p>Open any course in the list to see the full curriculum and enrol.</p>
+                  <Button to="/about" variant="secondary" size="lg">How our courses work</Button>
+                </>
+              ) : (
+                <>
+                  <h2 id="catalogue-panel-heading">Start learning this week</h2>
+                  <p>Create an account to save courses and enrol directly from any listing.</p>
+                  <Button size="lg" onClick={() => openSignup()}>Create free account</Button>
+                </>
+              )}
             </aside>
           </div>
         </div>
