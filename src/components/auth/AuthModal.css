@@ -39,7 +39,7 @@
   padding: clamp(var(--space-6), 4vw, var(--space-12));
   border-right: 1px solid var(--color-border-subtle);
   background:
-    radial-gradient(circle at top, var(--color-brand-100), transparent 45%),
+    radial-gradient(circle at top, var(--color-surface-brand-soft), transparent 45%),
     var(--color-action-subtle);
 }
 
@@ -410,4 +410,53 @@
     flex-direction: column;
     align-items: flex-start;
   }
+}
+
+.auth-art__blob {
+  fill: var(--color-action);
+  opacity: 0.08;
+}
+
+.auth-art__deep {
+  fill: var(--color-brand-deep);
+}
+
+.auth-art__mid {
+  fill: var(--color-action);
+}
+
+.auth-art__accent {
+  fill: var(--color-action-hover);
+}
+
+.auth-art__soft {
+  fill: var(--color-surface-brand-soft);
+}
+
+.auth-art__paper {
+  fill: var(--color-surface);
+}
+
+.auth-art__rule {
+  stroke: var(--color-surface-brand-soft);
+  fill: none;
+}
+
+.auth-art__line {
+  stroke: var(--color-brand-deep);
+  fill: none;
+}
+
+.auth-art__pale {
+  fill: var(--color-action-subtle);
+}
+
+.auth-art__track {
+  stroke: var(--color-surface-brand-soft);
+  fill: none;
+}
+
+.auth-art__path {
+  stroke: var(--color-action);
+  fill: none;
 }
