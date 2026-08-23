@@ -129,6 +129,11 @@ hr {
   background-color: var(--color-border-subtle);
 }
 
+::selection {
+  background-color: var(--color-action-subtle);
+  color: var(--color-action-hover);
+}
+
 :focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;

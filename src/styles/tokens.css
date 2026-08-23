@@ -32,12 +32,27 @@
   --color-success-900: #054f31;
   --color-warning-100: #fef0c7;
   --color-warning-500: #f79009;
-  --color-warning-700: #b54708;
+  --color-warning-700: #8f5a0c;
   --color-warning-900: #7a2e0e;
+
+  /* Gold, used for ratings */
+  --color-gold-300: #e8c15c;
+  --color-gold-500: #c8940a;
+  --color-gold-700: #96700a;
   --color-danger-100: #fee4e2;
   --color-danger-500: #f04438;
   --color-danger-700: #b42318;
   --color-danger-900: #7a271a;
+
+  /* Category hues */
+  --color-cat-data-ink: #0f6e64;
+  --color-cat-data-tint: #d7f2ee;
+  --color-cat-finance-ink: #136c34;
+  --color-cat-finance-tint: #dcfce7;
+  --color-cat-development-ink: #4338ca;
+  --color-cat-development-tint: #e0e7ff;
+  --color-cat-management-ink: #9a4508;
+  --color-cat-management-tint: #fdf0d5;
 
   --color-info-100: #d1e9ff;
   --color-info-500: #2e90fa;
@@ -163,6 +178,13 @@
   --color-focus-ring: var(--color-brand-600);
   --color-scrim: rgb(16 24 40 / 0.55);
 
+  --color-rating: var(--color-gold-500);
+  --color-rating-track: var(--color-grey-200);
+  --color-category-ink: var(--color-action);
+  --color-category-tint: var(--color-action-subtle);
+  --color-surface-brand-soft: var(--color-brand-100);
+  --color-brand-deep: var(--color-brand-800);
+
   --radius-control: var(--radius-md);
   --radius-card: var(--radius-lg);
   --radius-pill: var(--radius-full);
@@ -202,6 +224,14 @@
   --color-focus-ring: var(--color-brand-300);
   --color-scrim: rgb(0 0 0 / 0.7);
 
+  --color-rating: var(--color-gold-300);
+  --color-rating-track: var(--color-grey-800);
+
+  --color-category-ink: var(--color-action);
+  --color-category-tint: var(--color-action-subtle);
+  --color-surface-brand-soft: var(--color-brand-900);
+  --color-brand-deep: var(--color-brand-200);
+
   --color-danger: var(--color-danger-500);
   --color-danger-subtle: var(--color-danger-900);
   --color-success: var(--color-success-500);
@@ -215,4 +245,24 @@
   --shadow-card-hover: 0 12px 16px -4px rgb(0 0 0 / 0.55);
   --shadow-header: 0 1px 2px rgb(0 0 0 / 0.5);
   --shadow-modal: 0 20px 24px -4px rgb(0 0 0 / 0.6);
+}
+
+[data-category='Data'] {
+  --color-category-ink: var(--color-cat-data-ink);
+  --color-category-tint: var(--color-cat-data-tint);
+}
+
+[data-category='Finance'] {
+  --color-category-ink: var(--color-cat-finance-ink);
+  --color-category-tint: var(--color-cat-finance-tint);
+}
+
+[data-category='Development'] {
+  --color-category-ink: var(--color-cat-development-ink);
+  --color-category-tint: var(--color-cat-development-tint);
+}
+
+[data-category='Management'] {
+  --color-category-ink: var(--color-cat-management-ink);
+  --color-category-tint: var(--color-cat-management-tint);
 }

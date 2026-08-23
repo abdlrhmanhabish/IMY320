@@ -50,6 +50,20 @@
   align-items: start;
 }
 
+.course-detail__category {
+  margin-bottom: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-category-tint);
+  color: var(--color-category-ink);
+  font-size: var(--font-size-sm);
+  display: inline-flex;
+  letter-spacing: 0.06em;
+  align-items: center;
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+}
+
 .course-detail__title {
   max-width: 20ch;
   margin-top: var(--space-2);
@@ -459,7 +473,7 @@
 .course-detail__stars {
   display: inline-flex;
   align-items: center;
-  color: var(--color-warning-500);
+  color: var(--color-rating);
 }
 
 /* global.css sets svg to display block, so the row has to be laid out explicitly */
@@ -474,7 +488,7 @@
 }
 
 .course-detail__star.is-filled {
-  color: var(--color-warning-500);
+  color: var(--color-rating);
 }
 
 .course-detail__reviews {
@@ -520,7 +534,7 @@
 .course-detail__meter {
   height: 0.5rem;
   border-radius: var(--radius-full);
-  background-color: var(--color-surface-sunken);
+  background-color: var(--color-rating-track);
   overflow: hidden;
 }
 
@@ -528,7 +542,7 @@
   display: block;
   height: 100%;
   border-radius: var(--radius-full);
-  background-color: var(--color-warning-500);
+  background-color: var(--color-rating);
 }
 
 .course-detail__review-list {

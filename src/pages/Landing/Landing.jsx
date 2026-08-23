@@ -56,9 +56,9 @@ export default function Landing() {
 
   useEffect(() => loadCourses(), [loadCourses]);
 
-  const filteredCourses = courses.filter(
-    (course) => selectedCategory === 'All' || course.category === selectedCategory,
-  );
+  //the landing page shows a selection and the full catalogue lives on /courses
+  const FEATURED_LIMIT = 4;
+  const filteredCourses = courses.filter((course) => selectedCategory === 'All' || course.category === selectedCategory).slice(0, FEATURED_LIMIT);
 
   const openSignup = (courseId) => {
     const search = courseId ? `?auth=signup&enroll=${courseId}` : '?auth=signup';
@@ -202,6 +202,7 @@ export default function Landing() {
               {filteredCourses.map((course) => (
                 <Card
                   key={course.id}
+                  data-category={course.category}
                   eyebrow={course.category}
                   title={course.title}
                   to={`/courses/${course.id}`}
@@ -213,7 +214,7 @@ export default function Landing() {
                         size="sm"
                         onClick={() => openSignup(course.id)}
                       >
-                        Enroll
+                        Enrol
                       </Button>
                     </div>
                   }
@@ -274,7 +275,7 @@ export default function Landing() {
   );
 }
 
-/** Placeholder cards shown while the catalogue is loading. */
+// placeholder cards shown while the catalogue is loading
 function CourseSkeletons() {
   return (
     <div className="courses-grid">

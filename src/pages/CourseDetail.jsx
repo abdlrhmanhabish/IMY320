@@ -156,7 +156,7 @@ export default function CourseDetail() {
 
           <div className="course-detail__hero-grid">
             <div className="course-detail__hero-main">
-              <p className="section__eyebrow">{course.category}</p>
+              <p className="course-detail__category" data-category={course.category}>{course.category}</p>
               <h1 className="course-detail__title">{course.title}</h1>
               <p className="course-detail__tagline">{course.tagline}</p>
               <p className="course-detail__summary">{course.summary}</p>
@@ -268,7 +268,7 @@ export default function CourseDetail() {
           <section id="curriculum" className="course-detail__section" aria-labelledby="curriculum-heading">
             <h2 id="curriculum-heading">Curriculum</h2>
             <p className="course-detail__section-lead">
-              {course.modules.length} modules · {totalLessons} lessons · {course.duration}{' '}
+              {course.modules.length} modules, {totalLessons} lessons, {course.duration}{' '}
               in total
             </p>
 
@@ -367,6 +367,7 @@ export default function CourseDetail() {
                 {related.map((item) => (
                   <Card
                     key={item.id}
+                    data-category={item.category}
                     eyebrow={item.category}
                     title={item.title}
                     to={`/courses/${item.id}`}
@@ -456,7 +457,7 @@ function Curriculum({ modules }) {
                   </span>
                   <span className="course-detail__module-title">{module.title}</span>
                   <span className="course-detail__module-meta">
-                    {module.lessons.length} lessons · {module.duration}
+                    {module.lessons.length} lessons, {module.duration}
                   </span>
                 </button>
               </h3>
