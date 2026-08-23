@@ -50,6 +50,13 @@ export async function getCourses() {
   return respondWith(courses);
 }
 
+// a single course for the detail page. An unknown id resolves to null so the page
+// can tell "no such course" apart from "the request failed".
+export async function getCourseById(id) {
+  const course = courses.find((item) => String(item.id) === String(id));
+  return respondWith(course ?? null, { min: 350, max: 650 });
+}
+
 const SESSION_KEY = 'skillup:session';
 
 export function readSession() {

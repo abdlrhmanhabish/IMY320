@@ -53,10 +53,10 @@ export default function AuthModal({ mode = 'login', onClose, onModeChange, enrol
               <>
                 <p className="auth-modal__eyebrow">Create your account</p>
                 <h2 id={titleId} className="auth-modal__headline">
-                  Join millions of learners and start today.
+                  Join 4,200 learners already building career skills.
                 </h2>
                 <p id={leadId} className="auth-modal__lede">
-                  Build a profile, save your progress, and enroll faster from any device.
+                  Build a profile, save your progress, and enrol faster from any device.
                 </p>
               </>
             ) : (
@@ -581,80 +581,54 @@ function AuthIllustration({ mode }) {
 
   return (
     <svg
-      className="auth-modal__art"
+      className="auth-modal__art auth-art"
       viewBox="0 0 360 280"
       role="img"
       aria-label={isSignup ? 'Illustration for account creation' : 'Illustration for returning users'}
     >
-      <defs>
-        <linearGradient id="auth-glow" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stopColor="#dbeafe" />
-          <stop offset="100%" stopColor="#eff6ff" />
-        </linearGradient>
-        <linearGradient id="auth-book" x1="0" x2="1" y1="0" y2="1">
-          <stop offset="0%" stopColor="#1d4ed8" />
-          <stop offset="100%" stopColor="#60a5fa" />
-        </linearGradient>
-      </defs>
+      <ellipse cx="180" cy="230" rx="120" ry="28" className="auth-art__blob" />
+      <circle cx="280" cy="78" r="44" className="auth-art__blob" />
+      <circle cx="90" cy="214" r="22" className="auth-art__blob" />
 
-      <ellipse cx="180" cy="230" rx="120" ry="28" fill="rgba(37,99,235,0.08)" />
-      <circle cx="280" cy="78" r="44" fill="rgba(37,99,235,0.08)" />
-      <circle cx="90" cy="214" r="22" fill="rgba(37,99,235,0.08)" />
-
-      <rect x="78" y="154" width="150" height="78" rx="14" fill="#1e40af" transform="rotate(-8 78 154)" />
-      <rect x="92" y="164" width="144" height="72" rx="12" fill="url(#auth-glow)" transform="rotate(-8 92 164)" />
-      <rect x="108" y="178" width="64" height="58" rx="8" fill="#ffffff" transform="rotate(-8 108 178)" />
-      <circle cx="140" cy="202" r="16" fill="#bfdbfe" transform="rotate(-8 140 202)" />
+      <rect x="78" y="154" width="150" height="78" rx="14" className="auth-art__deep" transform="rotate(-8 78 154)" />
+      <rect x="92" y="164" width="144" height="72" rx="12" className="auth-art__pale" transform="rotate(-8 92 164)" />
+      <rect x="108" y="178" width="64" height="58" rx="8" className="auth-art__paper" transform="rotate(-8 108 178)" />
+      <circle cx="140" cy="202" r="16" className="auth-art__soft" transform="rotate(-8 140 202)" />
       <path
         d="M112 189h48M112 199h48M112 209h36"
-        stroke="#93c5fd"
+        className="auth-art__rule"
         strokeWidth="4"
         strokeLinecap="round"
         transform="rotate(-8 112 189)"
       />
 
-      <rect x="182" y="118" width="66" height="100" rx="12" fill="url(#auth-book)" transform="rotate(12 182 118)" />
-      <rect x="194" y="108" width="58" height="94" rx="10" fill="#1d4ed8" transform="rotate(12 194 108)" />
-      <rect x="208" y="98" width="54" height="84" rx="10" fill="#2563eb" transform="rotate(12 208 98)" />
+      <rect x="182" y="118" width="66" height="100" rx="12" className="auth-art__mid" transform="rotate(12 182 118)" />
+      <rect x="194" y="108" width="58" height="94" rx="10" className="auth-art__deep" transform="rotate(12 194 108)" />
+      <rect x="208" y="98" width="54" height="84" rx="10" className="auth-art__accent" transform="rotate(12 208 98)" />
 
-      <rect x="254" y="170" width="36" height="54" rx="8" fill="#93c5fd" />
-      <rect x="258" y="132" width="28" height="44" rx="8" fill="#dbeafe" />
-      <path d="M266 132c0-18 20-18 20 0" fill="none" stroke="#1d4ed8" strokeWidth="4" strokeLinecap="round" />
-      <path
-        d="M274 152l12 0"
-        stroke="#1d4ed8"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
+      <rect x="254" y="170" width="36" height="54" rx="8" className="auth-art__soft" />
+      <rect x="258" y="132" width="28" height="44" rx="8" className="auth-art__pale" />
+      <path d="M266 132c0-18 20-18 20 0" className="auth-art__line" strokeWidth="4" strokeLinecap="round" />
+      <path d="M274 152l12 0" className="auth-art__line" strokeWidth="4" strokeLinecap="round" />
 
       <path
         d="M68 220c12-34 42-52 80-52 23 0 44 7 61 21"
-        fill="none"
-        stroke="#bfdbfe"
+        className="auth-art__track"
         strokeWidth="10"
         strokeLinecap="round"
       />
       <path
         d="M60 220c12-34 42-52 80-52 23 0 44 7 61 21"
-        fill="none"
-        stroke="#60a5fa"
+        className="auth-art__path"
         strokeWidth="4"
         strokeLinecap="round"
       />
-      <path
-        d="M300 74h16M308 66v16"
-        stroke="#1d4ed8"
-        strokeWidth="4"
-        strokeLinecap="round"
-      />
+      <path d="M300 74h16M308 66v16" className="auth-art__line" strokeWidth="4" strokeLinecap="round" />
 
       {isSignup ? (
-        <circle cx="64" cy="66" r="20" fill="#dbeafe" />
+        <circle cx="64" cy="66" r="20" className="auth-art__pale" />
       ) : (
-        <path
-          d="M58 66l16-10 16 10-16 10-16-10z"
-          fill="#dbeafe"
-        />
+        <path d="M58 66l16-10 16 10-16 10-16-10z" className="auth-art__pale" />
       )}
     </svg>
   );
