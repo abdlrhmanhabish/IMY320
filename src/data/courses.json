@@ -90,7 +90,7 @@
       "Spreadsheet-strong people whose files have outgrown the spreadsheet"
     ],
     "instructorBio": "Thandi leads analytics for a retail group with 300 stores, where most reporting is done by people who are not analysts. She built this course out of the internal training she runs for store and regional managers.",
-    "instructorCredential": "11 years in analytics · Teaches 4,180 learners on SkillUP",
+    "instructorCredential": "11 years in analytics. Teaches 4,180 learners on SkillUP",
     "includes": [
       "9 hours of video across 5 modules",
       "A working copy of the sales and support extract",
@@ -99,11 +99,26 @@
       "Certificate of completion"
     ],
     "ratingBreakdown": [
-      { "stars": 5, "share": 81 },
-      { "stars": 4, "share": 14 },
-      { "stars": 3, "share": 3 },
-      { "stars": 2, "share": 1 },
-      { "stars": 1, "share": 1 }
+      {
+        "stars": 5,
+        "share": 81
+      },
+      {
+        "stars": 4,
+        "share": 14
+      },
+      {
+        "stars": 3,
+        "share": 3
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
     ],
     "learnerReviews": [
       {
@@ -215,7 +230,7 @@
       "Anyone who has inherited a spreadsheet nobody can explain"
     ],
     "instructorBio": "Devan manages finance for a mid-sized logistics group and has sat on both sides of an audit. He spends most of a year-end explaining other people's workbooks, which is where this course came from.",
-    "instructorCredential": "14 years in finance · Teaches 2,640 learners on SkillUP",
+    "instructorCredential": "14 years in finance. Teaches 2,640 learners on SkillUP",
     "includes": [
       "6 hours of video across 5 modules",
       "The broken workbook and the rebuilt version",
@@ -224,11 +239,26 @@
       "Certificate of completion"
     ],
     "ratingBreakdown": [
-      { "stars": 5, "share": 76 },
-      { "stars": 4, "share": 18 },
-      { "stars": 3, "share": 4 },
-      { "stars": 2, "share": 1 },
-      { "stars": 1, "share": 1 }
+      {
+        "stars": 5,
+        "share": 76
+      },
+      {
+        "stars": 4,
+        "share": 18
+      },
+      {
+        "stars": 3,
+        "share": 4
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
     ],
     "learnerReviews": [
       {
@@ -269,7 +299,7 @@
     "enrolled": "6,930",
     "description": [
       "Tutorials end where real work starts. You can build a counter, and then you open a repository with forty components, a router, a design system and a code review waiting, and none of it looks like the tutorial.",
-      "This course builds one application across fourteen hours, the way a team would: components first, then state, then routing, then the unglamorous parts — loading states, errors, empty states, accessibility and the review that sends it back. You finish with a project worth linking to, and with the vocabulary to follow a conversation about someone else's code."
+      "This course builds one application across fourteen hours, the way a team would: components first, then state, then routing, then the unglamorous parts: loading states, errors, empty states, accessibility and the review that sends it back. You finish with a project worth linking to, and with the vocabulary to follow a conversation about someone else's code."
     ],
     "outcomes": [
       "Break an interface into components that stay reusable",
@@ -354,7 +384,7 @@
       "Students preparing for an internship or a portfolio review"
     ],
     "instructorBio": "Hannah is a senior engineer on a product team of nine and reviews most of the front-end work that ships there. She has onboarded a lot of junior developers and built this course around the questions they all ask in week two.",
-    "instructorCredential": "9 years building product front ends · Teaches 6,930 learners on SkillUP",
+    "instructorCredential": "9 years building product front ends. Teaches 6,930 learners on SkillUP",
     "includes": [
       "14 hours of video across 6 modules",
       "The full project repository, commit by commit",
@@ -363,11 +393,26 @@
       "Certificate of completion"
     ],
     "ratingBreakdown": [
-      { "stars": 5, "share": 87 },
-      { "stars": 4, "share": 10 },
-      { "stars": 3, "share": 2 },
-      { "stars": 2, "share": 1 },
-      { "stars": 1, "share": 0 }
+      {
+        "stars": 5,
+        "share": 87
+      },
+      {
+        "stars": 4,
+        "share": 10
+      },
+      {
+        "stars": 3,
+        "share": 2
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 0
+      }
     ],
     "learnerReviews": [
       {
@@ -480,7 +525,7 @@
       "Founders and operators coordinating work across several people"
     ],
     "instructorBio": "Tebogo runs delivery for a services firm and came into the role from engineering, without training. The material is the version of the job he wishes someone had handed him in his first quarter.",
-    "instructorCredential": "12 years delivering client projects · Teaches 1,510 learners on SkillUP",
+    "instructorCredential": "12 years delivering client projects. Teaches 1,510 learners on SkillUP",
     "includes": [
       "8 hours of video across 5 modules",
       "A scope statement and estimate template",
@@ -489,11 +534,26 @@
       "Certificate of completion"
     ],
     "ratingBreakdown": [
-      { "stars": 5, "share": 71 },
-      { "stars": 4, "share": 21 },
-      { "stars": 3, "share": 5 },
-      { "stars": 2, "share": 2 },
-      { "stars": 1, "share": 1 }
+      {
+        "stars": 5,
+        "share": 71
+      },
+      {
+        "stars": 4,
+        "share": 21
+      },
+      {
+        "stars": 3,
+        "share": 5
+      },
+      {
+        "stars": 2,
+        "share": 2
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
     ],
     "learnerReviews": [
       {
@@ -513,6 +573,619 @@
         "role": "Studio founder",
         "rating": 5,
         "body": "Practical rather than theoretical. No frameworks to memorise, just things I could use the next morning."
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Forecasting that survives contact with reality",
+    "instructor": "Thandi Mokoena",
+    "role": "Analytics lead",
+    "rating": "4.7",
+    "reviews": "612",
+    "duration": "11 hours",
+    "level": "Advanced",
+    "price": "R 940",
+    "category": "Data",
+    "summary": "Build a forecast you can defend in a planning meeting, including the part where you say how wrong it might be.",
+    "tagline": "A number without a range is a guess in a suit.",
+    "language": "English",
+    "updated": "July 2026",
+    "enrolled": "1,930",
+    "description": [
+      "Most forecasts fail long before the maths does. They fail because nobody agreed what was being predicted, or because a single confident number went into a slide with no sense of how much it could move.",
+      "This course assumes you can already query and aggregate data. It spends its time on framing the question, choosing a method that matches the data you actually have, and communicating uncertainty to people who would rather not hear about it."
+    ],
+    "outcomes": [
+      "Frame a forecasting question so the answer is checkable later",
+      "Choose between a trend, a seasonal and a driver based approach",
+      "Build a baseline before reaching for anything more complicated",
+      "Produce a range rather than a single number, and explain it",
+      "Back-test a forecast against the period it was meant to predict",
+      "Present a forecast to people who want certainty you cannot give"
+    ],
+    "modules": [
+      {
+        "title": "Framing the question",
+        "duration": "2h 05m",
+        "lessons": [
+          "What is being forecast, and for whom",
+          "Horizon, granularity and why they fight",
+          "The baseline nobody bothers to build",
+          "Agreeing what success looks like up front"
+        ]
+      },
+      {
+        "title": "Methods that earn their keep",
+        "duration": "3h 20m",
+        "lessons": [
+          "Moving averages and where they mislead",
+          "Seasonality without the jargon",
+          "Driver based forecasting from a real budget",
+          "Knowing when to stop adding complexity"
+        ]
+      },
+      {
+        "title": "Uncertainty",
+        "duration": "2h 45m",
+        "lessons": [
+          "Ranges, intervals and honest language",
+          "Back-testing against last year",
+          "What to do when the model breaks",
+          "Documenting assumptions so they can be challenged"
+        ]
+      },
+      {
+        "title": "The conversation",
+        "duration": "2h 50m",
+        "lessons": [
+          "Building the one slide that matters",
+          "Answering the question about the single number",
+          "Revising a forecast in public without losing credibility"
+        ]
+      }
+    ],
+    "requirements": [
+      "Comfortable writing your own SQL queries",
+      "Some experience building reports from raw data",
+      "A spreadsheet tool and a willingness to check your own work"
+    ],
+    "audience": [
+      "Analysts who are asked what next quarter looks like",
+      "Finance and operations staff who own a planning number",
+      "Anyone whose forecast was wrong once and wants to know why"
+    ],
+    "instructorBio": "Runs analytics for a logistics group and has owned the demand forecast through two years she would rather not repeat. Teaches the version of forecasting that has to survive a room full of sceptical managers.",
+    "instructorCredential": "11 years in analytics. Teaches 4,180 learners on SkillUP",
+    "includes": [
+      "11 hours of video",
+      "A back-testing workbook",
+      "Two real planning datasets",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 76
+      },
+      {
+        "stars": 4,
+        "share": 18
+      },
+      {
+        "stars": 3,
+        "share": 4
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Pieter van Wyk",
+        "role": "Demand planner",
+        "rating": 5,
+        "body": "The back-testing module changed how our whole team reports. We now publish a range and nobody has complained once."
+      },
+      {
+        "name": "Nomsa Zulu",
+        "role": "Operations analyst",
+        "rating": 4,
+        "body": "Demanding in the best way. I had to redo my second assignment and it was worth it."
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "title": "HTML and CSS you can actually ship",
+    "instructor": "Hannah Meyer",
+    "role": "Senior engineer",
+    "rating": "4.8",
+    "reviews": "1,870",
+    "duration": "10 hours",
+    "level": "Beginner",
+    "price": "R 590",
+    "category": "Development",
+    "summary": "Build and publish a real, responsive, accessible page from an empty file, without a framework in sight.",
+    "tagline": "Learn the layer everything else is built on top of.",
+    "language": "English",
+    "updated": "May 2026",
+    "enrolled": "7,240",
+    "description": [
+      "Plenty of people learn a framework before they can write a page. It works until something breaks in a way the framework did not cause, and then there is nowhere to stand.",
+      "This course builds three pages from empty files. You write the markup, lay it out with modern CSS, make it work on a phone, and put it on the internet where somebody else can open it."
+    ],
+    "outcomes": [
+      "Write markup that describes content rather than fighting the layout",
+      "Lay out a page with flexbox and grid and know which to reach for",
+      "Make a page work from a small phone up to a wide monitor",
+      "Use headings, labels and alt text so a screen reader can follow along",
+      "Check colour contrast and fix what fails",
+      "Publish a finished page to a live address"
+    ],
+    "modules": [
+      {
+        "title": "The page",
+        "duration": "2h 15m",
+        "lessons": [
+          "Elements that mean something",
+          "Headings, landmarks and reading order",
+          "Links, buttons and the difference that matters",
+          "Images and alt text that earns its place"
+        ]
+      },
+      {
+        "title": "Layout",
+        "duration": "3h 00m",
+        "lessons": [
+          "The box model, once, properly",
+          "Flexbox for a row of things",
+          "Grid for a page",
+          "Spacing without magic numbers"
+        ]
+      },
+      {
+        "title": "Every screen",
+        "duration": "2h 30m",
+        "lessons": [
+          "Designing from the small screen up",
+          "Media queries and where to put the breakpoint",
+          "Type and images that scale",
+          "Testing without owning ten devices"
+        ]
+      },
+      {
+        "title": "Shipping it",
+        "duration": "2h 15m",
+        "lessons": [
+          "Contrast, focus states and keyboard order",
+          "A checklist before you publish",
+          "Putting the page on a real address"
+        ]
+      }
+    ],
+    "requirements": [
+      "A computer and a text editor you can install",
+      "No previous coding experience"
+    ],
+    "audience": [
+      "Career changers starting from nothing",
+      "Designers who want to build what they draw",
+      "Anyone who tried a framework first and got lost"
+    ],
+    "instructorBio": "Builds product front ends and has spent years reviewing code from people who learned the framework before the fundamentals. Teaches the layer underneath, because it is the one that never goes out of date.",
+    "instructorCredential": "9 years building product front ends. Teaches 6,930 learners on SkillUP",
+    "includes": [
+      "10 hours of video",
+      "Three page projects",
+      "An accessibility checklist",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 82
+      },
+      {
+        "stars": 4,
+        "share": 14
+      },
+      {
+        "stars": 3,
+        "share": 3
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 0
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Lerato Dube",
+        "role": "Junior developer",
+        "rating": 5,
+        "body": "I had done three tutorials before this and understood none of them. Building from an empty file was the thing that made it click."
+      },
+      {
+        "name": "Grant Fisher",
+        "role": "Graphic designer",
+        "rating": 5,
+        "body": "I can finally build the layouts I have been handing to developers for years."
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Running a meeting people do not dread",
+    "instructor": "Tebogo Maseko",
+    "role": "Delivery manager",
+    "rating": "4.5",
+    "reviews": "720",
+    "duration": "5 hours",
+    "level": "Beginner",
+    "price": "R 450",
+    "category": "Management",
+    "summary": "Fewer meetings, shorter meetings, and decisions that hold once everyone has left the room.",
+    "tagline": "A meeting without a decision is a status email that wasted an hour.",
+    "language": "English",
+    "updated": "April 2026",
+    "enrolled": "2,410",
+    "description": [
+      "Most people inherit meetings rather than choosing them. The recurring slot was already in the calendar, nobody remembers who set it up, and it runs because it has always run.",
+      "This course is short on purpose. It covers deciding whether to meet at all, running the ones worth having, and writing the follow up that stops the same conversation happening again next week."
+    ],
+    "outcomes": [
+      "Decide whether a meeting is the right tool before booking one",
+      "Write an agenda that sets a decision rather than a topic",
+      "Keep a discussion moving without steamrolling quieter people",
+      "Close with an owner and a date on every action",
+      "Write a follow up short enough that people read it",
+      "Retire a recurring meeting without causing offence"
+    ],
+    "modules": [
+      {
+        "title": "Should this be a meeting",
+        "duration": "1h 00m",
+        "lessons": [
+          "The four things a meeting is genuinely good at",
+          "Cheaper alternatives that work",
+          "Auditing a calendar full of inherited slots"
+        ]
+      },
+      {
+        "title": "Setting it up",
+        "duration": "1h 20m",
+        "lessons": [
+          "Agendas written as decisions",
+          "Who is actually needed in the room",
+          "Sending what people must read beforehand"
+        ]
+      },
+      {
+        "title": "In the room",
+        "duration": "1h 40m",
+        "lessons": [
+          "Opening so the purpose is unmistakable",
+          "Handling the person who talks the most",
+          "Drawing out the person who has not spoken",
+          "Landing a decision when opinion is split"
+        ]
+      },
+      {
+        "title": "Afterwards",
+        "duration": "1h 00m",
+        "lessons": [
+          "Notes nobody has to decode",
+          "Owners, dates and follow through",
+          "Cancelling the meeting that stopped being useful"
+        ]
+      }
+    ],
+    "requirements": [
+      "No prior management experience",
+      "Access to a calendar you can change"
+    ],
+    "audience": [
+      "New team leads running their first recurring meetings",
+      "Anyone who inherited a calendar full of standing slots",
+      "Individual contributors who want their time back"
+    ],
+    "instructorBio": "Manages delivery for client projects and has sat through enough badly run meetings to be unsentimental about them. Teaches the short version because a five hour course on meetings would be its own punchline.",
+    "instructorCredential": "12 years delivering client projects. Teaches 1,510 learners on SkillUP",
+    "includes": [
+      "5 hours of video",
+      "Agenda and follow up templates",
+      "A calendar audit worksheet",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 68
+      },
+      {
+        "stars": 4,
+        "share": 24
+      },
+      {
+        "stars": 3,
+        "share": 6
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Anele Mthembu",
+        "role": "Team lead",
+        "rating": 5,
+        "body": "We cancelled two standing meetings in the first week and nobody has asked for them back."
+      },
+      {
+        "name": "Ruan Coetzee",
+        "role": "Product owner",
+        "rating": 4,
+        "body": "Practical and mercifully short. The follow up template alone was worth it."
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Reading a company's numbers",
+    "instructor": "Devan Pillay",
+    "role": "Finance manager",
+    "rating": "4.6",
+    "reviews": "540",
+    "duration": "8 hours",
+    "level": "Intermediate",
+    "price": "R 720",
+    "category": "Finance",
+    "summary": "Open a set of financial statements and work out how the business is actually doing, without an accounting qualification.",
+    "tagline": "The story is in the statements, if you know where to look.",
+    "language": "English",
+    "updated": "June 2026",
+    "enrolled": "1,760",
+    "description": [
+      "Financial statements are written for people who already read them. That leaves a lot of capable managers nodding along in meetings about numbers that decide their budget.",
+      "This course works through real published statements. You learn what each statement is for, how the three connect, and which handful of ratios tell you something the headline figure hides."
+    ],
+    "outcomes": [
+      "Read an income statement, balance sheet and cash flow statement",
+      "Trace how a single transaction moves through all three",
+      "Tell the difference between profit and cash, and why it matters",
+      "Calculate the ratios that reveal a business under strain",
+      "Spot the accounting choices that flatter a set of results",
+      "Ask a finance colleague a question that lands"
+    ],
+    "modules": [
+      {
+        "title": "The three statements",
+        "duration": "2h 20m",
+        "lessons": [
+          "What each statement is trying to tell you",
+          "How they connect",
+          "Following one sale all the way through",
+          "Accruals, in plain language"
+        ]
+      },
+      {
+        "title": "Profit is not cash",
+        "duration": "1h 50m",
+        "lessons": [
+          "Why a profitable business runs out of money",
+          "Working capital",
+          "Reading a cash flow statement backwards"
+        ]
+      },
+      {
+        "title": "Ratios worth knowing",
+        "duration": "2h 10m",
+        "lessons": [
+          "Margins and what moves them",
+          "Liquidity and gearing",
+          "Return on capital",
+          "Comparing two companies fairly"
+        ]
+      },
+      {
+        "title": "Reading between the lines",
+        "duration": "1h 40m",
+        "lessons": [
+          "Notes to the accounts",
+          "Accounting choices that flatter results",
+          "Questions to ask when something looks too smooth"
+        ]
+      }
+    ],
+    "requirements": [
+      "Comfortable with percentages and basic arithmetic",
+      "No accounting background needed"
+    ],
+    "audience": [
+      "Managers who own a budget but not a finance degree",
+      "Anyone about to join a board or a finance meeting",
+      "Small business owners reading their own statements"
+    ],
+    "instructorBio": "Runs finance for a mid-sized business and spends a lot of time translating statements for colleagues who are perfectly capable but were never taught. Teaches from real published accounts rather than invented examples.",
+    "instructorCredential": "14 years in finance. Teaches 2,640 learners on SkillUP",
+    "includes": [
+      "8 hours of video",
+      "Three sets of real published statements",
+      "A ratio worksheet",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 71
+      },
+      {
+        "stars": 4,
+        "share": 22
+      },
+      {
+        "stars": 3,
+        "share": 5
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Zanele Khoza",
+        "role": "Operations manager",
+        "rating": 5,
+        "body": "I stopped nodding along in budget meetings around module two. I now ask the questions instead."
+      },
+      {
+        "name": "Marius Barnard",
+        "role": "Small business owner",
+        "rating": 4,
+        "body": "Working from real statements rather than tidy fake ones made all the difference."
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Testing and code review in a real team",
+    "instructor": "Hannah Meyer",
+    "role": "Senior engineer",
+    "rating": "4.7",
+    "reviews": "430",
+    "duration": "12 hours",
+    "level": "Advanced",
+    "price": "R 980",
+    "category": "Development",
+    "summary": "Write tests worth maintaining and give code review feedback that improves the code without starting an argument.",
+    "tagline": "The parts of engineering nobody teaches until you are already doing them.",
+    "language": "English",
+    "updated": "July 2026",
+    "enrolled": "1,120",
+    "description": [
+      "Tutorials stop at the point where the feature works. Working on a team starts there: somebody has to review it, it has to keep working while five other people change things around it, and the person who inherits it has to understand what you meant.",
+      "This course covers testing and review as the social and technical practices they actually are. It assumes you can already build a working feature on your own."
+    ],
+    "outcomes": [
+      "Decide what is worth testing and what is noise",
+      "Write tests that survive a refactor instead of breaking on it",
+      "Set up a test suite that runs fast enough that people run it",
+      "Review a pull request so the author learns something",
+      "Receive critical feedback on your own code without flinching",
+      "Recognise the review comment that should have been a conversation"
+    ],
+    "modules": [
+      {
+        "title": "What to test",
+        "duration": "3h 10m",
+        "lessons": [
+          "Testing behaviour instead of implementation",
+          "The tests that break every refactor",
+          "Coverage as a signal, not a target",
+          "What genuinely does not need a test"
+        ]
+      },
+      {
+        "title": "Tests that last",
+        "duration": "3h 30m",
+        "lessons": [
+          "Arranging a test somebody else can read",
+          "Fakes, stubs and knowing the difference",
+          "Keeping the suite fast",
+          "Fixing a flaky test properly"
+        ]
+      },
+      {
+        "title": "Reviewing",
+        "duration": "3h 00m",
+        "lessons": [
+          "Reading a diff in the right order",
+          "Comments that teach rather than score points",
+          "Blocking, suggesting and letting go",
+          "Reviewing work from someone more senior"
+        ]
+      },
+      {
+        "title": "Being reviewed",
+        "duration": "2h 20m",
+        "lessons": [
+          "Opening a pull request people can review",
+          "Responding to feedback you disagree with",
+          "Knowing when to take it off the thread"
+        ]
+      }
+    ],
+    "requirements": [
+      "Comfortable building a feature end to end in any language",
+      "Some experience working in a shared codebase"
+    ],
+    "audience": [
+      "Developers moving from solo projects to a team",
+      "Self-taught engineers filling in the gaps",
+      "Anyone about to become the person who reviews everyone else"
+    ],
+    "instructorBio": "Builds product front ends and has reviewed a great deal of code written by people who were never shown how review is supposed to work. Teaches the practices that make a codebase survivable.",
+    "instructorCredential": "9 years building product front ends. Teaches 6,930 learners on SkillUP",
+    "includes": [
+      "12 hours of video",
+      "A sample codebase with a test suite",
+      "Review checklists",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 74
+      },
+      {
+        "stars": 4,
+        "share": 20
+      },
+      {
+        "stars": 3,
+        "share": 4
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Sipho Ndlovu",
+        "role": "Software engineer",
+        "rating": 5,
+        "body": "The review module is the one I keep coming back to. My comments got shorter and more useful."
+      },
+      {
+        "name": "Claire Bekker",
+        "role": "Tech lead",
+        "rating": 4,
+        "body": "I put my whole team through the testing modules. The flaky test lesson paid for itself."
       }
     ]
   }
