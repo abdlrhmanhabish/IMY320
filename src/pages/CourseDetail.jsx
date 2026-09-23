@@ -3,12 +3,15 @@
 // structured, who teaches it, and what other learners said.
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Button from '../components/ui/Button.jsx';
 import Card from '../components/ui/Card.jsx';
-import useAuth from '../hooks/useAuth.js';
+import AddToCart from '../components/ui/AddToCart.jsx';
+import useCart from '../hooks/useCart.js';
+import useProgress from '../hooks/useProgress.js';
 import useScrollSpy from '../hooks/useScrollSpy.js';
 import { getCourseById, getCourses } from '../utils/fakeApi.js';
+import { formatRand, savingOn, discountPercent, isOnSale } from '../utils/money.js';
 import './CourseDetail.css';
 
 const SECTIONS = [
@@ -22,15 +25,13 @@ const SECTIONS = [
 export default function CourseDetail() {
   const { courseId } = useParams();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { user } = useAuth();
+  const { has, add } = useCart();
+  const { isEnrolled } = useProgress();
 
   const [course, setCourse] = useState(null);
   const [related, setRelated] = useState([]);
   // loading | ready | missing | error
   const [status, setStatus] = useState('loading');
-  const [enrolled, setEnrolled] = useState(false);
-  const [pendingEnrol, setPendingEnrol] = useState(false);
 
   // the sections only exist once the course has loaded, so the scroll spy has to
   // wait for them before it starts observing
@@ -45,8 +46,6 @@ export default function CourseDetail() {
     let active = true;
 
     setStatus('loading');
-    setEnrolled(false);
-    setPendingEnrol(false);
 
     Promise.all([getCourseById(courseId), getCourses()])
       .then(([found, all]) => {
@@ -74,27 +73,10 @@ export default function CourseDetail() {
 
   useEffect(() => loadCourse(), [loadCourse]);
 
-  // somebody who signed up from this page is enrolled by the time the modal closes
-  useEffect(() => {
-    if (user && pendingEnrol) {
-      setEnrolled(true);
-      setPendingEnrol(false);
-    }
-  }, [user, pendingEnrol]);
-
-  // signed out learners go through the existing sign up modal, which carries the
-  // course id so the confirmation can name it
-  const handleEnrol = () => {
-    if (!user) {
-      setPendingEnrol(true);
-      navigate({
-        pathname: location.pathname,
-        search: `?auth=signup&enroll=${courseId}`,
-      });
-      return;
-    }
-
-    setEnrolled(true);
+  // straight to payment, adding it on the way so the cart and the checkout agree
+  const buyNow = () => {
+    if (!has(course.id)) add(course);
+    navigate('/checkout');
   };
 
   if (status === 'loading') {
@@ -138,6 +120,8 @@ export default function CourseDetail() {
     0,
   );
 
+  const owned = isEnrolled(course.id);
+
   return (
     <article className="course-detail">
       <header className="course-detail__hero">
@@ -179,29 +163,23 @@ export default function CourseDetail() {
               </p>
             </div>
 
-            {/* the enrolment panel sticks to the viewport on wide screens */}
-            <aside className="course-detail__panel" aria-labelledby="enrol-heading">
-              <h2 id="enrol-heading" className="visually-hidden">
-                Enrol in this course
+            {/* the buying panel sticks to the viewport on wide screens */}
+            <aside className="course-detail__panel" aria-labelledby="buy-heading">
+              <h2 id="buy-heading" className="visually-hidden">
+                Buy this course
               </h2>
 
-              <p className="course-detail__price">{course.price}</p>
-              <p className="course-detail__price-note">
-                One payment. Lifetime access, including future updates.
+              <p className="course-detail__price-row">
+                <span className="course-detail__price">{course.price}</span>
+                {isOnSale(course) && (
+                  <span className="course-detail__price-was">{course.listPrice}</span>
+                )}
               </p>
 
-              {enrolled ? (
-                <div className="course-detail__enrolled" role="status">
-                  <p className="course-detail__enrolled-heading">You are enrolled</p>
-                  <p>
-                    {course.title} is in your learning list. Module one is ready when you
-                    are.
-                  </p>
-                </div>
-              ) : (
-                <Button variant="primary" size="lg" fullWidth onClick={handleEnrol}>
-                  {user ? 'Enrol now' : 'Sign up and enrol'}
-                </Button>
+              {isOnSale(course) && (
+                <p className="course-detail__price-save">
+                  Save {formatRand(savingOn(course))}, {discountPercent(course)}% off
+                </p>
               )}
 
               <ul className="course-detail__includes">
@@ -212,6 +190,26 @@ export default function CourseDetail() {
                   </li>
                 ))}
               </ul>
+
+              {owned ? (
+                <div className="course-detail__owned" role="status">
+                  <p className="course-detail__owned-heading">You own this course</p>
+                  <Button to={`/learn/${course.id}`} variant="primary" size="lg" fullWidth>
+                    Go to the course
+                  </Button>
+                </div>
+              ) : (
+                <div className="course-detail__buy-actions">
+                  <AddToCart course={course} size="lg" fullWidth />
+                  <Button variant="secondary" size="lg" fullWidth onClick={buyNow}>
+                    Buy now
+                  </Button>
+                </div>
+              )}
+
+              <p className="course-detail__price-note">
+                One payment. Lifetime access, including future updates.
+              </p>
 
               <p className="course-detail__guarantee">
                 Not the right fit? Full refund within 14 days, no questions asked.
@@ -394,12 +392,12 @@ export default function CourseDetail() {
           <p className="course-detail__sticky-title">{course.title}</p>
         </div>
 
-        {enrolled ? (
-          <span className="course-detail__sticky-enrolled">Enrolled</span>
-        ) : (
-          <Button variant="primary" onClick={handleEnrol}>
-            {user ? 'Enrol now' : 'Sign up and enrol'}
+        {owned ? (
+          <Button to={`/learn/${course.id}`} variant="primary">
+            Go to the course
           </Button>
+        ) : (
+          <AddToCart course={course} />
         )}
       </div>
     </article>

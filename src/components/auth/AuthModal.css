@@ -460,3 +460,60 @@
   stroke: var(--color-action);
   fill: none;
 }
+/* the confirmation, one rung below the confetti moments */
+
+.auth-confirm__badge {
+  position: relative;
+  animation: auth-badge-pop var(--duration-slow) var(--ease-out) both;
+}
+
+@keyframes auth-badge-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  65% {
+    transform: scale(1.12);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.auth-confirm__ring {
+  position: absolute;
+  inset: 0;
+  border: 2px solid var(--color-success);
+  border-radius: var(--radius-full);
+  animation: auth-ring 1.2s var(--ease-out) 200ms;
+}
+
+@keyframes auth-ring {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.7);
+  }
+}
+
+.auth-confirm__stay {
+  color: var(--color-text-muted);
+  align-self: center;
+  font-size: var(--font-size-sm);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.auth-confirm__stay:hover {
+  color: var(--color-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-confirm__ring {
+    display: none;
+  }
+}
