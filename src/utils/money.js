@@ -15,6 +15,10 @@ export function savingOn(course) {
   return Math.max(0, toAmount(course.listPrice) - toAmount(course.price));
 }
 
+export function isOnSale(course) {
+  return savingOn(course) > 0;
+}
+
 export function discountPercent(course) {
   const listed = toAmount(course.listPrice);
   if (listed <= 0) return 0;
