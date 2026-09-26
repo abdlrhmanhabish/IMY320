@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { site } from '../config/site.js';
+import { about as aboutPhoto } from '../config/photos.js';
 import testimonials from '../data/testimonials.json';
 import team from '../data/team.json';
 import Button from '../components/ui/Button.jsx';
@@ -99,6 +100,18 @@ export default function About() {
               Talk to us
             </Button>
           </div>
+
+          <figure className="about__hero-photo">
+            <img
+              src={aboutPhoto.src}
+              srcSet={aboutPhoto.srcSet}
+              sizes="(max-width: 75rem) 100vw, 75rem"
+              alt={aboutPhoto.alt}
+              width={aboutPhoto.width}
+              height={aboutPhoto.height}
+              decoding="async"
+            />
+          </figure>
         </div>
       </section>
 

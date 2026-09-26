@@ -28,6 +28,7 @@ export default function Celebration({
   body,
   stat,
   statLabel,
+  image,
   primaryAction,
   secondaryAction,
   onClose,
@@ -78,7 +79,17 @@ export default function Celebration({
         aria-modal="true"
         aria-labelledby="celebration-title"
       >
-        <span className="celebration__badge" aria-hidden="true">
+        {/* what was just earned, shown rather than named */}
+        {image && (
+          <div className="celebration__media" aria-hidden="true">
+            <img src={image} alt="" width={1280} height={720} decoding="async" />
+          </div>
+        )}
+
+        <span
+          className={image ? 'celebration__badge celebration__badge--lifted' : 'celebration__badge'}
+          aria-hidden="true"
+        >
           <TrophyIcon />
         </span>
 

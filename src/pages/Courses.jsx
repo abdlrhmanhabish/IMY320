@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/layout/PageHeader.jsx';
 import Button from '../components/ui/Button.jsx';
 import AddToCart from '../components/ui/AddToCart.jsx';
+import CourseImage from '../components/ui/CourseImage.jsx';
 import { getCourses } from '../utils/fakeApi.js';
 import { formatRand, savingOn, isOnSale } from '../utils/money.js';
 import useAuth from '../hooks/useAuth.js';
@@ -262,6 +263,9 @@ export default function Courses() {
                   {filteredAndSorted.map((course) => (
                     <li key={course.id} className="courses-page__row" data-category={course.category}>
                       {/* the whole row stays the target. the buttons sit above the overlay */}
+                      <div className="courses-page__row-thumb">
+                        <CourseImage course={course} decorative sizes="(max-width: 40rem) 100vw, 12rem" />
+                      </div>
                       <div className="courses-page__row-main">
                         <div className="courses-page__row-head">
                           <span className="courses-page__tag">{course.category}</span>
@@ -333,6 +337,7 @@ function CatalogueSkeleton() {
 
       {[0, 1, 2, 3].map((row) => (
         <div key={row} className="courses-page__skeleton" aria-hidden="true">
+          <span className="courses-page__skeleton-block courses-page__skeleton-thumb" />
           <div className="courses-page__skeleton-main">
             <span className="courses-page__skeleton-line courses-page__skeleton-line--tag" />
             <span className="courses-page__skeleton-line courses-page__skeleton-line--title" />

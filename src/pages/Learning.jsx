@@ -1,5 +1,7 @@
 import PageHeader from '../components/layout/PageHeader.jsx';
 import Button from '../components/ui/Button.jsx';
+import CourseImage from '../components/ui/CourseImage.jsx';
+import { FirstWinArt } from '../components/ui/SpotArt.jsx';
 import useProgress from '../hooks/useProgress.js';
 import { DAILY_GOAL } from '../utils/progress.js';
 import { Link } from 'react-router-dom';
@@ -21,6 +23,8 @@ export default function Learning() {
 
         <section className="section">
           <div className="container container--narrow learning__empty">
+            <FirstWinArt className="learning__empty-art" />
+
             <p className="learning__empty-lead">
               Finish your first lesson and this page starts tracking a streak, a daily
               goal and a progress bar for every course you own.
@@ -101,7 +105,11 @@ export default function Learning() {
 
           {nextUp && (
             <div className="learning__resume" data-category={nextUp.category}>
-              <div>
+              <div className="learning__resume-thumb">
+                <CourseImage course={nextUp} decorative sizes="11rem" />
+              </div>
+
+              <div className="learning__resume-text">
                 <p className="learning__resume-label">Pick up where you left off</p>
                 <h2 className="learning__resume-title">{nextUp.title}</h2>
                 <p className="learning__resume-meta">
@@ -123,6 +131,10 @@ export default function Learning() {
 
               return (
                 <li key={course.id} className="learning__card" data-category={course.category}>
+                  <div className="learning__card-media">
+                    <CourseImage course={course} decorative sizes="(max-width: 40rem) 100vw, 20rem" />
+                  </div>
+
                   <div className="learning__card-head">
                     <span className="learning__tag">{course.category}</span>
                     {state.complete && <span className="learning__done-badge">Complete</span>}

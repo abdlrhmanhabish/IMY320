@@ -2,8 +2,6 @@ import { useEffect, useId, useRef, useState } from 'react';
 import Button from '../ui/Button.jsx';
 import useFocusTrap from '../../hooks/useFocusTrap.js';
 import useAuth from '../../hooks/useAuth.js';
-import useCart from '../../hooks/useCart.js';
-import useProgress from '../../hooks/useProgress.js';
 import { site } from '../../config/site.js';
 import './AuthModal.css';
 
@@ -112,19 +110,10 @@ export default function AuthModal({ mode = 'login', onClose, onModeChange, enrol
 
 function AuthConfirmation({ user, wasSignup, enrollTitle, onDone }) {
   const doneRef = useRef(null);
-  const { count } = useCart();
-  const { enrolled } = useProgress();
 
   useEffect(() => {
     doneRef.current?.focus();
   }, []);
-
-  const next =
-    count > 0
-      ? { label: `Go to your cart, ${count} ${count === 1 ? 'course' : 'courses'}`, to: '/cart' }
-      : enrolled.length > 0
-        ? { label: 'Back to my learning', to: '/learning' }
-        : { label: 'Browse the catalogue', to: '/courses' };
 
   return (
     <div className="auth-confirm" role="status">

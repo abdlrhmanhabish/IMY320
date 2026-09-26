@@ -161,12 +161,14 @@ export default function Navbar() {
         authLink={authLink}
         user={user}
         onLogout={logout}
+        theme={theme}
+        onToggleTheme={toggleTheme}
       />
     </header>
   );
 }
 
-function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink, user, onLogout }) {
+function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink, user, onLogout, theme, onToggleTheme }) {
   const panelRef = useRef(null);
 
   useFocusTrap(panelRef, open, onClose);
@@ -235,6 +237,11 @@ function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink, user
             </li>
           </ul>
         </nav>
+
+        <button type="button" className="navbar__drawer-theme" onClick={onToggleTheme}>
+          {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+          {theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+        </button>
 
         <div className="navbar__drawer-actions">
           {user ? (

@@ -772,3 +772,9 @@
     display: flex;
   }
 }
+
+.course-detail__panel-media {
+  border-radius: calc(var(--radius-card) - 1px) calc(var(--radius-card) - 1px) 0 0;
+  margin: calc(var(--space-6) * -1) calc(var(--space-6) * -1) var(--space-5);
+  overflow: hidden;
+}

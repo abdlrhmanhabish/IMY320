@@ -243,29 +243,99 @@
 }
 
 .player__video {
+  position: relative;
   display: grid;
   place-items: center;
-  gap: var(--space-4);
   aspect-ratio: 16 / 9;
   margin-top: var(--space-6);
+  overflow: hidden;
+  isolation: isolate;
   border-radius: var(--radius-card);
   background-image: linear-gradient(140deg, var(--color-grey-800), var(--color-grey-950));
-  color: var(--color-grey-400);
+  color: var(--color-grey-300);
+}
+
+.player__video-poster {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.player__video::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: linear-gradient(
+    180deg,
+    rgb(16 24 40 / 0.35) 0%,
+    rgb(16 24 40 / 0.55) 55%,
+    rgb(16 24 40 / 0.88) 100%
+  );
+}
+
+.player__video-caption {
+  position: absolute;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  left: var(--space-5);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  color: var(--color-white);
 }
 
 .player__video-play {
+  position: relative;
   display: grid;
   place-items: center;
   height: var(--space-16);
   width: var(--space-16);
   border-radius: var(--radius-full);
-  background-color: rgb(255 255 255 / 0.12);
+  background-color: rgb(255 255 255 / 0.2);
   color: var(--color-white);
   padding-left: 0.3rem;
+  backdrop-filter: blur(6px);
+  transition: transform var(--duration-base) var(--ease-out);
+}
+
+.player__video-play::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border: 2px solid rgb(255 255 255 / 0.6);
+  border-radius: inherit;
+  animation: player-ring 2.4s var(--ease-out) infinite;
+}
+
+.player__video:hover .player__video-play {
+  transform: scale(1.06);
+}
+
+@keyframes player-ring {
+  from {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.6);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .player__video-play::before {
+    animation: none;
+  }
 }
 
 .player__video-note {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
+  opacity: 0.75;
 }
 
 .player__notes {

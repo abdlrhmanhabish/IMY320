@@ -57,3 +57,7 @@
     padding-block: var(--space-14);
   }
 }
+.not-found__art {
+  margin: 0 auto var(--space-4);
+  max-width: 16rem;
+}

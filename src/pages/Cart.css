@@ -22,7 +22,7 @@
 
 .cart__row {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: 8rem minmax(0, 1fr) auto;
   gap: var(--space-5);
   padding: var(--space-5);
   border: 1px solid var(--color-border-subtle);
@@ -201,10 +201,21 @@
 
 @media (max-width: 34rem) {
   .cart__row {
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+  }
+
+  .cart__row-price {
+    grid-column: 2;
   }
 
   .cart__row-price {
     text-align: left;
   }
+}
+
+.cart__thumb {
+  align-self: start;
+  display: block;
+  overflow: hidden;
+  border-radius: var(--radius-md);
 }

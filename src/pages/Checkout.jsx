@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/ui/Button.jsx';
 import Celebration from '../components/ui/Celebration.jsx';
+import { coursePhoto } from '../config/photos.js';
 import useAuth from '../hooks/useAuth.js';
 import useCart from '../hooks/useCart.js';
 import useProgress from '../hooks/useProgress.js';
@@ -137,6 +138,7 @@ export default function Checkout() {
         <Celebration
           open={celebrating}
           eyebrow="Payment complete"
+          image={first ? coursePhoto(first.id)?.large : undefined}
           title="You are in. Time to learn."
           stat={`${bought.length} ${bought.length === 1 ? 'course' : 'courses'} unlocked`}
           statLabel={

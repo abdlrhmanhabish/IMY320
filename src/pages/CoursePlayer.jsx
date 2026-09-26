@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import Button from '../components/ui/Button.jsx';
 import Celebration from '../components/ui/Celebration.jsx';
+import { coursePhoto } from '../config/photos.js';
 import useProgress from '../hooks/useProgress.js';
 import useToast from '../hooks/useToast.js';
 import { DAILY_GOAL, lessonsOf } from '../utils/progress.js';
@@ -104,6 +105,7 @@ export default function CoursePlayer() {
         title="That is the whole course."
         stat={`${state.total} of ${state.total} lessons`}
         statLabel={`${course.title}, finished`}
+        image={coursePhoto(course.id)?.large}
         body="Your certificate is on your learning page, and the course stays open for as long as you want it."
         primaryAction={{ label: 'Back to my learning', to: '/learning' }}
         secondaryAction={{ label: 'Find your next course', to: '/courses' }}
@@ -223,13 +225,32 @@ export default function CoursePlayer() {
 
               <h2 className="player__lesson-heading">{active.title}</h2>
 
-              <div className="player__video" role="img" aria-label="Lesson video placeholder">
+
+              <div
+                className="player__video"
+                role="img"
+                aria-label={`Video for ${active.title}. The lesson player is a placeholder in this prototype`}
+              >
+                {coursePhoto(course.id) && (
+                  <img
+                    className="player__video-poster"
+                    src={coursePhoto(course.id).large}
+                    alt=""
+                    width={1280}
+                    height={720}
+                    decoding="async"
+                  />
+                )}
+
                 <span className="player__video-play" aria-hidden="true">
                   <PlayIcon />
                 </span>
-                <p className="player__video-note">
-                  The lesson player is a placeholder in this prototype
-                </p>
+
+                <div className="player__video-caption" aria-hidden="true">
+                  <span className="player__video-note">
+                    The lesson player is a placeholder in this prototype
+                  </span>
+                </div>
               </div>
 
               <div className="player__notes">
@@ -330,7 +351,7 @@ function PlayIcon() {
 
 function FlameIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" focusable="false">
+    <svg viewBox="4 1 16 20" width="15" height="15" aria-hidden="true" focusable="false">
       <path
         d="M12 3s5 4.2 5 8.5a5 5 0 0 1-10 0C7 9.3 9 8 9 8s.3 2 1.5 2C11.7 10 12 6.5 12 3z"
         fill="currentColor"

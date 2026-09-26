@@ -33,7 +33,7 @@ export default function AddToCart({ course, size = 'md', fullWidth = false }) {
   if (has(course.id)) {
     return (
       <Button to="/cart" variant="secondary" size={size} fullWidth={fullWidth}>
-        In cart, view cart
+        View in cart
       </Button>
     );
   }

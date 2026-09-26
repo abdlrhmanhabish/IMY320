@@ -7,6 +7,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import Button from '../components/ui/Button.jsx';
 import Card from '../components/ui/Card.jsx';
 import AddToCart from '../components/ui/AddToCart.jsx';
+import CourseImage from '../components/ui/CourseImage.jsx';
 import useCart from '../hooks/useCart.js';
 import useProgress from '../hooks/useProgress.js';
 import useScrollSpy from '../hooks/useScrollSpy.js';
@@ -168,6 +169,10 @@ export default function CourseDetail() {
               <h2 id="buy-heading" className="visually-hidden">
                 Buy this course
               </h2>
+
+              <div className="course-detail__panel-media">
+                <CourseImage course={course} eager sizes="(max-width: 62rem) 100vw, 21rem" />
+              </div>
 
               <p className="course-detail__price-row">
                 <span className="course-detail__price">{course.price}</span>
@@ -365,6 +370,7 @@ export default function CourseDetail() {
                 {related.map((item) => (
                   <Card
                     key={item.id}
+                    media={<CourseImage course={item} decorative sizes="(max-width: 40rem) 100vw, 17rem" />}
                     data-category={item.category}
                     eyebrow={item.category}
                     title={item.title}

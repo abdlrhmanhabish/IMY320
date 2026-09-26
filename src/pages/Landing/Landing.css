@@ -12,6 +12,7 @@
 }
 
 .hero {
+  overflow-x: clip;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -80,13 +81,125 @@
   justify-content: center;
 }
 
-.hero-img {
+.hero-frame {
+  position: relative;
   width: 100%;
-  max-width: 32.5rem;
+  max-width: 30rem;
+  isolation: isolate;
+}
+
+.hero-frame::before {
+  content: '';
+  position: absolute;
+  inset: 6% -5% -4% 8%;
+  z-index: -1;
+  border-radius: var(--radius-xl);
+  background-image: linear-gradient(150deg, var(--color-brand-400), var(--color-brand-700));
+  transform: rotate(4deg);
+}
+
+.hero-img {
+  display: block;
+  width: 100%;
   height: auto;
-  border-radius: var(--radius-card);
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-xl);
   object-fit: cover;
   box-shadow: var(--shadow-xl);
+}
+
+.hero-chip {
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-lg);
+  font-size: var(--font-size-sm);
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-lg);
+  line-height: var(--line-height-snug);
+  text-align: left;
+  animation: hero-chip-in var(--duration-slow) var(--ease-out) both, hero-chip-float 5s var(--ease-in-out) infinite;
+}
+
+.hero-chip strong {
+  display: block;
+  font-weight: var(--font-weight-semibold);
+}
+
+.hero-chip small {
+  display: block;
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+}
+
+.hero-chip--lesson {
+  top: 12%;
+  left: -2.5rem;
+  animation-delay: 400ms, 1s;
+}
+
+.hero-chip--streak {
+  right: -2rem;
+  bottom: 14%;
+  animation-delay: 700ms, 2.2s;
+}
+
+.hero-chip__tick,
+.hero-chip__flame {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: var(--space-8);
+  height: var(--space-8);
+  border-radius: var(--radius-full);
+}
+
+.hero-chip__tick {
+  background-color: var(--color-success-500);
+  color: var(--color-white);
+}
+
+.hero-chip__flame {
+  background-color: var(--color-warning-subtle);
+  color: var(--color-warning-500);
+}
+
+.hero-chip__bar {
+  display: block;
+  width: 7rem;
+  height: 0.35rem;
+  margin-top: var(--space-2);
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-surface-sunken);
+}
+
+.hero-chip__bar span {
+  display: block;
+  width: 72%;
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background-image: linear-gradient(90deg, var(--color-brand-500), var(--color-success-500));
+}
+
+@keyframes hero-chip-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.94);
+  }
+}
+
+@keyframes hero-chip-float {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -6px;
+  }
 }
 
 .how-it-works-section {
@@ -242,6 +355,7 @@
 
 .card-footer-content {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
@@ -253,6 +367,12 @@
   font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.card-footer-content .button {
+  white-space: nowrap;
 }
 
 .courses-message {
@@ -380,6 +500,23 @@
 }
 
 @media (max-width: 56.25rem) {
+  .hero-frame {
+    max-width: 24rem;
+  }
+
+  .hero-frame::before {
+    inset: 5% -2% -3% 4%;
+    transform: rotate(3deg);
+  }
+
+  .hero-chip--lesson {
+    left: var(--space-3);
+  }
+
+  .hero-chip--streak {
+    right: var(--space-3);
+  }
+
   .hero {
     flex-direction: column;
     text-align: center;
@@ -486,4 +623,34 @@
   font-size: var(--font-size-sm);
   font-variant-numeric: tabular-nums;
   margin-top: var(--space-2);
+}
+
+@media (max-width: 75rem) {
+  .hero-chip--streak {
+    right: var(--space-3);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-chip {
+    animation: none;
+  }
+}
+
+.resume-strip__thumb {
+  flex-shrink: 0;
+  width: 10rem;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+}
+
+@media (max-width: 40rem) {
+  .resume-strip__thumb {
+    width: 100%;
+  }
+
+  .resume-strip__thumb .course-image {
+    aspect-ratio: 21 / 9;
+  }
 }

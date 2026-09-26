@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { formatRand, discountPercent, isOnSale } from '../utils/money.js';
 import PageHeader from '../components/layout/PageHeader.jsx';
 import Button from '../components/ui/Button.jsx';
+import CourseImage from '../components/ui/CourseImage.jsx';
+import { EmptyCartArt } from '../components/ui/SpotArt.jsx';
 import useCart from '../hooks/useCart.js';
 import useToast from '../hooks/useToast.js';
 import './Cart.css';
@@ -32,6 +34,7 @@ export default function Cart() {
 
         <section className="section">
           <div className="container container--narrow cart__empty">
+            <EmptyCartArt />
             <p>
               Nothing here yet. The catalogue has short, practical courses across data, finance, development and management.
             </p>
@@ -60,6 +63,9 @@ export default function Cart() {
             <ul className="cart__list">
               {items.map((course) => (
                 <li key={course.id} className="cart__row" data-category={course.category}>
+                  <Link to={`/courses/${course.id}`} className="cart__thumb" tabIndex={-1} aria-hidden="true">
+                    <CourseImage course={course} decorative sizes="8rem" />
+                  </Link>
                   <div className="cart__row-main">
                     <span className="cart__tag">{course.category}</span>
 
