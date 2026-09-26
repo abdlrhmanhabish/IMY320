@@ -1,0 +1,181 @@
+.spot-art {
+  display: block;
+  width: 100%;
+  max-width: 20rem;
+  height: auto;
+}
+
+.spot-art__blob {
+  fill: var(--color-action);
+  opacity: 0.08;
+}
+
+.spot-art__deep {
+  fill: var(--color-brand-deep);
+}
+
+.spot-art__mid {
+  fill: var(--color-action);
+}
+
+.spot-art__accent {
+  fill: var(--color-action-hover);
+}
+
+.spot-art__soft {
+  fill: var(--color-surface-brand-soft);
+}
+
+.spot-art__pale {
+  fill: var(--color-action-subtle);
+}
+
+.spot-art__paper {
+  fill: var(--color-surface);
+}
+
+.spot-art__stroke {
+  fill: none;
+  stroke: var(--color-brand-deep);
+}
+
+.spot-art__rule,
+.spot-art__track {
+  fill: none;
+  stroke: var(--color-surface-brand-soft);
+}
+
+.spot-art__path {
+  fill: none;
+  stroke: var(--color-action);
+}
+
+.spot-art__ring {
+  stroke: var(--color-surface-brand-soft);
+  stroke-width: 4;
+}
+
+.spot-art__win {
+  fill: var(--color-success-500);
+}
+
+.spot-art__win-glow {
+  fill: var(--color-success-500);
+  opacity: 0.2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spot-glow 2.4s var(--ease-in-out) 1s infinite;
+}
+
+.spot-art__tick {
+  fill: none;
+  stroke: var(--color-white);
+}
+
+/* the path draws itself up to the first stop, then the tick lands on it */
+.spot-art__draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: spot-draw 900ms var(--ease-out) 200ms forwards;
+}
+
+.spot-art__pop {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spot-pop 500ms var(--ease-out) 1s both;
+}
+
+.spot-art__twinkle {
+  animation: spot-twinkle 2.2s var(--ease-in-out) infinite;
+}
+
+.spot-art__drop {
+  animation: spot-drop 2.8s var(--ease-in-out) infinite;
+}
+
+.spot-art__sway {
+  transform-box: fill-box;
+  transform-origin: left center;
+  animation: spot-sway 3.2s var(--ease-in-out) infinite;
+}
+
+.spot-art__sway--late {
+  transform-origin: right center;
+  animation-delay: 600ms;
+}
+
+@keyframes spot-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes spot-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  65% {
+    opacity: 1;
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes spot-glow {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.05;
+    transform: scale(1.45);
+  }
+}
+
+@keyframes spot-drop {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes spot-twinkle {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes spot-sway {
+  0%,
+  100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(-2.5deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spot-art__draw {
+    stroke-dashoffset: 0;
+  }
+
+  .spot-art__pop,
+  .spot-art__drop,
+  .spot-art__twinkle,
+  .spot-art__sway,
+  .spot-art__win-glow {
+    animation: none;
+  }
+}

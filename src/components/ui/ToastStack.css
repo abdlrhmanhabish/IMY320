@@ -1,0 +1,112 @@
+.toast-stack {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  z-index: var(--z-toast);
+  gap: var(--space-3);
+  width: min(23rem, calc(100vw - var(--space-8)));
+  pointer-events: none;
+}
+
+.toast {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--space-3);
+  align-items: start;
+  padding: var(--space-4);
+  border: 1px solid var(--color-border-subtle);
+  border-radius: var(--radius-card);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-xl);
+  pointer-events: auto;
+  animation: toast-in var(--duration-base) var(--ease-out) both;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem) scale(0.96);
+  }
+}
+
+.toast__mark {
+  display: grid;
+  place-items: center;
+  width: var(--space-7);
+  height: var(--space-7);
+  border-radius: var(--radius-full);
+  color: var(--color-white);
+  background-color: var(--color-success-500);
+  animation: toast-mark var(--duration-slow) var(--ease-out) both;
+}
+
+.toast--info .toast__mark {
+  background-color: var(--color-info-500);
+}
+
+.toast--error .toast__mark {
+  background-color: var(--color-danger-500);
+}
+
+@keyframes toast-mark {
+  0% {
+    transform: scale(0.4);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.toast__body {
+  min-width: 0;
+}
+
+.toast__title {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-snug);
+}
+
+.toast__text {
+  margin-top: var(--space-1);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-snug);
+}
+
+.toast__action {
+  display: inline-block;
+  margin-top: var(--space-2);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.toast__close {
+  display: grid;
+  place-items: center;
+  width: var(--space-6);
+  height: var(--space-6);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-muted);
+  transition: background-color var(--duration-fast) var(--ease-out);
+}
+
+.toast__close:hover {
+  background-color: var(--color-surface-sunken);
+  color: var(--color-text);
+}
+
+@media (max-width: 30rem) {
+  .toast-stack {
+    right: var(--space-4);
+    left: var(--space-4);
+    width: auto;
+  }
+}

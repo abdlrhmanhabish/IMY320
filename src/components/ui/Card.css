@@ -73,3 +73,20 @@
   padding: var(--space-4) var(--space-6) var(--space-6);
   margin-top: auto;
 }
+.card__media {
+  overflow: hidden;
+}
+
+.card__media .course-image {
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.card--linked:hover .card__media .course-image {
+  transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card--linked:hover .card__media .course-image {
+    transform: none;
+  }
+}

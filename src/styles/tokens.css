@@ -245,6 +245,15 @@
   --shadow-card-hover: 0 12px 16px -4px rgb(0 0 0 / 0.55);
   --shadow-header: 0 1px 2px rgb(0 0 0 / 0.5);
   --shadow-modal: 0 20px 24px -4px rgb(0 0 0 / 0.6);
+
+  --color-cat-data-ink: #5fd4c4;
+  --color-cat-data-tint: #0d3430;
+  --color-cat-finance-ink: #6ee7a0;
+  --color-cat-finance-tint: #0d3320;
+  --color-cat-development-ink: #a5b4fc;
+  --color-cat-development-tint: #272554;
+  --color-cat-management-ink: #f0a868;
+  --color-cat-management-tint: #3a2410;
 }
 
 [data-category='Data'] {

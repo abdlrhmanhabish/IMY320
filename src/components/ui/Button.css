@@ -105,3 +105,69 @@
 .button__spinner {
   flex-shrink: 0;
 }
+/* press feedback */
+
+.button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(1px) scale(0.985);
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.button__label,
+.button__icon,
+.button__spinner {
+  position: relative;
+  z-index: 1;
+}
+
+.button__ripple {
+  border-radius: var(--radius-full);
+  background-color: currentColor;
+  position: absolute;
+  z-index: 0;
+  opacity: 0.28;
+  pointer-events: none;
+  animation: button-ripple 600ms var(--ease-out) forwards;
+}
+
+.button--primary .button__ripple,
+.button--danger .button__ripple {
+  background-color: var(--color-white);
+  opacity: 0.35;
+}
+
+@keyframes button-ripple {
+  from {
+    transform: scale(0);
+    opacity: 0.35;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+
+.button--success {
+  background-color: var(--color-success-500);
+  color: var(--color-white);
+}
+
+.button--success:hover:not(:disabled) {
+  background-color: var(--color-success-700);
+  color: var(--color-white);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button:hover:not(:disabled),
+  .button:active:not(:disabled) {
+    transform: none;
+  }
+}

@@ -1,8 +1,11 @@
+import { photoCredits } from './photos.js';
+
 export const CREDIT_CATEGORIES = {
   FRAMEWORK: 'Frameworks and libraries',
   TOOLING: 'Build tooling',
   FONT: 'Typefaces',
   IMAGERY: 'Imagery',
+  PHOTOGRAPHY: 'Photography',
   ICONS: 'Icons'
 };
 
@@ -63,10 +66,10 @@ export const credits = [
     category: CREDIT_CATEGORIES.FONT
   },
   {
-    name: 'Landing page hero image',
-    purpose:'Hero image on the landing page (src/assets/hero-career.jpg). Generated with an image model rather than photographed, and it carries a C2PA record saying so.',
+    name: 'Illustrations',
+    purpose: 'The empty state, sign in and About page drawings are hand built SVG, drawn for this project and coloured from the design tokens.',
     url: 'https://github.com/abdlrhmanhabish/IMY320',
-    licence: 'Generated image, produced for this project',
+    licence: 'Original work for this project',
     category: CREDIT_CATEGORIES.IMAGERY
   },
   {
@@ -77,6 +80,17 @@ export const credits = [
     category: CREDIT_CATEGORIES.IMAGERY
   }
 ];
+
+export const photographyCredits = photoCredits.map((photo) => ({
+  name: `${photo.usedFor} photo`,
+  purpose: `${photo.usedFor}. Photo by ${photo.author}, cropped and resized for this site.`,
+  url: photo.source,
+  licence: photo.licence,
+  licenceUrl: photo.licenceUrl,
+  author: photo.author,
+  usedFor: photo.usedFor,
+  category: CREDIT_CATEGORIES.PHOTOGRAPHY
+}));
 
 export function creditsByCategory() {
   return credits.reduce((groups, credit) => {

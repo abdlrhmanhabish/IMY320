@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Button from '../components/ui/Button.jsx';
+import { LostArt } from '../components/ui/SpotArt.jsx';
 import './NotFound.css';
 
 //this is a 404 page to be placholder for pgaes still to come
@@ -7,9 +8,10 @@ export default function NotFound() {
   return (
     <section className="not-found">
       <div className="container container--narrow">
+        <LostArt className="not-found__art" />
         <p className="not-found__code">404</p>
         <h1 className="not-found__heading">We cannot find that page</h1>
-        <p className="not-found__lead">The link may be out of date, or the page may not be built yet. Neither is yourfault. Here is what is ready today.</p>
+        <p className="not-found__lead">The link may be out of date, or the page may not be built yet. Neither is your fault. Here is what is ready today.</p>
 
         <div className="not-found__actions">
           <Button to="/about" size="lg">

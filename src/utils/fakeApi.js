@@ -152,3 +152,42 @@ export async function sendContactMessage({ name, email, topic, message }) {
 
   return { reference, receivedAt: new Date().toISOString() };
 }
+const ORDERS_KEY = 'skillup:orders';
+
+export function readOrders() {
+  try {
+    const raw = window.localStorage.getItem(ORDERS_KEY);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
+}
+
+// checkout runs slower than the rest on purpose
+export async function placeOrder({ items, total, saving, card }) {
+  await delay(1400, 2000);
+
+  if (isFailureModeOn()) {
+    throw new Error('The payment could not be completed. No money has left your account.');
+  }
+
+  if (String(card ?? '').replace(/\s/g, '').endsWith('0000')) {
+    throw new Error('Your bank declined that card. Try another card or use a different method.');
+  }
+
+  const order = {
+    reference: `SU-${Date.now().toString(36).toUpperCase().slice(-6)}`,
+    placedAt: new Date().toISOString(),
+    items: items.map((item) => ({ id: item.id, title: item.title, price: item.price })),
+    total,
+    saving,
+  };
+
+  try {
+    window.localStorage.setItem(ORDERS_KEY, JSON.stringify([order, ...readOrders()]));
+  } catch {
+  }
+
+  return order;
+}

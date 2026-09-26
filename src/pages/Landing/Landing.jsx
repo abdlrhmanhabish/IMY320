@@ -5,11 +5,14 @@
 import './Landing.css';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import heroImage from '../../assets/hero-career.jpg';
 import Card from '../../components/ui/Card.jsx';
 import Button from '../../components/ui/Button.jsx';
+import AddToCart from '../../components/ui/AddToCart.jsx';
+import CourseImage from '../../components/ui/CourseImage.jsx';
+import { hero } from '../../config/photos.js';
 import { site } from '../../config/site.js';
 import { getCourses } from '../../utils/fakeApi.js';
+import useProgress from '../../hooks/useProgress.js';
 import microsoftLogo from '../../assets/microsoft.png';
 import awsLogo from '../../assets/aws.png';
 import googleLogo from '../../assets/google.png';
@@ -33,6 +36,9 @@ export default function Landing() {
   const [status, setStatus] = useState('loading');
   const navigate = useNavigate();
   const location = useLocation();
+  const { enrolled, progressFor, streak } = useProgress();
+
+  const heroStreak = streak > 0 ? streak : 12;
 
   // the courses load through fakeApi so the skeleton error and empty states are all real 
   const loadCourses = useCallback(() => {
@@ -105,15 +111,58 @@ export default function Landing() {
         </div>
 
         <div className="hero-image-container">
-          <img
-            src={heroImage}
-            alt="A person working through a course on a laptop"
-            className="hero-img"
-            width="1024"
-            height="1024"
-          />
+          <div className="hero-frame">
+            <img
+              src={hero.src}
+              srcSet={hero.srcSet}
+              sizes="(max-width: 56.25rem) 90vw, 32.5rem"
+              alt={hero.alt}
+              className="hero-img"
+              width={hero.width}
+              height={hero.height}
+              fetchPriority="high"
+            />
+
+            <div className="hero-chip hero-chip--lesson" aria-hidden="true">
+              <span className="hero-chip__tick">
+                <svg viewBox="0 0 24 24" width="14" height="14" focusable="false">
+                  <path
+                    d="M5 12.5l4.5 4.5L19 7.5"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
+              <span>
+                <strong>Lesson done</strong>
+                <small>Daily goal 3 of 3</small>
+              </span>
+            </div>
+
+            <div className="hero-chip hero-chip--streak" aria-hidden="true">
+              <span className="hero-chip__flame">
+                <svg viewBox="4 1 16 20" width="18" height="18" focusable="false">
+                  <path
+                    d="M12 3s5 4.2 5 8.5a5 5 0 0 1-10 0C7 9.3 9 8 9 8s.3 2 1.5 2C11.7 10 12 6.5 12 3z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+              <span>
+                <strong>{heroStreak} day streak</strong>
+                <span className="hero-chip__bar">
+                  <span style={{ width: `${Math.min(100, 30 + heroStreak * 6)}%` }} />
+                </span>
+              </span>
+            </div>
+          </div>
         </div>
       </section>
+
+      <ResumeStrip enrolled={enrolled} progressFor={progressFor} streak={streak} />
 
       {/* HOW IT WORKS SECTION */}
       <section id="how-it-works" className="how-it-works-section">
@@ -206,16 +255,17 @@ export default function Landing() {
                   eyebrow={course.category}
                   title={course.title}
                   to={`/courses/${course.id}`}
+                  media={
+                    <CourseImage
+                      course={course}
+                      decorative
+                      sizes="(max-width: 40rem) 100vw, (max-width: 62rem) 50vw, 25vw"
+                    />
+                  }
                   footer={
                     <div className="card-footer-content">
                       <span className="price">{course.price}</span>
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        onClick={() => openSignup(course.id)}
-                      >
-                        Enrol
-                      </Button>
+                      <AddToCart course={course} size="sm" />
                     </div>
                   }
                 >
@@ -290,5 +340,48 @@ function CourseSkeletons() {
       ))}
       <p className="visually-hidden">Loading courses</p>
     </div>
+  );
+}
+
+function ResumeStrip({ enrolled, progressFor, streak }) {
+  const unfinished = enrolled
+    .map((course) => ({ course, state: progressFor(course.id) }))
+    .filter((entry) => !entry.state.complete);
+
+  if (unfinished.length === 0) return null;
+
+  const started = unfinished.filter((entry) => entry.state.started);
+  const { course, state } = started[0] ?? unfinished[0];
+
+  return (
+    <section className="resume-strip" aria-labelledby="resume-strip-heading">
+      <div className="container resume-strip__inner" data-category={course.category}>
+        <div className="resume-strip__thumb">
+          <CourseImage course={course} decorative sizes="10rem" />
+        </div>
+        <div className="resume-strip__text">
+          <p className="resume-strip__label">
+            {state.started ? 'Pick up where you left off' : 'Ready when you are'}
+            {streak > 0 && <span className="resume-strip__streak">{streak} day streak</span>}
+          </p>
+
+          <h2 id="resume-strip-heading" className="resume-strip__title">
+            {course.title}
+          </h2>
+
+          <div className="resume-strip__bar" aria-hidden="true">
+            <span className="resume-strip__bar-fill" style={{ width: `${state.percent}%` }} />
+          </div>
+
+          <p className="resume-strip__meta">
+            {state.done} of {state.total} lessons done, {state.percent}%
+          </p>
+        </div>
+
+        <Button to={`/learn/${course.id}`} variant="primary" size="lg">
+          {state.started ? 'Continue learning' : 'Start lesson one'}
+        </Button>
+      </div>
+    </section>
   );
 }
