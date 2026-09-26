@@ -6,6 +6,10 @@ import About from './pages/About.jsx';
 import Courses from './pages/Courses.jsx';
 import CourseDetail from './pages/CourseDetail.jsx';
 import ComingSoon from './pages/ComingSoon.jsx';
+import Cart from './pages/Cart.jsx';
+import Checkout from './pages/Checkout.jsx';
+import Learning from './pages/Learning.jsx';
+import CoursePlayer from './pages/CoursePlayer.jsx';
 import NotFound from './pages/NotFound.jsx';
 import Landing from './pages/Landing/Landing.jsx';
 import courses from './data/courses.json';
@@ -60,6 +64,10 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/courses" element={<Courses />} />
           <Route path="/courses/:courseId" element={<CourseDetail />} />
+          <Route path="/cart" element={<Cart />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/learning" element={<Learning />} />
+          <Route path="/learn/:courseId" element={<CoursePlayer />} />
           <Route path="/careers" element={<ComingSoon page="careers" />} />
           <Route path="/press" element={<ComingSoon page="press" />} />
           <Route path="/contact" element={<ComingSoon page="contact" />} />

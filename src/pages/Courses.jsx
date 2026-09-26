@@ -2,7 +2,9 @@ import { useMemo, useState, useEffect, useCallback } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/layout/PageHeader.jsx';
 import Button from '../components/ui/Button.jsx';
+import AddToCart from '../components/ui/AddToCart.jsx';
 import { getCourses } from '../utils/fakeApi.js';
+import { formatRand, savingOn, isOnSale } from '../utils/money.js';
 import useAuth from '../hooks/useAuth.js';
 import './InfoPage.css';
 
@@ -227,7 +229,7 @@ export default function Courses() {
                 )}
               </div>
 
-              {status === 'loading' && <p>Loading catalogue...</p>}
+              {status === 'loading' && <CatalogueSkeleton />}
 
               {status === 'error' && (
                 <div className="info-page__callout">
@@ -259,20 +261,41 @@ export default function Courses() {
                 <ul className="courses-page__list">
                   {filteredAndSorted.map((course) => (
                     <li key={course.id} className="courses-page__row" data-category={course.category}>
-                      <Link to={`/courses/${course.id}`} className="courses-page__row-link">
+                      {/* the whole row stays the target. the buttons sit above the overlay */}
+                      <div className="courses-page__row-main">
                         <div className="courses-page__row-head">
                           <span className="courses-page__tag">{course.category}</span>
                           <span className="courses-page__meta">
                             {course.duration}, {course.level}
                           </span>
                         </div>
-                        <h2 className="courses-page__row-title">{course.title}</h2>
+
+                        <h2 className="courses-page__row-title">
+                          <Link to={`/courses/${course.id}`} className="courses-page__row-link">
+                            {course.title}
+                          </Link>
+                        </h2>
+
                         <p className="courses-page__row-summary">{course.summary}</p>
                         <p className="courses-page__row-meta">
                           {course.rating} rating ({course.reviews} reviews), {course.instructor}
                         </p>
+                      </div>
+
+                      <div className="courses-page__row-buy">
                         <p className="courses-page__row-price">{course.price}</p>
-                      </Link>
+
+                        {isOnSale(course) && (
+                          <>
+                            <p className="courses-page__row-was">{course.listPrice}</p>
+                            <p className="courses-page__row-save">
+                              Save {formatRand(savingOn(course))}
+                            </p>
+                          </>
+                        )}
+
+                        <AddToCart course={course} fullWidth />
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -299,5 +322,30 @@ export default function Courses() {
         </div>
       </section>
     </>
+  );
+}
+
+// a plain "loading" line tells somebody nothing. rows in roughly the right shape make the wait read as the page arriving rather than the page stalling
+function CatalogueSkeleton() {
+  return (
+    <div className="courses-page__skeletons">
+      <p className="visually-hidden">Loading the catalogue</p>
+
+      {[0, 1, 2, 3].map((row) => (
+        <div key={row} className="courses-page__skeleton" aria-hidden="true">
+          <div className="courses-page__skeleton-main">
+            <span className="courses-page__skeleton-line courses-page__skeleton-line--tag" />
+            <span className="courses-page__skeleton-line courses-page__skeleton-line--title" />
+            <span className="courses-page__skeleton-line" />
+            <span className="courses-page__skeleton-line courses-page__skeleton-line--short" />
+          </div>
+
+          <div className="courses-page__skeleton-buy">
+            <span className="courses-page__skeleton-line courses-page__skeleton-line--price" />
+            <span className="courses-page__skeleton-block" />
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }

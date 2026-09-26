@@ -10,6 +10,7 @@ import Card from '../../components/ui/Card.jsx';
 import Button from '../../components/ui/Button.jsx';
 import { site } from '../../config/site.js';
 import { getCourses } from '../../utils/fakeApi.js';
+import useProgress from '../../hooks/useProgress.js';
 import microsoftLogo from '../../assets/microsoft.png';
 import awsLogo from '../../assets/aws.png';
 import googleLogo from '../../assets/google.png';
@@ -33,6 +34,7 @@ export default function Landing() {
   const [status, setStatus] = useState('loading');
   const navigate = useNavigate();
   const location = useLocation();
+  const { enrolled, progressFor, streak } = useProgress();
 
   // the courses load through fakeApi so the skeleton error and empty states are all real 
   const loadCourses = useCallback(() => {
@@ -114,6 +116,8 @@ export default function Landing() {
           />
         </div>
       </section>
+
+      <ResumeStrip enrolled={enrolled} progressFor={progressFor} streak={streak} />
 
       {/* HOW IT WORKS SECTION */}
       <section id="how-it-works" className="how-it-works-section">
@@ -290,5 +294,45 @@ function CourseSkeletons() {
       ))}
       <p className="visually-hidden">Loading courses</p>
     </div>
+  );
+}
+
+function ResumeStrip({ enrolled, progressFor, streak }) {
+  const unfinished = enrolled
+    .map((course) => ({ course, state: progressFor(course.id) }))
+    .filter((entry) => !entry.state.complete);
+
+  if (unfinished.length === 0) return null;
+
+  const started = unfinished.filter((entry) => entry.state.started);
+  const { course, state } = started[0] ?? unfinished[0];
+
+  return (
+    <section className="resume-strip" aria-labelledby="resume-strip-heading">
+      <div className="container resume-strip__inner" data-category={course.category}>
+        <div className="resume-strip__text">
+          <p className="resume-strip__label">
+            {state.started ? 'Pick up where you left off' : 'Ready when you are'}
+            {streak > 0 && <span className="resume-strip__streak">{streak} day streak</span>}
+          </p>
+
+          <h2 id="resume-strip-heading" className="resume-strip__title">
+            {course.title}
+          </h2>
+
+          <div className="resume-strip__bar" aria-hidden="true">
+            <span className="resume-strip__bar-fill" style={{ width: `${state.percent}%` }} />
+          </div>
+
+          <p className="resume-strip__meta">
+            {state.done} of {state.total} lessons done, {state.percent}%
+          </p>
+        </div>
+
+        <Button to={`/learn/${course.id}`} variant="primary" size="lg">
+          {state.started ? 'Continue learning' : 'Start lesson one'}
+        </Button>
+      </div>
+    </section>
   );
 }

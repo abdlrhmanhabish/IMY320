@@ -138,37 +138,67 @@
   box-shadow: var(--shadow-card);
 }
 
+.course-detail__price-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3);
+}
+
 .course-detail__price {
   font-size: var(--font-size-3xl);
   font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
   line-height: var(--line-height-tight);
 }
 
+.course-detail__price-was {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-lg);
+  text-decoration: line-through;
+}
+
+.course-detail__price-save {
+  margin-top: var(--space-2);
+  color: var(--color-success);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
 .course-detail__price-note {
-  margin-block: var(--space-1) var(--space-5);
+  margin-top: var(--space-4);
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
+  text-align: center;
 }
 
-.course-detail__enrolled {
-  padding: var(--space-4);
-  background-color: var(--color-success-subtle);
+.course-detail__buy-actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-6);
+}
+
+.course-detail__owned {
+  margin-top: var(--space-6);
+}
+
+.course-detail__owned-heading {
+  margin-bottom: var(--space-3);
+  padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-control);
-  color: var(--color-text);
-  font-size: var(--font-size-sm);
-}
-
-.course-detail__enrolled-heading {
-  margin-bottom: var(--space-1);
+  background-color: var(--color-success-subtle);
   color: var(--color-success);
+  font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
+  text-align: center;
 }
 
 .course-detail__includes {
   display: grid;
   gap: var(--space-3);
-  margin-top: var(--space-6);
-  padding-top: var(--space-6);
+  margin-top: var(--space-5);
+  padding-top: var(--space-5);
   border-top: 1px solid var(--color-border-subtle);
   list-style: none;
   font-size: var(--font-size-sm);
@@ -629,12 +659,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 18ch;
-}
-
-.course-detail__sticky-enrolled {
-  color: var(--color-success);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-semibold);
 }
 
 /* ---------- loading, error and empty states ---------- */

@@ -22,8 +22,7 @@
 
 ## About the project
 
-SkillUP is a website design for teaching career skills online. People can sign up, log in, and read about the platform, purhcase courser and track their progression. This is a front end only project, so there is no real backend. Course data and
-logins are faked so the pages still feel real to use. The main aim of the project is to develop a platform that provides excellent user experience through research and improvement.
+SkillUP is a website design for teaching career skills online. People can sign up, log in, browse the catalogue, add courses to a cart, check out and work through the lessons while their progress is tracked. This is a front end only project, so there is no real backend. Course data, logins and payments are faked so the pages still feel real to use. The main aim of the project is to develop a platform that provides excellent user experience through research and improvement.
 
 ## Tech stack
 
@@ -64,14 +63,29 @@ src/
 │   ├── ui/                    # Button, Input, Card, Modal, Toast, Spinner, Carousel
 │   └── auth/                  # AuthPanel, LoginForm, RegisterForm, ProviderButtons
 ├── pages/
-│   ├── Landing.jsx
+│   ├── Landing/                # hero, featured courses, resume strip
 │   ├── About.jsx
-│   └── Auth.jsx
+│   ├── Courses.jsx             # catalogue with search, filters and add to cart
+│   ├── CourseDetail.jsx        # full course page and buying panel
+│   ├── Cart.jsx                # cart with the saving shown in rands
+│   ├── Checkout.jsx            # payment, the waiting screen and the receipt
+│   ├── Learning.jsx            # dashboard, daily goal, streak, progress bars
+│   └── CoursePlayer.jsx        # lesson player and the completion celebration
 ├── context/
-│   └── AuthContext.jsx        # fake session, localStorage-backed
+│   ├── AuthContext.jsx        # fake session, localStorage-backed
+│   ├── CartContext.jsx        # cart, localStorage-backed
+│   ├── ProgressContext.jsx    # enrolments, lesson ticks, daily goal, streak
+│   └── ToastProvider.jsx      # the quiet end of the feedback ladder
 ├── hooks/
 ├── data/                      # courses.json, testimonials.json, users.json
-└── utils/                     # fakeApi.js, promise plus artificial delay
+└── utils/                     # fakeApi.js, money.js, progress.js
 ```
 
-`docs/ux/` holds the three UEQ reports and the design-justification document.
+`docs/ux/` holds the UEQ research reports for each submission and `docs/design/` holds the
+justification documents.
+
+## Testing the prototype
+
+- Any email with a password of eight characters or more logs in. Use `locked@skillup.example` to see a failed login, and `taken@skillup.example` to see a rejected sign up.
+- At checkout, any sixteen digits work. A card number ending in `0000` is declined so the error path can be checked.
+- Run `window.forceApiFailure(true)` in the browser console to make every request fail, and `window.forceApiFailure(false)` to put it back.

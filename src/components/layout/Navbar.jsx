@@ -1,9 +1,11 @@
 
 import { primaryNav } from '../../config/site.js';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { NavLink, useNavigate, useLocation } from 'react-router-dom';
+import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import useFocusTrap from '../../hooks/useFocusTrap.js';
 import useAuth from '../../hooks/useAuth.js';
+import useCart from '../../hooks/useCart.js';
+import useTheme from '../../hooks/useTheme.js';
 import Button from '../ui/Button.jsx';
 import Logo from './Logo.jsx';
 import './Navbar.css';
@@ -14,6 +16,8 @@ export default function Navbar() {
   const navigate = useNavigate();
   const location = useLocation();
   const { user, logout } = useAuth();
+  const { count } = useCart();
+  const { theme, toggle: toggleTheme } = useTheme();
 
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 
@@ -81,6 +85,17 @@ export default function Navbar() {
                 </NavLink>
               </li>
             ))}
+
+            <li>
+              <NavLink
+                to="/learning"
+                className={({ isActive }) =>
+                  `navbar__link ${isActive ? 'navbar__link--active' : ''}`
+                }
+              >
+                My learning
+              </NavLink>
+            </li>
           </ul>
         </nav>
 
@@ -104,6 +119,17 @@ export default function Navbar() {
 
         {/* this swaps for z signed in user name once a session exists */}
         <div className="navbar__end">
+          <button
+            type="button"
+            className="navbar__theme"
+            onClick={toggleTheme}
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          >
+            {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
+          </button>
+
+          <CartButton count={count} />
+
           {user ? (
             <>
               <span className="navbar__user" title={user.email}>
@@ -193,6 +219,16 @@ function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink, user
               </li>
             ))}
             <li>
+              <NavLink to="/learning" className="navbar__drawer-link" onClick={onClose}>
+                My learning
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/cart" className="navbar__drawer-link" onClick={onClose}>
+                Cart
+              </NavLink>
+            </li>
+            <li>
               <NavLink to="/about" className="navbar__drawer-link" onClick={onClose}>
                 About us
               </NavLink>
@@ -228,6 +264,80 @@ function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink, user
         </div>
       </div>
     </div>
+  );
+}
+
+function CartButton({ count }) {
+  const [bumping, setBumping] = useState(false);
+  const previous = useRef(count);
+
+  useEffect(() => {
+    if (count > previous.current) {
+      setBumping(true);
+      const timer = setTimeout(() => setBumping(false), 500);
+      previous.current = count;
+      return () => clearTimeout(timer);
+    }
+
+    previous.current = count;
+    return undefined;
+  }, [count]);
+
+  return (
+    <Link to="/cart" className="navbar__cart" aria-label={`Cart, ${count} ${count === 1 ? 'course' : 'courses'}`}>
+      <CartIcon />
+      {count > 0 && (
+        <span className={bumping ? 'navbar__cart-badge is-bumping' : 'navbar__cart-badge'} aria-hidden="true">
+          {count}
+        </span>
+      )}
+    </Link>
+  );
+}
+
+function SunIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path
+        d="M12 2.5v2.2M12 19.3v2.2M4.2 4.2l1.6 1.6M18.2 18.2l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.2 19.8l1.6-1.6M18.2 5.8l1.6-1.6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function MoonIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="19" height="19" aria-hidden="true" focusable="false">
+      <path
+        d="M20 14.5A8.2 8.2 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CartIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
+      <path
+        d="M3 4h2.2l2.1 10.2a2 2 0 0 0 2 1.6h7.5a2 2 0 0 0 2-1.5L20.5 8H6.2"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="10" cy="20" r="1.4" fill="currentColor" />
+      <circle cx="17" cy="20" r="1.4" fill="currentColor" />
+    </svg>
   );
 }
 
