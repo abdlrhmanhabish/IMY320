@@ -51,17 +51,19 @@ npm run lint     # static analysis
 src/
 ├── main.jsx
 ├── App.jsx                    # router
+├── assets/                    # partner logos and photos/ for the hero, About page and courses
 ├── config/
 │   ├── site.js                # platform name, tagline, nav links
-│   ├── auth.js                # providers, legal links, password policy
+│   ├── photos.js              # photo imports and their credits
 │   └── credits.js             # EVERY library and asset used, rendered in the footer
 ├── styles/
 │   ├── tokens.css             # primitive and semantic design tokens
 │   └── global.css             # reset, base elements, focus ring, utilities
 ├── components/
-│   ├── layout/                # Navbar, Footer, PageShell
-│   ├── ui/                    # Button, Input, Card, Modal, Toast, Spinner, Carousel
-│   └── auth/                  # AuthPanel, LoginForm, RegisterForm, ProviderButtons
+│   ├── layout/                # Navbar, Footer, Logo, PageHeader, PageShell
+│   ├── ui/                    # Button, Input, Card, Carousel, Spinner, ToastStack,
+│   │                          # Celebration, CourseImage, AddToCart, SpotArt
+│   └── auth/                  # AuthModal (log in and sign up popup)
 ├── pages/
 │   ├── Landing/                # hero, featured courses, resume strip
 │   ├── About.jsx
@@ -70,19 +72,22 @@ src/
 │   ├── Cart.jsx                # cart with the saving shown in rands
 │   ├── Checkout.jsx            # payment, the waiting screen and the receipt
 │   ├── Learning.jsx            # dashboard, daily goal, streak, progress bars
-│   └── CoursePlayer.jsx        # lesson player and the completion celebration
+│   ├── CoursePlayer.jsx        # lesson player and the completion celebration
+│   ├── ComingSoon.jsx          # placeholder for footer links
+│   └── NotFound.jsx
 ├── context/
 │   ├── AuthContext.jsx        # fake session, localStorage-backed
 │   ├── CartContext.jsx        # cart, localStorage-backed
 │   ├── ProgressContext.jsx    # enrolments, lesson ticks, daily goal, streak
 │   └── ToastProvider.jsx      # the quiet end of the feedback ladder
-├── hooks/
-├── data/                      # courses.json, testimonials.json, users.json
+├── hooks/                     # useAuth, useCart, useProgress, useToast, useTheme, ...
+├── data/                      # courses.json, team.json, testimonials.json
 └── utils/                     # fakeApi.js, money.js, progress.js
 ```
 
-`docs/ux/` holds the UEQ research reports for each submission and `docs/design/` holds the
-justification documents.
+`docs/design/` holds the justification documents for Designs A to C and the Design D plan.
+`docs/ux/` holds the UEQ research reports for each submission. The Design D evaluation is in
+`docs/ux/Evaluation/`, with the test plan, session notes and UEQ answers in its `data/` folder.
 
 ## Testing the prototype
 
