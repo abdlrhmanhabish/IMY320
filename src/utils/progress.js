@@ -43,3 +43,16 @@ export function countStreak(activity) {
 
   return streak;
 }
+
+// one finish always gives the same number
+export function certificateNumber(owner, courseId, completedAt) {
+  const source = `${owner}|${courseId}|${completedAt}`;
+  let hash = 7;
+
+  for (let index = 0; index < source.length; index += 1) {
+    hash = (hash * 31 + source.charCodeAt(index)) >>> 0;
+  }
+
+  const code = hash.toString(36).toUpperCase().padStart(6, '0').slice(-6);
+  return `SU-${String(courseId).padStart(3, '0')}-${code}`;
+}

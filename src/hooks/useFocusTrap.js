@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 const FOCUSABLE = [
   'a[href]',
@@ -10,6 +10,12 @@ const FOCUSABLE = [
 ].join(', ');
 
 export default function useFocusTrap(ref, active, onClose) {
+  const closeRef = useRef(onClose);
+
+  useEffect(() => {
+    closeRef.current = onClose;
+  });
+
   useEffect(() => {
     if (!active) return undefined;
 
@@ -23,13 +29,13 @@ export default function useFocusTrap(ref, active, onClose) {
         (element) => element.offsetParent !== null,
       );
 
-    const first = focusables()[0];
+    const first = container.querySelector('[data-autofocus]') ?? focusables()[0];
     if (first) first.focus();
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
         event.preventDefault();
-        onClose?.();
+        closeRef.current?.();
         return;
       }
 
@@ -60,5 +66,5 @@ export default function useFocusTrap(ref, active, onClose) {
       document.removeEventListener('keydown', handleKeyDown);
       if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus();
     };
-  }, [ref, active, onClose]);
+  }, [ref, active]);
 }

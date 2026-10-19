@@ -1,10 +1,7 @@
-//this is basically our backend
-
 import courses from '../data/courses.json';
 
 const DEFAULT_MIN_DELAY = 600;
 const DEFAULT_MAX_DELAY = 900;
-const FAILURE_MODE_KEY = 'skillup:force-api-failure';
 
 function delay(min = DEFAULT_MIN_DELAY, max = DEFAULT_MAX_DELAY) {
   const ms = min + Math.random() * (max - min);
@@ -13,51 +10,23 @@ function delay(min = DEFAULT_MIN_DELAY, max = DEFAULT_MAX_DELAY) {
   });
 }
 
-export function isFailureModeOn() {
-  try {
-    return window.localStorage.getItem(FAILURE_MODE_KEY) === 'true';
-  } catch {
-    return false;
-  }
-}
-
-export function forceApiFailure(on = true) {
-  try {
-    window.localStorage.setItem(FAILURE_MODE_KEY, String(Boolean(on)));
-  } catch {
-  }
-  return isFailureModeOn();
-}
-
-if (typeof window !== 'undefined') {
-  window.forceApiFailure = forceApiFailure;
-}
-
-export async function respondWith(value, { min, max } = {}) {
+async function respondWith(value, { min, max } = {}) {
   await delay(min, max);
-  if (isFailureModeOn()) {
-    throw new Error('The server did not respond. Check your connection and try again.');
-  }
   return value;
-}
-
-export async function respondWithError(message = 'Something went wrong on our side.') {
-  await delay();
-  throw new Error(message);
 }
 
 export async function getCourses() {
   return respondWith(courses);
 }
 
-// a single course for the detail page. An unknown id resolves to null so the page
-// can tell "no such course" apart from "the request failed".
+// an unknown id resolves to null and the page can tell "no such course" apart from "the request failed"
 export async function getCourseById(id) {
   const course = courses.find((item) => String(item.id) === String(id));
   return respondWith(course ?? null, { min: 350, max: 650 });
 }
 
 const SESSION_KEY = 'skillup:session';
+const ACCOUNTS_KEY = 'skillup:accounts';
 
 export function readSession() {
   try {
@@ -72,7 +41,7 @@ function writeSession(user) {
   try {
     window.localStorage.setItem(SESSION_KEY, JSON.stringify(user));
   } catch {
-    // the storage can be unavailable in private browsing so using a session is a convenienc e
+    // without storage the session only lasts until the tab closes
   }
 }
 
@@ -83,18 +52,36 @@ export function clearSession() {
   }
 }
 
+function readAccounts() {
+  try {
+    const parsed = JSON.parse(window.localStorage.getItem(ACCOUNTS_KEY) ?? '{}');
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  } 
+  catch {
+    return {};
+  }
+}
 
- // if you are a marker just use email locked@skillup.example to test filed login. 
- // cause any other email with a long password scuceeds
- 
+function saveAccount(email, name) {
+  try {
+    const accounts = readAccounts();
+    accounts[email] = { name };
+    window.localStorage.setItem(ACCOUNTS_KEY, JSON.stringify(accounts));
+  } 
+  catch {}
+}
+
+// an email like khalid.ahmed@company.co.za appears as Khalid Ahmed on the certificate
+function nameFromEmail(email) {
+  return email.split('@')[0].split(/[._-]+/).filter(Boolean).map((part) => part.charAt(0).toUpperCase() + part.slice(1)).join(' ');
+}
+
 export async function login({ email, password }) {
   await delay();
 
-  if (isFailureModeOn()) {
-    throw new Error('We could not reach the sign in service. Please try again.');
-  }
+  const address = email.trim().toLowerCase();
 
-  if (email.trim().toLowerCase() === 'locked@skillup.example') {
+  if (address === 'locked@skillup.example') {
     throw new Error('That account is locked. Reset your password to unlock it.');
   }
 
@@ -102,20 +89,19 @@ export async function login({ email, password }) {
     throw new Error('That email and password do not match an account.');
   }
 
-  const user = { email: email.trim(), name: email.trim().split('@')[0] };
+  const known = readAccounts()[address];
+  const user = { email: address, name: known?.name || nameFromEmail(address) || address };
   writeSession(user);
   return user;
 }
 
-// creates an account. An address already in use is rejected. 
 export async function register({ firstName, lastName, email, password }) {
   await delay();
 
-  if (isFailureModeOn()) {
-    throw new Error('We could not reach the sign up service. Please try again.');
-  }
+  const address = email.trim().toLowerCase();
+  const taken = address === 'taken@skillup.example' || Boolean(readAccounts()[address]);
 
-  if (email.trim().toLowerCase() === 'taken@skillup.example') {
+  if (taken) {
     throw new Error('An account already uses that email. Log in instead.');
   }
 
@@ -123,38 +109,15 @@ export async function register({ firstName, lastName, email, password }) {
     throw new Error('Pick a password that meets all four requirements.');
   }
 
-  const user = { email: email.trim(), name: `${firstName} ${lastName}`.trim() };
+  const user = { email: address, name: `${firstName.trim()} ${lastName.trim()}`.trim() };
+  saveAccount(address, user.name);
   writeSession(user);
   return user;
 }
 
-export async function sendContactMessage({ name, email, topic, message }) {
-  await delay();
-
-  if (isFailureModeOn()) {
-    throw new Error('We could not reach the message service. Please try again.');
-  }
-
-  if (email.toLowerCase().endsWith('@example.com')) {
-    throw new Error(
-      'We could not deliver to that address. Use an address you can receive replies on.',
-    );
-  }
-
-  const reference = `SU-${Date.now().toString(36).toUpperCase().slice(-6)}`;
-
-  try {
-    const existing = JSON.parse(window.localStorage.getItem('skillup:messages') ?? '[]');
-    existing.push({ reference, name, email, topic, message, sentAt: new Date().toISOString() });
-    window.localStorage.setItem('skillup:messages', JSON.stringify(existing));
-  } catch {
-  }
-
-  return { reference, receivedAt: new Date().toISOString() };
-}
 const ORDERS_KEY = 'skillup:orders';
 
-export function readOrders() {
+function readOrders() {
   try {
     const raw = window.localStorage.getItem(ORDERS_KEY);
     const parsed = raw ? JSON.parse(raw) : [];
@@ -164,13 +127,8 @@ export function readOrders() {
   }
 }
 
-// checkout runs slower than the rest on purpose
-export async function placeOrder({ items, total, saving, card }) {
+export async function placeOrder({ items, total, saving, card, email }) {
   await delay(1400, 2000);
-
-  if (isFailureModeOn()) {
-    throw new Error('The payment could not be completed. No money has left your account.');
-  }
 
   if (String(card ?? '').replace(/\s/g, '').endsWith('0000')) {
     throw new Error('Your bank declined that card. Try another card or use a different method.');
@@ -179,6 +137,7 @@ export async function placeOrder({ items, total, saving, card }) {
   const order = {
     reference: `SU-${Date.now().toString(36).toUpperCase().slice(-6)}`,
     placedAt: new Date().toISOString(),
+    account: email,
     items: items.map((item) => ({ id: item.id, title: item.title, price: item.price })),
     total,
     saving,

@@ -49,8 +49,8 @@
   --color-cat-data-tint: #d7f2ee;
   --color-cat-finance-ink: #136c34;
   --color-cat-finance-tint: #dcfce7;
-  --color-cat-development-ink: #4338ca;
-  --color-cat-development-tint: #e0e7ff;
+  --color-cat-development-ink: #a21caf;
+  --color-cat-development-tint: #fae8ff;
   --color-cat-management-ink: #9a4508;
   --color-cat-management-tint: #fdf0d5;
 
@@ -146,25 +146,31 @@
 
   /* Light theme.*/
 
+  color-scheme: light;
   --color-bg: var(--color-white);
   --color-surface: var(--color-white);
   --color-surface-raised: var(--color-grey-50);
   --color-surface-sunken: var(--color-grey-100);
-  --color-surface-inverse: var(--color-grey-900);
-  --color-surface-brand: var(--color-brand-700);
   --color-border: var(--color-grey-300);
   --color-border-strong: var(--color-grey-500);
   --color-border-subtle: var(--color-grey-200);
+  --color-border-input: var(--color-grey-600);
 
   --color-text: var(--color-grey-900);
   --color-text-muted: var(--color-grey-700);
   --color-text-inverse: var(--color-white);
-  --color-text-on-brand: var(--color-white);
 
-  --color-action: var(--color-brand-600);
-  --color-action-hover: var(--color-brand-700);
-  --color-action-subtle: var(--color-brand-50);
-  --color-action-text: var(--color-white);
+  /* the one accent colour.*/
+  --color-cta: var(--color-brand-600);
+  --color-cta-hover: var(--color-brand-700);
+  --color-cta-text: var(--color-white);
+
+  /* a chosen tab or chip is dark.*/
+  --color-selected: var(--color-grey-900);
+  --color-selected-text: var(--color-white);
+
+  --color-progress: var(--color-success-700);
+  --color-progress-track: var(--color-grey-200);
 
   --color-danger: var(--color-danger-700);
   --color-danger-subtle: var(--color-danger-100);
@@ -180,10 +186,15 @@
 
   --color-rating: var(--color-gold-500);
   --color-rating-track: var(--color-grey-200);
-  --color-category-ink: var(--color-action);
-  --color-category-tint: var(--color-action-subtle);
-  --color-surface-brand-soft: var(--color-brand-100);
-  --color-brand-deep: var(--color-brand-800);
+  --color-category-ink: var(--color-text-muted);
+  --color-category-tint: var(--color-surface-sunken);
+
+  --color-art-deep: #334155;
+  --color-art-mid: #0f766e;
+  --color-art-accent: #f59e0b;
+  --color-art-soft: #cbd5e1;
+  --color-art-pale: #e2e8f0;
+  --color-art-wash: #f1f5f9;
 
   --radius-control: var(--radius-md);
   --radius-card: var(--radius-lg);
@@ -200,58 +211,70 @@
 
 /* dark theme*/
 [data-theme='dark'] {
-  --color-bg: var(--color-grey-950);
-  --color-surface: var(--color-grey-900);
-  --color-surface-raised: var(--color-grey-800);
-  --color-surface-sunken: var(--color-grey-950);
-  --color-surface-inverse: var(--color-grey-50);
-  --color-surface-brand: var(--color-brand-800);
+  color-scheme: dark;
 
-  --color-border: var(--color-grey-700);
-  --color-border-strong: var(--color-grey-600);
-  --color-border-subtle: var(--color-grey-800);
+  --color-bg: #0f1218;
+  --color-surface: #161b23;
+  --color-surface-raised: #1d232d;
+  --color-surface-sunken: #0b0e13;
 
-  --color-text: var(--color-grey-50);
-  --color-text-muted: var(--color-grey-500);
-  --color-text-inverse: var(--color-grey-900);
-  --color-text-on-brand: var(--color-white);
+  --color-border: #2c3441;
+  --color-border-strong: #5f6a7d;
+  --color-border-subtle: #232a35;
+  --color-border-input: #6b7689;
 
-  --color-action: var(--color-brand-400);
-  --color-action-hover: var(--color-brand-300);
-  --color-action-subtle: var(--color-grey-800);
-  --color-action-text: var(--color-grey-900);
+  --color-text: #eef1f6;
+  --color-text-muted: #aab2c0;
+  --color-text-inverse: #161b23;
 
-  --color-focus-ring: var(--color-brand-300);
-  --color-scrim: rgb(0 0 0 / 0.7);
+  --color-cta: #8e96ff;
+  --color-cta-hover: #b0b6ff;
+  --color-cta-text: #0f1218;
 
-  --color-rating: var(--color-gold-300);
-  --color-rating-track: var(--color-grey-800);
+  --color-selected: #eef1f6;
+  --color-selected-text: #0f1218;
 
-  --color-category-ink: var(--color-action);
-  --color-category-tint: var(--color-action-subtle);
-  --color-surface-brand-soft: var(--color-brand-900);
-  --color-brand-deep: var(--color-brand-200);
+  --color-progress: #4ade80;
+  --color-progress-track: #2c3441;
 
-  --color-danger: var(--color-danger-500);
-  --color-danger-subtle: var(--color-danger-900);
-  --color-success: var(--color-success-500);
-  --color-success-subtle: var(--color-success-900);
-  --color-warning: var(--color-warning-500);
-  --color-warning-subtle: var(--color-warning-900);
-  --color-info: var(--color-info-500);
-  --color-info-subtle: var(--color-info-900);
+  --color-focus-ring: #a5b4fc;
+  --color-scrim: rgb(5 7 12 / 0.72);
 
-  --shadow-card: 0 1px 3px rgb(0 0 0 / 0.5);
-  --shadow-card-hover: 0 12px 16px -4px rgb(0 0 0 / 0.55);
-  --shadow-header: 0 1px 2px rgb(0 0 0 / 0.5);
-  --shadow-modal: 0 20px 24px -4px rgb(0 0 0 / 0.6);
+  --color-rating: #f0c75e;
+  --color-rating-track: #2c3441;
+
+  --color-danger: #ff8577;
+  --color-danger-subtle: #3a1714;
+  --color-success: #4ade80;
+  --color-success-subtle: #0f2e20;
+  --color-warning: #fbbf24;
+  --color-warning-subtle: #33260b;
+  --color-info: #7cc4ff;
+  --color-info-subtle: #10263f;
+
+  --color-art-deep: #cbd5e1;
+  --color-art-mid: #2dd4bf;
+  --color-art-accent: #fbbf24;
+  --color-art-soft: #334155;
+  --color-art-pale: #1e293b;
+  --color-art-wash: #1a2130;
+
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.5), 0 0 0 1px rgb(255 255 255 / 0.02);
+  --shadow-card-hover: 0 12px 24px -6px rgb(0 0 0 / 0.6);
+  --shadow-header: 0 1px 0 rgb(255 255 255 / 0.04);
+  --shadow-modal: 0 24px 48px -12px rgb(0 0 0 / 0.7);
+  --shadow-xs: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.5);
+  --shadow-md: 0 4px 10px -2px rgb(0 0 0 / 0.5);
+  --shadow-lg: 0 12px 20px -6px rgb(0 0 0 / 0.55);
+  --shadow-xl: 0 20px 32px -8px rgb(0 0 0 / 0.6);
 
   --color-cat-data-ink: #5fd4c4;
   --color-cat-data-tint: #0d3430;
   --color-cat-finance-ink: #6ee7a0;
   --color-cat-finance-tint: #0d3320;
-  --color-cat-development-ink: #a5b4fc;
-  --color-cat-development-tint: #272554;
+  --color-cat-development-ink: #f0abfc;
+  --color-cat-development-tint: #3b0d40;
   --color-cat-management-ink: #f0a868;
   --color-cat-management-tint: #3a2410;
 }

@@ -13,6 +13,10 @@ html {
   scroll-padding-top: calc(var(--layout-header-height) + var(--layout-subnav-height) + var(--space-4));
 }
 
+:root {
+  accent-color: var(--color-selected);
+}
+
 body {
   min-height: 100vh;
   font-family: var(--font-family-body);
@@ -108,15 +112,33 @@ p {
   text-wrap: pretty;
 }
 
+/* links are underlined text.*/
 a {
-  color: var(--color-action);
+  color: var(--color-text);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.2em;
-  transition: color var(--duration-fast) var(--ease-out);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    text-decoration-color var(--duration-fast) var(--ease-out);
 }
 
 a:hover {
-  color: var(--color-action-hover);
+  text-decoration-thickness: 2px;
+}
+
+.text-link {
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+  display: inline-block;
+  padding-block: var(--space-1);
+  text-underline-offset: 0.25em;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+}
+
+.text-link:hover {
+  color: var(--color-text);
+  text-decoration-thickness: 2px;
 }
 
 strong {
@@ -130,14 +152,13 @@ hr {
 }
 
 ::selection {
-  background-color: var(--color-action-subtle);
-  color: var(--color-action-hover);
+  background-color: var(--color-border);
+  color: var(--color-text);
 }
 
 :focus-visible {
   outline: 2px solid var(--color-focus-ring);
   outline-offset: 2px;
-  border-radius: var(--radius-sm);
 }
 
 .container {
@@ -178,11 +199,11 @@ hr {
 }
 
 .section {
-  padding-block: var(--space-20);
+  padding-block: var(--space-16);
 }
 
 .section--tight {
-  padding-block: var(--space-14);
+  padding-block: var(--space-8) var(--space-12);
 }
 
 .section--raised {
@@ -202,11 +223,77 @@ hr {
 
 .section__eyebrow {
   margin-bottom: var(--space-2);
-  color: var(--color-action);
+  color: var(--color-text-muted);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+/* placeholders shaped like the content they stand in for. */
+.skeleton {
+  display: block;
+  height: 0.875rem;
+  background-color: var(--color-surface-sunken);
+  border-radius: var(--radius-sm);
+  background-size: 200% 100%;
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-border-subtle) 50%,
+    transparent 100%
+  );
+  animation: skeleton-shimmer 1.4s var(--ease-in-out) infinite;
+}
+
+.skeleton--pill {
+  width: 6rem;
+  height: 1.5rem;
+  border-radius: var(--radius-pill);
+}
+
+.skeleton--heading {
+  width: 70%;
+  height: 2.5rem;
+}
+
+.skeleton--title {
+  width: 85%;
+  height: 1.375rem;
+}
+
+.skeleton--line {
+  width: 100%;
+}
+
+.skeleton--short {
+  width: 55%;
+}
+
+.skeleton--price {
+  width: 4.5rem;
+  height: 1.375rem;
+}
+
+.skeleton--block {
+  width: 100%;
+  height: 3rem;
+  border-radius: var(--radius-control);
+}
+
+.skeleton--button {
+  width: 7.5rem;
+  height: 2.25rem;
+  border-radius: var(--radius-control);
+}
+
+@keyframes skeleton-shimmer {
+  from {
+    background-position: 200% 0;
+  }
+  to {
+    background-position: -200% 0;
+  }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -240,6 +327,6 @@ hr {
   }
 
   .section--tight {
-    padding-block: var(--space-10);
+    padding-block: var(--space-6) var(--space-10);
   }
 }

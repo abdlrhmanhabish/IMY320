@@ -7,8 +7,6 @@ import {
   register as apiRegister,
 } from '../utils/fakeApi.js';
 
-// these are z simulatedd sessions
-
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => readSession());
   const [status, setStatus] = useState(() => (readSession() ? 'authenticated' : 'idle'));

@@ -14,7 +14,7 @@ export const footerNav = [
     links: [
       { label: 'Course catalogue', to: '/courses' },
       { label: 'Learning paths', to: '/courses' },
-      { label: 'Certificates', to: '/courses' },
+      { label: 'Certificates', to: '/learning#certificates' },
       { label: 'For teams', to: '/courses' },
     ],
   },

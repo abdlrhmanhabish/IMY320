@@ -1,34 +1,69 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ProgressContext } from './progressContext.js';
 import courses from '../data/courses.json';
-import { DAILY_GOAL, countStreak, dayKey, lessonsOf } from '../utils/progress.js';
+import useAuth from '../hooks/useAuth.js';
+import {
+  DAILY_GOAL,
+  certificateNumber,
+  countStreak,
+  dayKey,
+  lessonsOf,
+} from '../utils/progress.js';
+import {
+  GUEST,
+  moveSharedData,
+  ownerOf,
+  readSaved,
+  removeSaved,
+  writeSaved,
+} from '../utils/storage.js';
 
-const PROGRESS_KEY = 'skillup:progress';
 const EMPTY = { enrolments: {}, activity: {} };
 
-function readProgress() {
-  try {
-    const raw = window.localStorage.getItem(PROGRESS_KEY);
-    const parsed = raw ? JSON.parse(raw) : null;
-    if (!parsed || typeof parsed !== 'object') return EMPTY;
-    return {
-      enrolments: parsed.enrolments ?? {},
-      activity: parsed.activity ?? {},
-    };
-  } catch {
-    return EMPTY;
-  }
+function clean(saved) {
+  if (!saved || typeof saved !== 'object') return EMPTY;
+  return {
+    enrolments: saved.enrolments ?? {},
+    activity: saved.activity ?? {},
+  };
+}
+
+// a guest can not buy a course. The guest slot only ever holds older data. the next account to sign in takes it over
+function load(owner) {
+  if (owner === GUEST) return EMPTY;
+
+  const own = clean(readSaved('progress', owner, null));
+  const left = clean(readSaved('progress', GUEST, null));
+  const activity = { ...own.activity };
+
+  Object.entries(left.activity).forEach(([day, count]) => {
+    activity[day] = (activity[day] ?? 0) + count;
+  });
+
+  return { enrolments: { ...left.enrolments, ...own.enrolments }, activity };
 }
 
 export function ProgressProvider({ children }) {
-  const [state, setState] = useState(readProgress);
+  const { user } = useAuth();
+  const owner = ownerOf(user);
+
+  const [state, setState] = useState(() => {
+    moveSharedData('progress');
+    return { owner, ...load(owner) };
+  });
+
+  // logging out shows nothing and logging in shows that account courses
+  if (state.owner !== owner) {
+    setState({ owner, ...load(owner) });
+  }
 
   useEffect(() => {
-    try {
-      window.localStorage.setItem(PROGRESS_KEY, JSON.stringify(state));
-    } catch {
-      
+    if (state.owner === GUEST){
+       return;
     }
+
+    writeSaved('progress', state.owner, { enrolments: state.enrolments, activity: state.activity });
+    removeSaved('progress', GUEST);
   }, [state]);
 
   const enrol = useCallback((list) => {
@@ -78,6 +113,7 @@ export function ProgressProvider({ children }) {
       }
 
       setState({
+        ...state,
         enrolments: {
           ...state.enrolments,
           [courseId]: {
@@ -112,7 +148,45 @@ export function ProgressProvider({ children }) {
     [state.enrolments],
   );
 
-  const reset = useCallback(() => setState(EMPTY), []);
+  const certificateFor = useCallback(
+    (courseId) => {
+      const entry = state.enrolments[courseId];
+      if (!entry?.completedAt){
+        return null;
+      }
+
+      return {
+        number: certificateNumber(state.owner, courseId, entry.completedAt),
+        completedAt: entry.completedAt,
+      };
+    },
+    [state.enrolments, state.owner],
+  );
+
+  const reviewFor = useCallback(
+    (courseId) => state.enrolments[courseId]?.review ?? null,
+    [state.enrolments],
+  );
+
+  const saveReview = useCallback((courseId, { rating, comment }) => {
+    setState((current) => {
+      const entry = current.enrolments[courseId];
+      if (!entry){
+        return current;
+      }
+
+      return {
+        ...current,
+        enrolments: {
+          ...current.enrolments,
+          [courseId]: {
+            ...entry,
+            review: { rating, comment: comment.trim(), savedAt: new Date().toISOString() },
+          },
+        },
+      };
+    });
+  }, []);
 
   const value = useMemo(() => {
     const enrolled = Object.keys(state.enrolments)
@@ -132,9 +206,21 @@ export function ProgressProvider({ children }) {
       isDone,
       toggleLesson,
       progressFor,
-      reset,
+      certificateFor,
+      reviewFor,
+      saveReview,
     };
-  }, [state, enrol, isEnrolled, isDone, toggleLesson, progressFor, reset]);
+  }, [
+    state,
+    enrol,
+    isEnrolled,
+    isDone,
+    toggleLesson,
+    progressFor,
+    certificateFor,
+    reviewFor,
+    saveReview,
+  ]);
 
   return <ProgressContext.Provider value={value}>{children}</ProgressContext.Provider>;
 }
