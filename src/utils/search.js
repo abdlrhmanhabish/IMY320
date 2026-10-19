@@ -31,10 +31,10 @@ function wordsOf(course) {
 
 // a course is a match when every word of the search starts a word somewhere in it
 export function matchCourses(courses, query) {
-  const searchWords = searchWords(query);
+  const words = searchWords(query);
 
-  if (searchWords.length === 0) {
-    return { searchWords, full: courses, partial: [] };
+  if (words.length === 0) {
+    return { words, full: courses, partial: [] };
   }
 
   const full = [];
@@ -42,8 +42,8 @@ export function matchCourses(courses, query) {
 
   courses.forEach((course) => {
     const text = wordsOf(course);
-    const hits = searchWords.filter((word) => text.some((part) => part.startsWith(word))).length;
-    if (hits === searchWords.length){ 
+    const hits = words.filter((word) => text.some((part) => part.startsWith(word))).length;
+    if (hits === words.length){ 
       full.push(course);
     }
     else if (hits > 0){ 
@@ -52,5 +52,5 @@ export function matchCourses(courses, query) {
   });
 
   partial.sort((a, b) => b.hits - a.hits);
-  return { searchWords, full, partial: partial.map((entry) => entry.course) };
+  return { words, full, partial: partial.map((entry) => entry.course) };
 }
