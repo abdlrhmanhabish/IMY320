@@ -1,5 +1,5 @@
 .about__hero {
-  padding-block: var(--space-20) var(--space-16);
+  padding-block: var(--space-12) var(--space-12);
   background-color: var(--color-surface);
 }
 
@@ -61,8 +61,9 @@
 }
 
 .about__subnav-link--active {
-  border-bottom-color: var(--color-action);
-  color: var(--color-action);
+  border-bottom-color: var(--color-text);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
 }
 
 .about__values {
@@ -76,7 +77,19 @@
   flex-direction: column;
   gap: var(--space-3);
   padding-top: var(--space-4);
-  border-top: 2px solid var(--color-action);
+  border-top: 3px solid var(--color-cat-data-ink);
+}
+
+.about__value:nth-child(2) {
+  border-top-color: var(--color-cat-finance-ink);
+}
+
+.about__value:nth-child(3) {
+  border-top-color: var(--color-cat-development-ink);
+}
+
+.about__value:nth-child(4) {
+  border-top-color: var(--color-cat-management-ink);
 }
 
 .about__value-title {
@@ -117,7 +130,7 @@
 }
 
 .about__artwork-bars rect {
-  fill: var(--color-action);
+  fill: var(--color-art-mid);
 }
 
 .about__artwork-path path {
@@ -179,7 +192,7 @@
 }
 
 .about__person-role {
-  color: var(--color-action);
+  color: var(--color-text-muted);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
 }
@@ -205,9 +218,9 @@
   justify-content: center;
   width: var(--space-12);
   height: var(--space-12);
-  background-color: var(--color-action-subtle);
+  background-color: var(--color-cat-data-tint);
   border-radius: var(--radius-full);
-  color: var(--color-action);
+  color: var(--color-cat-data-ink);
   font-family: var(--font-family-display);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
@@ -227,8 +240,8 @@
 }
 
 .about__quote-mark {
-  color: var(--color-action);
-  opacity: 0.35;
+  color: var(--color-art-mid);
+  opacity: 0.45;
 }
 
 .about__quote-text {
@@ -263,28 +276,25 @@
 }
 
 .about__link-cta {
-  color: var(--color-action);
+  color: var(--color-text);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-semibold);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
 }
 
 .about__cta {
-  padding-block: var(--space-20);
-  background-color: var(--color-surface-brand);
-  color: var(--color-text-on-brand);
+  padding-block: var(--space-16);
+  border-top: 1px solid var(--color-border-subtle);
+  background-color: var(--color-surface-raised);
   text-align: center;
-}
-
-.about__cta-heading {
-  color: var(--color-text-on-brand);
 }
 
 .about__cta-lead {
   max-width: 46ch;
   margin: var(--space-4) auto 0;
-  color: var(--color-text-on-brand);
+  color: var(--color-text-muted);
   font-size: var(--font-size-lg);
-  opacity: 0.85;
 }
 
 .about__cta-actions {
@@ -296,23 +306,10 @@
   margin-top: var(--space-8);
 }
 
-.about__cta .button--primary {
-  background-color: var(--color-surface);
-  color: var(--color-action);
-}
-
-.about__cta .button--primary:hover {
-  background-color: var(--color-surface-raised);
-  color: var(--color-action-hover);
-}
-
 .about__cta-link {
-  color: var(--color-text-on-brand);
-  font-weight: var(--font-weight-medium);
-}
-
-.about__cta-link:hover {
-  color: var(--color-text-on-brand);
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+  text-underline-offset: 0.25em;
 }
 
 @media (max-width: 63.99rem) {

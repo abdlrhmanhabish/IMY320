@@ -10,6 +10,7 @@ import Cart from './pages/Cart.jsx';
 import Checkout from './pages/Checkout.jsx';
 import Learning from './pages/Learning.jsx';
 import CoursePlayer from './pages/CoursePlayer.jsx';
+import CertificatePage from './pages/CertificatePage.jsx';
 import NotFound from './pages/NotFound.jsx';
 import Landing from './pages/Landing/Landing.jsx';
 import courses from './data/courses.json';
@@ -68,6 +69,7 @@ export default function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/learning" element={<Learning />} />
           <Route path="/learn/:courseId" element={<CoursePlayer />} />
+          <Route path="/certificate/:courseId" element={<CertificatePage />} />
           <Route path="/careers" element={<ComingSoon page="careers" />} />
           <Route path="/press" element={<ComingSoon page="press" />} />
           <Route path="/contact" element={<ComingSoon page="contact" />} />

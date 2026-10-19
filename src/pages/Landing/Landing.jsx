@@ -5,13 +5,14 @@
 import './Landing.css';
 import { useCallback, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Card from '../../components/ui/Card.jsx';
 import Button from '../../components/ui/Button.jsx';
-import AddToCart from '../../components/ui/AddToCart.jsx';
+import CourseCard, { CourseCardSkeleton } from '../../components/ui/CourseCard.jsx';
 import CourseImage from '../../components/ui/CourseImage.jsx';
+import EmptyState from '../../components/ui/EmptyState.jsx';
 import { hero } from '../../config/photos.js';
 import { site } from '../../config/site.js';
 import { getCourses } from '../../utils/fakeApi.js';
+import useAuth from '../../hooks/useAuth.js';
 import useProgress from '../../hooks/useProgress.js';
 import microsoftLogo from '../../assets/microsoft.png';
 import awsLogo from '../../assets/aws.png';
@@ -20,13 +21,14 @@ import metaLogo from '../../assets/meta.png';
 import salesforceLogo from '../../assets/salesforce.png';
 
 const categories = ['All', 'Data', 'Finance', 'Development', 'Management'];
+const FEATURED_LIMIT = 4;
 
 const partnerLogos = [
-  { src: microsoftLogo, alt: 'Microsoft', wide: true },
-  { src: googleLogo, alt: 'Google', wide: false },
-  { src: metaLogo, alt: 'Meta', wide: true },
-  { src: awsLogo, alt: 'Amazon Web Services', wide: false },
-  { src: salesforceLogo, alt: 'Salesforce', wide: true }
+  { src: microsoftLogo, alt: 'Microsoft', crop: 'wide' },
+  { src: googleLogo, alt: 'Google' },
+  { src: metaLogo, alt: 'Meta', crop: 'wide' },
+  { src: awsLogo, alt: 'Amazon Web Services' },
+  { src: salesforceLogo, alt: 'Salesforce', crop: 'cloud' },
 ];
 
 // the minimal functionality of our page
@@ -36,11 +38,12 @@ export default function Landing() {
   const [status, setStatus] = useState('loading');
   const navigate = useNavigate();
   const location = useLocation();
+  const { user } = useAuth();
   const { enrolled, progressFor, streak } = useProgress();
 
   const heroStreak = streak > 0 ? streak : 12;
 
-  // the courses load through fakeApi so the skeleton error and empty states are all real 
+  // loading, error and empty each have their own state
   const loadCourses = useCallback(() => {
     let active = true;
 
@@ -63,13 +66,17 @@ export default function Landing() {
   useEffect(() => loadCourses(), [loadCourses]);
 
   //the landing page shows a selection and the full catalogue lives on /courses
-  const FEATURED_LIMIT = 4;
   const filteredCourses = courses.filter((course) => selectedCategory === 'All' || course.category === selectedCategory).slice(0, FEATURED_LIMIT);
 
   const openSignup = (courseId) => {
     const search = courseId ? `?auth=signup&enroll=${courseId}` : '?auth=signup';
     navigate({ pathname: location.pathname, search });
   };
+
+  // somebody already signed in is offered their next lesson
+  const resume =
+    enrolled.find((course) => progressFor(course.id).started && !progressFor(course.id).complete) ??
+    enrolled.find((course) => !progressFor(course.id).complete);
 
   // the basic Jakobs law UI of the landing page
   return (
@@ -88,13 +95,19 @@ export default function Landing() {
             <Button to="/courses" variant="primary" size="lg">
               Explore courses
             </Button>
-            <Button
-              onClick={() => openSignup()}
-              variant="secondary"
-              size="lg"
-            >
-              Join {site.name}
-            </Button>
+            {user ? (
+              <Button to={resume ? `/learn/${resume.id}` : '/learning'} variant="secondary" size="lg">
+                Continue learning
+              </Button>
+            ) : (
+              <Button
+                onClick={() => openSignup()}
+                variant="secondary"
+                size="lg"
+              >
+                Join {site.name}
+              </Button>
+            )}
           </div>
 
           <div className="hero-stats">
@@ -218,70 +231,50 @@ export default function Landing() {
         </div>
 
         <div aria-live="polite">
-          {status === 'loading' && <CourseSkeletons />}
+          {status === 'loading' && (
+            <div className="courses-grid">
+              {Array.from({ length: FEATURED_LIMIT }, (_, index) => (
+                <CourseCardSkeleton key={index} />
+              ))}
+              <p className="visually-hidden">Loading courses</p>
+            </div>
+          )}
 
           {status === 'error' && (
-            <div className="courses-message">
-              <h3>We could not load the courses</h3>
-              <p>
-                Something went wrong on our side. The rest of the site still works while
-                we sort it out.
-              </p>
+            <EmptyState
+              headingLevel={3}
+              title="We could not load the courses"
+              body="Something went wrong on our side. The rest of the site still works while we sort it out."
+            >
               <Button variant="secondary" onClick={loadCourses}>
                 Try again
               </Button>
-            </div>
+            </EmptyState>
           )}
 
           {status === 'ready' && filteredCourses.length === 0 && (
-            <div className="courses-message">
-              <h3>Nothing in {selectedCategory} yet</h3>
-              <p>
-                We have not published a course in this category so far. Everything else is
-                still there.
-              </p>
+            <EmptyState
+              headingLevel={3}
+              title={`Nothing in ${selectedCategory} yet`}
+              body="We have not published a course in this category so far. Everything else is still there."
+            >
               <Button variant="secondary" onClick={() => setSelectedCategory('All')}>
                 Show all courses
               </Button>
-            </div>
+            </EmptyState>
           )}
 
           {status === 'ready' && filteredCourses.length > 0 && (
-            <div className="courses-grid">
+            <ul className="courses-grid">
               {filteredCourses.map((course) => (
-                <Card
-                  key={course.id}
-                  data-category={course.category}
-                  eyebrow={course.category}
-                  title={course.title}
-                  to={`/courses/${course.id}`}
-                  media={
-                    <CourseImage
-                      course={course}
-                      decorative
-                      sizes="(max-width: 40rem) 100vw, (max-width: 62rem) 50vw, 25vw"
-                    />
-                  }
-                  footer={
-                    <div className="card-footer-content">
-                      <span className="price">{course.price}</span>
-                      <AddToCart course={course} size="sm" />
-                    </div>
-                  }
-                >
-                  <p className="instructor-info">
-                    {course.instructor}, <span>{course.role}</span>
-                  </p>
-                  <div className="course-details">
-                    <span>
-                      {course.rating} out of 5 ({course.reviews} reviews)
-                    </span>
-                    <span>{course.duration}</span>
-                    <span>{course.level}</span>
-                  </div>
-                </Card>
+                <li key={course.id}>
+                  <CourseCard
+                    course={course}
+                    sizes="(max-width: 40rem) 100vw, (max-width: 62rem) 50vw, 18rem"
+                  />
+                </li>
               ))}
-            </div>
+            </ul>
           )}
         </div>
 
@@ -305,7 +298,7 @@ export default function Landing() {
                 <img
                   src={logo.src}
                   alt={logo.alt}
-                  className={`cert-logo ${logo.wide ? 'cert-logo-large' : ''}`}
+                  className={logo.crop ? `cert-logo cert-logo--${logo.crop}` : 'cert-logo'}
                   loading="lazy"
                 />
               </li>
@@ -321,24 +314,6 @@ export default function Landing() {
           </p>
         </div>
       </section>
-    </div>
-  );
-}
-
-// placeholder cards shown while the catalogue is loading
-function CourseSkeletons() {
-  return (
-    <div className="courses-grid">
-      {[0, 1, 2].map((key) => (
-        <div key={key} className="course-skeleton" aria-hidden="true">
-          <span className="course-skeleton__line course-skeleton__line--short" />
-          <span className="course-skeleton__line course-skeleton__line--title" />
-          <span className="course-skeleton__line" />
-          <span className="course-skeleton__line course-skeleton__line--short" />
-          <span className="course-skeleton__footer" />
-        </div>
-      ))}
-      <p className="visually-hidden">Loading courses</p>
     </div>
   );
 }
@@ -374,7 +349,7 @@ function ResumeStrip({ enrolled, progressFor, streak }) {
           </div>
 
           <p className="resume-strip__meta">
-            {state.done} of {state.total} lessons done, {state.percent}%
+            {state.percent}% complete, {state.done} of {state.total} lessons
           </p>
         </div>
 
