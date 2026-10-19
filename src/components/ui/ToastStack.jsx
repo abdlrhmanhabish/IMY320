@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 import './ToastStack.css';
 
-// dis is deliberately small
-export default function ToastStack({ toasts, onDismiss }) {
+// messages sit at the top centre under the header where people are already looking
+export default function ToastStack({ toasts, onDismiss, onPause, onResume }) {
   return (
     <div className="toast-stack" role="region" aria-label="Notifications">
       <div className="visually-hidden" aria-live="polite">
@@ -18,6 +18,10 @@ export default function ToastStack({ toasts, onDismiss }) {
           key={toast.id}
           className={`toast toast--${toast.tone ?? 'success'}`}
           data-testid="toast"
+          onMouseEnter={onPause}
+          onMouseLeave={onResume}
+          onFocus={onPause}
+          onBlur={onResume}
         >
           <span className="toast__mark" aria-hidden="true">
             {toast.tone === 'error' ? <AlertIcon /> : <TickIcon />}

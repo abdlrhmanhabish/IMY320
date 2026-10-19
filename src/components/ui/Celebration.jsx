@@ -1,11 +1,12 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useId, useMemo } from 'react';
 import Button from './Button.jsx';
-import useFocusTrap from '../../hooks/useFocusTrap.js';
+import Modal from './Modal.jsx';
+import useToast from '../../hooks/useToast.js';
 import './Celebration.css';
 
 const PIECE_COUNT = 70;
-const PALETTE = ['#4f46e5', '#12b76a', '#f79009', '#2e90fa', '#e8c15c', '#a5b4fc'];
- 
+const PALETTE = ['#0f766e', '#12b76a', '#f79009', '#2e90fa', '#e8c15c', '#d946ef'];
+
 // quiet ticks the whole way through then everything at once on the last step
 function makePieces() {
   return Array.from({ length: PIECE_COUNT }, (_, index) => ({
@@ -28,112 +29,100 @@ export default function Celebration({
   body,
   stat,
   statLabel,
-  image,
+  media,
+  children,
+  wide = false,
   primaryAction,
   secondaryAction,
   onClose,
 }) {
-  const panelRef = useRef(null);
   const pieces = useMemo(() => (open ? makePieces() : []), [open]);
-
-  useFocusTrap(panelRef, open, onClose);
+  const { dismissAll } = useToast();
+  const titleId = useId();
 
   useEffect(() => {
-    if (!open) return undefined;
-
-    const previous = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    return () => {
-      document.body.style.overflow = previous;
-    };
-  }, [open]);
-
-  if (!open) return null;
+    if (open){ 
+      dismissAll();
+    }
+  }, [open, dismissAll]);
 
   return (
-    <div className="celebration">
-      <div className="celebration__confetti" aria-hidden="true">
-        {pieces.map((piece) => (
-          <span
-            key={piece.id}
-            className={piece.round ? 'celebration__piece celebration__piece--round' : 'celebration__piece'}
-            style={{
-              left: `${piece.left}%`,
-              width: `${piece.size}px`,
-              height: `${piece.round ? piece.size : piece.size * 1.8}px`,
-              backgroundColor: piece.colour,
-              animationDelay: `${piece.delay}s`,
-              animationDuration: `${piece.duration}s`,
-              '--drift': `${piece.drift}px`,
-              '--spin': `${piece.spin}deg`,
-            }}
-          />
-        ))}
-      </div>
-
-      <section
-        ref={panelRef}
-        className="celebration__panel"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="celebration-title"
-      >
-        {/* what was just earned, shown rather than named */}
-        {image && (
-          <div className="celebration__media" aria-hidden="true">
-            <img src={image} alt="" width={1280} height={720} decoding="async" />
-          </div>
-        )}
-
-        <span
-          className={image ? 'celebration__badge celebration__badge--lifted' : 'celebration__badge'}
-          aria-hidden="true"
-        >
+    <Modal
+      open={open}
+      onClose={onClose}
+      labelledBy={titleId}
+      overlayClassName="celebration"
+      className={wide ? 'celebration__panel celebration__panel--wide' : 'celebration__panel'}
+      backdrop={<Confetti pieces={pieces} />}
+    >
+      {media ? (
+        <div className="celebration__custom-media">{media}</div>
+      ) : (
+        <span className="celebration__badge" aria-hidden="true">
           <TrophyIcon />
         </span>
+      )}
 
-        {eyebrow && <p className="celebration__eyebrow">{eyebrow}</p>}
+      {eyebrow && <p className="celebration__eyebrow">{eyebrow}</p>}
 
-        <h2 id="celebration-title" className="celebration__title">
-          {title}
-        </h2>
+      <h2 id={titleId} className="celebration__title">
+        {title}
+      </h2>
 
-        {stat && (
-          <p className="celebration__stat">
-            <span className="celebration__stat-value">{stat}</span>
-            {statLabel && <span className="celebration__stat-label">{statLabel}</span>}
-          </p>
+      {stat && (
+        <p className="celebration__stat">
+          <span className="celebration__stat-value">{stat}</span>
+          {statLabel && <span className="celebration__stat-label">{statLabel}</span>}
+        </p>
+      )}
+
+      {children}
+
+      {body && <p className="celebration__body">{body}</p>}
+
+      <div className="celebration__actions">
+        {primaryAction && (
+          <Button
+            variant="primary"
+            size="lg"
+            fullWidth
+            to={primaryAction.to}
+            onClick={primaryAction.onClick}
+            iconRight={primaryAction.icon}
+          >
+            {primaryAction.label}
+          </Button>
         )}
 
-        {body && <p className="celebration__body">{body}</p>}
+        {secondaryAction && (
+          <Button variant="secondary" fullWidth to={secondaryAction.to} onClick={secondaryAction.onClick}>
+            {secondaryAction.label}
+          </Button>
+        )}
+      </div>
+    </Modal>
+  );
+}
 
-        {/* the next step lives inside the celebration so the momentum has somewhere to go the second the confetti stops */}
-        <div className="celebration__actions">
-          {primaryAction && (
-            <Button
-              variant="primary"
-              size="lg"
-              fullWidth
-              to={primaryAction.to}
-              onClick={primaryAction.onClick}
-            >
-              {primaryAction.label}
-            </Button>
-          )}
-
-          {secondaryAction && (
-            <Button
-              variant="secondary"
-              fullWidth
-              to={secondaryAction.to}
-              onClick={secondaryAction.onClick}
-            >
-              {secondaryAction.label}
-            </Button>
-          )}
-        </div>
-      </section>
+function Confetti({ pieces }) {
+  return (
+    <div className="celebration__confetti" aria-hidden="true">
+      {pieces.map((piece) => (
+        <span
+          key={piece.id}
+          className={piece.round ? 'celebration__piece celebration__piece--round' : 'celebration__piece'}
+          style={{
+            left: `${piece.left}%`,
+            width: `${piece.size}px`,
+            height: `${piece.round ? piece.size : piece.size * 1.8}px`,
+            backgroundColor: piece.colour,
+            animationDelay: `${piece.delay}s`,
+            animationDuration: `${piece.duration}s`,
+            '--drift': `${piece.drift}px`,
+            '--spin': `${piece.spin}deg`,
+          }}
+        />
+      ))}
     </div>
   );
 }

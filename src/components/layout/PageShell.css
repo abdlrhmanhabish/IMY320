@@ -17,9 +17,9 @@
   left: var(--space-2);
   z-index: var(--z-toast);
   padding: var(--space-3) var(--space-5);
-  background-color: var(--color-action);
+  background-color: var(--color-selected);
   border-radius: var(--radius-control);
-  color: var(--color-action-text);
+  color: var(--color-selected-text);
   font-weight: var(--font-weight-semibold);
   text-decoration: none;
   transform: translateY(-200%);
@@ -27,6 +27,6 @@
 }
 
 .page-shell__skip:focus-visible {
-  color: var(--color-action-text);
+  color: var(--color-selected-text);
   transform: translateY(0);
 }

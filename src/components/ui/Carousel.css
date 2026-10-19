@@ -71,7 +71,7 @@
 
 .carousel__dot--active {
   width: var(--space-6);
-  background-color: var(--color-action);
+  background-color: var(--color-text);
 }
 
 .carousel__empty {

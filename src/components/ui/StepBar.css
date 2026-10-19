@@ -1,0 +1,86 @@
+.step-bar {
+  display: flex;
+  align-items: center;
+  max-width: 40rem;
+  margin-bottom: var(--space-6);
+}
+
+.step-bar__step {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.step-bar__step:last-child {
+  flex: 0 0 auto;
+}
+
+.step-bar__step:not(:last-child)::after {
+  content: '';
+  flex: 1;
+  min-width: var(--space-3);
+  height: 2px;
+  margin-inline: var(--space-2);
+  border-radius: var(--radius-pill);
+  background-color: var(--color-border);
+  transition: background-color var(--duration-base) var(--ease-out);
+}
+
+.step-bar__step.is-done:not(:last-child)::after {
+  background-color: var(--color-success);
+}
+
+.step-bar__mark {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 2px solid var(--color-border-input);
+  border-radius: var(--radius-full);
+  background-color: var(--color-surface);
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  font-variant-numeric: tabular-nums;
+}
+
+.step-bar__step.is-done .step-bar__mark {
+  border-color: var(--color-success);
+  background-color: var(--color-success);
+  color: var(--color-text-inverse);
+}
+
+.step-bar__step.is-current .step-bar__mark {
+  border-color: var(--color-text);
+  color: var(--color-text);
+  box-shadow: 0 0 0 3px var(--color-surface-sunken);
+}
+
+.step-bar__label {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-sm);
+  white-space: nowrap;
+}
+
+.step-bar__step.is-done .step-bar__label {
+  color: var(--color-text);
+}
+
+.step-bar__step.is-current .step-bar__label {
+  color: var(--color-text);
+  font-weight: var(--font-weight-semibold);
+}
+
+@media (max-width: 30rem) {
+  .step-bar__step:not([aria-current='step']) .step-bar__label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
