@@ -54,7 +54,7 @@ src/
 ├── config/
 │   ├── site.js                # platform name, tagline, nav links
 │   ├── auth.js                # providers, legal links, password policy
-│   └── credits.js             # EVERY library and asset used, rendered in the footer
+│   └── credits.js             # every library and asset used, shown on the Credits page
 ├── styles/
 │   ├── tokens.css             # primitive and semantic design tokens
 │   └── global.css             # reset, base elements, focus ring, utilities
