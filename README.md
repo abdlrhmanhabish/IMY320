@@ -51,6 +51,7 @@ npm run lint     # static analysis
 src/
 ├── main.jsx
 ├── App.jsx                    # router
+├── assets/                    # partner logos and photos/ for the hero, About page and courses
 ├── config/
 │   ├── site.js                # platform name, tagline, nav links
 │   ├── auth.js                # providers, legal links, password policy
@@ -84,8 +85,9 @@ src/
 └── utils/                     # fakeApi.js, money.js, progress.js, storage.js, search.js, certificate.js, validate.js
 ```
 
-`docs/ux/` holds the UEQ research reports for each submission and `docs/design/` holds the
-justification documents.
+`docs/design/` holds the justification documents for Designs A to C and the Design D plan.
+`docs/ux/` holds the UEQ research reports for each submission. The Design D evaluation is in
+`docs/ux/Evaluation/`, with the test plan, session notes and UEQ answers in its `data/` folder.
 
 ## Testing the prototype
 
