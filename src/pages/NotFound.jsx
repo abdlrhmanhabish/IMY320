@@ -14,8 +14,11 @@ export default function NotFound() {
         <p className="not-found__lead">The link may be out of date, or the page may not be built yet. Neither is your fault. Here is what is ready today.</p>
 
         <div className="not-found__actions">
-          <Button to="/about" size="lg">
-            Read about us
+          <Button to="/" variant="primary" size="lg">
+            Go to the home page
+          </Button>
+          <Button to="/courses" variant="secondary" size="lg">
+            Browse courses
           </Button>
         </div>
 
@@ -23,16 +26,16 @@ export default function NotFound() {
           <h2 className="not-found__links-heading">Or try one of these</h2>
           <ul>
             <li>
-              <Link to="/about#story">Our story</Link>
+              <Link to="/learning">My learning</Link>
             </li>
             <li>
-              <Link to="/about#team">Leadership</Link>
+              <Link to="/cart">Cart</Link>
+            </li>
+            <li>
+              <Link to="/about">About us</Link>
             </li>
             <li>
               <Link to="/about#learners">Learner stories</Link>
-            </li>
-            <li>
-              <Link to="/about#more">More about us</Link>
             </li>
           </ul>
         </nav>

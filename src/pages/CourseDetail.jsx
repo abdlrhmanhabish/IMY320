@@ -2,37 +2,49 @@
 // Everything a learner needs before they commit: what the course covers, how it is
 // structured, who teaches it, and what other learners said.
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import Badge from '../components/ui/Badge.jsx';
 import Button from '../components/ui/Button.jsx';
-import Card from '../components/ui/Card.jsx';
 import AddToCart from '../components/ui/AddToCart.jsx';
+import CourseCard from '../components/ui/CourseCard.jsx';
 import CourseImage from '../components/ui/CourseImage.jsx';
+import EmptyState from '../components/ui/EmptyState.jsx';
+import LevelTag from '../components/ui/LevelTag.jsx';
+import Rating from '../components/ui/Rating.jsx';
 import useCart from '../hooks/useCart.js';
 import useProgress from '../hooks/useProgress.js';
 import useScrollSpy from '../hooks/useScrollSpy.js';
+import useToast from '../hooks/useToast.js';
 import { getCourseById, getCourses } from '../utils/fakeApi.js';
 import { formatRand, savingOn, discountPercent, isOnSale } from '../utils/money.js';
 import './CourseDetail.css';
 
 const SECTIONS = [
-  { id: 'overview', label: 'Overview' },
-  { id: 'curriculum', label: 'Curriculum' },
+  { id: 'overview', label: "What you'll learn" },
+  { id: 'curriculum', label: 'Course content' },
   { id: 'requirements', label: 'Requirements' },
   { id: 'instructor', label: 'Instructor' },
   { id: 'reviews', label: 'Reviews' },
 ];
+
+const FLAG_TONES = { Bestseller: 'warning', New: 'info' };
 
 export default function CourseDetail() {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const { has, add } = useCart();
   const { isEnrolled } = useProgress();
+  const { notify } = useToast();
+  const heroRef = useRef(null);
+  const buyRef = useRef(null);
 
   const [course, setCourse] = useState(null);
   const [related, setRelated] = useState([]);
   // loading | ready | missing | error
   const [status, setStatus] = useState('loading');
+  const [compact, setCompact] = useState(false);
+  const [barShown, setBarShown] = useState(true);
 
   // the sections only exist once the course has loaded, so the scroll spy has to
   // wait for them before it starts observing
@@ -42,7 +54,7 @@ export default function CourseDetail() {
   );
   const activeSection = useScrollSpy(sectionIds);
 
-  // the same fake backend the landing page uses so loading and error states are real
+  // loading, a missing course and a failed request each get their own screen
   const loadCourse = useCallback(() => {
     let active = true;
 
@@ -74,10 +86,46 @@ export default function CourseDetail() {
 
   useEffect(() => loadCourse(), [loadCourse]);
 
+  // once the top of the page scrolls away, the buying panel drops its picture and list to fit beside the content
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero || typeof IntersectionObserver === 'undefined') return undefined;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setCompact(!entry.isIntersecting && entry.boundingClientRect.top < 0),
+      { rootMargin: '-64px 0px 0px 0px' },
+    );
+
+    observer.observe(hero);
+    return () => observer.disconnect();
+  }, [status]);
+
+  useEffect(() => {
+    const buy = buyRef.current;
+    if (!buy || typeof IntersectionObserver === 'undefined'){ 
+      return undefined;
+    }
+
+    const observer = new IntersectionObserver(([entry]) => setBarShown(!entry.isIntersecting));
+    observer.observe(buy);
+    return () => observer.disconnect();
+  }, [status]);
+
   // straight to payment, adding it on the way so the cart and the checkout agree
   const buyNow = () => {
     if (!has(course.id)) add(course);
     navigate('/checkout');
+  };
+
+  const share = async () => {
+    const link = window.location.href.split('#')[0];
+    try {
+      await navigator.clipboard.writeText(link);
+      notify({ tone: 'success', title: 'Link copied', body: 'Paste it anywhere to share this course.' });
+    } 
+    catch {
+      notify({ tone: 'info', title: 'Copy this link to share the course', body: link });
+    }
   };
 
   if (status === 'loading') {
@@ -93,8 +141,8 @@ export default function CourseDetail() {
         <Button variant="primary" onClick={loadCourse}>
           Try again
         </Button>
-        <Button to="/" variant="secondary">
-          Back to home
+        <Button to="/courses" variant="secondary">
+          Go to the catalogue
         </Button>
       </CourseDetailMessage>
     );
@@ -104,29 +152,25 @@ export default function CourseDetail() {
     return (
       <CourseDetailMessage
         heading="That course is not in the catalogue"
-        body="The link may be out of date, or the course may have been retired. The featured courses on the home page are all live."
+        body="The link may be out of date, or the course may have been retired. Every live course is in the catalogue."
       >
-        <Button to="/" variant="primary">
-          See featured courses
-        </Button>
-        <Button to="/courses" variant="secondary">
+        <Button to="/courses" variant="primary">
           Go to the catalogue
+        </Button>
+        <Button to="/" variant="secondary">
+          Back to home
         </Button>
       </CourseDetailMessage>
     );
   }
 
-  const totalLessons = course.modules.reduce(
-    (count, module) => count + module.lessons.length,
-    0,
-  );
-
+  const totalLessons = course.modules.reduce((count, module) => count + module.lessons.length, 0);
   const owned = isEnrolled(course.id);
 
   return (
     <article className="course-detail">
-      <header className="course-detail__hero">
-        <div className="container">
+      <div className="container course-detail__layout">
+        <header ref={heroRef} className="course-detail__hero">
           <nav className="course-detail__crumbs" aria-label="Breadcrumb">
             <ol>
               <li>
@@ -139,63 +183,98 @@ export default function CourseDetail() {
             </ol>
           </nav>
 
-          <div className="course-detail__hero-grid">
-            <div className="course-detail__hero-main">
-              <p className="course-detail__category" data-category={course.category}>{course.category}</p>
-              <h1 className="course-detail__title">{course.title}</h1>
-              <p className="course-detail__tagline">{course.tagline}</p>
-              <p className="course-detail__summary">{course.summary}</p>
+          <div className="course-detail__tags">
+            <Badge category={course.category} />
+            <LevelTag level={course.level} />
+            {course.badge && <Badge tone={FLAG_TONES[course.badge] ?? 'neutral'}>{course.badge}</Badge>}
+          </div>
 
-              <ul className="course-detail__facts">
-                <li>
-                  <Stars rating={Number(course.rating)} />
-                  <span>
-                    <strong>{course.rating}</strong> ({course.reviews} reviews)
-                  </span>
-                </li>
-                <li>{course.enrolled} learners enrolled</li>
-                <li>{course.duration} of video</li>
-                <li>{course.level}</li>
-                <li>Updated {course.updated}</li>
-              </ul>
+          <h1 className="course-detail__title">{course.title}</h1>
+          <p className="course-detail__tagline">{course.tagline}</p>
+          <p className="course-detail__summary">{course.summary}</p>
 
-              <p className="course-detail__byline">
-                Taught by <strong>{course.instructor}</strong>, {course.role}
+          <ul className="course-detail__facts">
+            <li>
+              <Rating value={course.rating} count={course.reviews} size="md" long />
+            </li>
+            <li>
+              <UsersIcon />
+              {course.enrolled} learners
+            </li>
+            <li>
+              <ClockIcon />
+              {course.duration} of video
+            </li>
+            <li>
+              <CalendarIcon />
+              Updated {course.updated}
+            </li>
+          </ul>
+
+          <p className="course-detail__byline">
+            Taught by <a href="#instructor">{course.instructor}</a>, {course.role}
+          </p>
+
+          {/* the outline sits in the first screen. This way the page never looks finished before it is */}
+          <div className="course-detail__outline">
+            <div className="course-detail__outline-head">
+              <h2 className="course-detail__outline-heading">What is inside</h2>
+              <p className="course-detail__outline-count">
+                {course.modules.length} modules, {totalLessons} lessons
               </p>
             </div>
 
-            {/* the buying panel sticks to the viewport on wide screens */}
-            <aside className="course-detail__panel" aria-labelledby="buy-heading">
-              <h2 id="buy-heading" className="visually-hidden">
-                Buy this course
-              </h2>
+            <ol className="course-detail__outline-list">
+              {course.modules.map((module, index) => (
+                <li key={module.title}>
+                  <span className="course-detail__outline-number">{index + 1}</span>
+                  <span className="course-detail__outline-title">{module.title}</span>
+                  <span className="course-detail__outline-meta">{module.lessons.length} lessons</span>
+                </li>
+              ))}
+            </ol>
 
-              <div className="course-detail__panel-media">
-                <CourseImage course={course} eager sizes="(max-width: 62rem) 100vw, 21rem" />
-              </div>
+            <a href="#curriculum" className="text-link course-detail__outline-link">
+              See every lesson
+            </a>
+          </div>
+        </header>
 
-              <p className="course-detail__price-row">
-                <span className="course-detail__price">{course.price}</span>
-                {isOnSale(course) && (
-                  <span className="course-detail__price-was">{course.listPrice}</span>
-                )}
-              </p>
+        {/* the buying panel stays beside the content the whole way down on a wide screen */}
+        <aside
+          className={compact ? 'course-detail__panel is-compact' : 'course-detail__panel'}
+          aria-labelledby="buy-heading"
+        >
+          <h2 id="buy-heading" className="visually-hidden">
+            Buy this course
+          </h2>
 
+          <div className="course-detail__panel-media">
+            <CourseImage course={course} eager sizes="(max-width: 64rem) 100vw, 22rem" />
+          </div>
+
+          <div className="course-detail__panel-body">
+            <p className="course-detail__panel-title" aria-hidden="true">
+              {course.title}
+            </p>
+
+            <p className="course-detail__price-row">
+              <span className="course-detail__price">{course.price}</span>
               {isOnSale(course) && (
-                <p className="course-detail__price-save">
-                  Save {formatRand(savingOn(course))}, {discountPercent(course)}% off
-                </p>
+                <>
+                  <span className="visually-hidden">, was </span>
+                  <s className="course-detail__price-was">{course.listPrice}</s>
+                </>
               )}
+            </p>
 
-              <ul className="course-detail__includes">
-                {course.includes.map((item) => (
-                  <li key={item}>
-                    <CheckIcon />
-                    {item}
-                  </li>
-                ))}
-              </ul>
+            {isOnSale(course) && (
+              <p className="course-detail__price-save">
+                Save {formatRand(savingOn(course))}, {discountPercent(course)}% off
+              </p>
+            )}
 
+            <div ref={buyRef}>
               {owned ? (
                 <div className="course-detail__owned" role="status">
                   <p className="course-detail__owned-heading">You own this course</p>
@@ -211,46 +290,58 @@ export default function CourseDetail() {
                   </Button>
                 </div>
               )}
+            </div>
 
-              <p className="course-detail__price-note">
-                One payment. Lifetime access, including future updates.
-              </p>
+            <p className="course-detail__price-note">One payment. Lifetime access, including future updates.</p>
+
+            <button type="button" className="course-detail__share" onClick={share}>
+              <ShareIcon />
+              Share this course
+            </button>
+
+            <div className="course-detail__panel-extra">
+              <h3 className="course-detail__includes-heading">This course includes</h3>
+              <ul className="course-detail__includes">
+                {course.includes.map((item) => (
+                  <li key={item}>
+                    <CheckIcon />
+                    {item}
+                  </li>
+                ))}
+              </ul>
 
               <p className="course-detail__guarantee">
-                Not the right fit? Full refund within 14 days, no questions asked.
+                <ShieldIcon />
+                Full refund within 14 days, no questions asked.
               </p>
-            </aside>
+            </div>
           </div>
-        </div>
-      </header>
+        </aside>
 
-      {/* in page navigation, the same pattern the About page uses */}
-      <nav className="course-detail__subnav" aria-label="Sections of this course page">
-        <div className="container">
-          <ul>
-            {SECTIONS.map((section) => (
-              <li key={section.id}>
-                <a
-                  href={`#${section.id}`}
-                  className={
-                    activeSection === section.id
-                      ? 'course-detail__subnav-link is-active'
-                      : 'course-detail__subnav-link'
-                  }
-                  aria-current={activeSection === section.id ? 'true' : undefined}
-                >
-                  {section.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
+        <div className="course-detail__main">
+          {/* in page navigation, the same pattern the About page uses */}
+          <nav className="course-detail__subnav" aria-label="Sections of this course page">
+            <ul>
+              {SECTIONS.map((section) => (
+                <li key={section.id}>
+                  <a
+                    href={`#${section.id}`}
+                    className={
+                      activeSection === section.id
+                        ? 'course-detail__subnav-link is-active'
+                        : 'course-detail__subnav-link'
+                    }
+                    aria-current={activeSection === section.id ? 'true' : undefined}
+                  >
+                    {section.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-      <div className="course-detail__body">
-        <div className="container">
           <section id="overview" className="course-detail__section" aria-labelledby="overview-heading">
-            <h2 id="overview-heading">What you will be able to do</h2>
+            <h2 id="overview-heading">What you&apos;ll learn</h2>
 
             <ul className="course-detail__outcomes">
               {course.outcomes.map((outcome) => (
@@ -260,45 +351,35 @@ export default function CourseDetail() {
                 </li>
               ))}
             </ul>
+          </section>
 
+          <section id="curriculum" className="course-detail__section" aria-labelledby="curriculum-heading">
+            <h2 id="curriculum-heading">Course content</h2>
+            <Curriculum modules={course.modules} totalLessons={totalLessons} duration={course.duration} />
+          </section>
+
+          <section id="requirements" className="course-detail__section" aria-labelledby="requirements-heading">
+            <h2 id="requirements-heading">Requirements</h2>
+            <ul className="course-detail__list">
+              {course.requirements.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+
+            <h2 className="course-detail__subheading">Who this course is for</h2>
+            <ul className="course-detail__list">
+              {course.audience.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          </section>
+
+          <section className="course-detail__section" aria-labelledby="description-heading">
+            <h2 id="description-heading">Description</h2>
             <div className="course-detail__prose">
               {course.description.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}
-            </div>
-          </section>
-
-          <section id="curriculum" className="course-detail__section" aria-labelledby="curriculum-heading">
-            <h2 id="curriculum-heading">Curriculum</h2>
-            <p className="course-detail__section-lead">
-              {course.modules.length} modules, {totalLessons} lessons, {course.duration}{' '}
-              in total
-            </p>
-
-            <Curriculum modules={course.modules} />
-          </section>
-
-          <section id="requirements" className="course-detail__section" aria-labelledby="requirements-heading">
-            <h2 id="requirements-heading">Before you start</h2>
-
-            <div className="course-detail__two-up">
-              <div>
-                <h3>What you need</h3>
-                <ul className="course-detail__list">
-                  {course.requirements.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-
-              <div>
-                <h3>Who this is for</h3>
-                <ul className="course-detail__list">
-                  {course.audience.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
             </div>
           </section>
 
@@ -313,12 +394,11 @@ export default function CourseDetail() {
               <div>
                 <p className="course-detail__instructor-name">{course.instructor}</p>
                 <p className="course-detail__instructor-role">{course.role}</p>
-                <p className="course-detail__instructor-credential">
-                  {course.instructorCredential}
-                </p>
-                <p className="course-detail__instructor-bio">{course.instructorBio}</p>
+                <p className="course-detail__instructor-credential">{course.instructorCredential}</p>
               </div>
             </div>
+
+            <p className="course-detail__instructor-bio">{course.instructorBio}</p>
           </section>
 
           <section id="reviews" className="course-detail__section" aria-labelledby="reviews-heading">
@@ -327,20 +407,15 @@ export default function CourseDetail() {
             <div className="course-detail__reviews">
               <div className="course-detail__score">
                 <p className="course-detail__score-value">{course.rating}</p>
-                <Stars rating={Number(course.rating)} />
+                <Rating value={course.rating} size="lg" showScore={false} />
                 <p className="course-detail__score-count">{course.reviews} reviews</p>
 
-                <ul className="course-detail__breakdown">
+                <ul className="course-detail__breakdown" aria-label="How learners rated it">
                   {course.ratingBreakdown.map((row) => (
                     <li key={row.stars}>
-                      <span className="course-detail__breakdown-label">
-                        {row.stars} star
-                      </span>
-                      <span className="course-detail__meter">
-                        <span
-                          className="course-detail__meter-fill"
-                          style={{ width: `${row.share}%` }}
-                        />
+                      <span className="course-detail__breakdown-label">{row.stars} star</span>
+                      <span className="course-detail__meter" aria-hidden="true">
+                        <span className="course-detail__meter-fill" style={{ width: `${row.share}%` }} />
                       </span>
                       <span className="course-detail__breakdown-share">{row.share}%</span>
                     </li>
@@ -351,49 +426,47 @@ export default function CourseDetail() {
               <ul className="course-detail__review-list">
                 {course.learnerReviews.map((review) => (
                   <li key={review.name} className="course-detail__review">
-                    <Stars rating={review.rating} />
-                    <p className="course-detail__review-body">&ldquo;{review.body}&rdquo;</p>
-                    <p className="course-detail__review-author">
-                      {review.name}, <span>{review.role}</span>
-                    </p>
+                    <div className="course-detail__review-head">
+                      <span className="course-detail__review-avatar" aria-hidden="true">
+                        {initialsOf(review.name)}
+                      </span>
+                      <p className="course-detail__review-author">
+                        {review.name}
+                        <span>{review.role}</span>
+                      </p>
+                    </div>
+                    <Rating value={review.rating} showScore={false} />
+                    <p className="course-detail__review-body">{review.body}</p>
                   </li>
                 ))}
               </ul>
             </div>
           </section>
-
-          {related.length > 0 && (
-            <section className="course-detail__section" aria-labelledby="related-heading">
-              <h2 id="related-heading">Learners also took</h2>
-
-              <div className="course-detail__related">
-                {related.map((item) => (
-                  <Card
-                    key={item.id}
-                    media={<CourseImage course={item} decorative sizes="(max-width: 40rem) 100vw, 17rem" />}
-                    data-category={item.category}
-                    eyebrow={item.category}
-                    title={item.title}
-                    to={`/courses/${item.id}`}
-                    footer={
-                      <div className="course-detail__related-footer">
-                        <span className="course-detail__related-price">{item.price}</span>
-                        <span>{item.duration}</span>
-                      </div>
-                    }
-                  >
-                    <p>{item.summary}</p>
-                  </Card>
-                ))}
-              </div>
-            </section>
-          )}
         </div>
       </div>
 
+      {related.length > 0 && (
+        <section className="course-detail__related" aria-labelledby="related-heading">
+          <div className="container">
+            <h2 id="related-heading">Learners also took</h2>
+
+            <ul className="course-detail__related-grid">
+              {related.map((item) => (
+                <li key={item.id}>
+                  <CourseCard course={item} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
       {/* on small screens the panel scrolls away, so the price and action come back */}
-      <div className="course-detail__sticky-bar">
-        <div>
+      <div
+        className={barShown ? 'course-detail__sticky-bar' : 'course-detail__sticky-bar is-hidden'}
+        inert={!barShown}
+      >
+        <div className="course-detail__sticky-text">
           <p className="course-detail__sticky-price">{course.price}</p>
           <p className="course-detail__sticky-title">{course.title}</p>
         </div>
@@ -411,7 +484,7 @@ export default function CourseDetail() {
 }
 
 // the first module is open so the page never starts as a wall of closed rows
-function Curriculum({ modules }) {
+function Curriculum({ modules, totalLessons, duration }) {
   const [openIndexes, setOpenIndexes] = useState(() => new Set([0]));
 
   const toggle = (index) => {
@@ -434,7 +507,10 @@ function Curriculum({ modules }) {
 
   return (
     <div className="course-detail__curriculum">
-      <div className="course-detail__curriculum-actions">
+      <div className="course-detail__curriculum-bar">
+        <p className="course-detail__section-lead">
+          {modules.length} modules, {totalLessons} lessons, {duration} in total
+        </p>
         <button type="button" className="course-detail__text-button" onClick={toggleAll}>
           {allOpen ? 'Collapse all modules' : 'Expand all modules'}
         </button>
@@ -456,10 +532,10 @@ function Curriculum({ modules }) {
                   onClick={() => toggle(index)}
                 >
                   <ChevronIcon open={isOpen} />
-                  <span className="course-detail__module-number">
-                    Module {index + 1}
+                  <span className="course-detail__module-text">
+                    <span className="course-detail__module-number">Module {index + 1}</span>
+                    <span className="course-detail__module-title">{module.title}</span>
                   </span>
-                  <span className="course-detail__module-title">{module.title}</span>
                   <span className="course-detail__module-meta">
                     {module.lessons.length} lessons, {module.duration}
                   </span>
@@ -487,89 +563,49 @@ function Curriculum({ modules }) {
 function CourseDetailMessage({ heading, body, children }) {
   return (
     <section className="section">
-      <div className="container container--narrow course-detail__message">
-        <h1>{heading}</h1>
-        <p>{body}</p>
-        <div className="course-detail__message-actions">{children}</div>
+      <div className="container container--narrow">
+        <EmptyState headingLevel={1} title={heading} body={body} plain>
+          {children}
+        </EmptyState>
       </div>
     </section>
   );
 }
 
+// the same layout as the loaded page, so nothing jumps when the course arrives
 function CourseDetailSkeleton() {
   return (
-    <div className="course-detail__hero">
-      <div className="container">
-        <div className="course-detail__hero-grid" aria-hidden="true">
-          <div className="course-detail__skeleton">
-            <span className="course-detail__skeleton-line course-detail__skeleton-line--short" />
-            <span className="course-detail__skeleton-line course-detail__skeleton-line--title" />
-            <span className="course-detail__skeleton-line" />
-            <span className="course-detail__skeleton-line" />
-            <span className="course-detail__skeleton-line course-detail__skeleton-line--short" />
-          </div>
-
-          <div className="course-detail__skeleton course-detail__skeleton--panel">
-            <span className="course-detail__skeleton-line course-detail__skeleton-line--title" />
-            <span className="course-detail__skeleton-line" />
-            <span className="course-detail__skeleton-block" />
-            <span className="course-detail__skeleton-line" />
-            <span className="course-detail__skeleton-line course-detail__skeleton-line--short" />
-          </div>
+    <div className="course-detail">
+      <div className="container course-detail__layout" aria-hidden="true">
+        <div className="course-detail__hero course-detail__hero--skeleton">
+          <span className="skeleton course-detail__sk-crumbs" />
+          <span className="skeleton skeleton--pill" />
+          <span className="skeleton skeleton--heading" />
+          <span className="skeleton skeleton--heading course-detail__sk-half" />
+          <span className="skeleton skeleton--line" />
+          <span className="skeleton skeleton--short" />
+          <span className="skeleton course-detail__sk-outline" />
         </div>
 
-        <p className="visually-hidden">Loading this course</p>
+        <div className="course-detail__panel course-detail__panel--skeleton">
+          <span className="course-detail__panel-media skeleton" />
+          <div className="course-detail__panel-body">
+            <span className="skeleton course-detail__sk-price" />
+            <span className="skeleton skeleton--block" />
+            <span className="skeleton skeleton--block" />
+            <span className="skeleton skeleton--line" />
+          </div>
+        </div>
       </div>
+
+      <p className="visually-hidden">Loading this course</p>
     </div>
-  );
-}
-
-function Stars({ rating }) {
-  const rounded = Math.round(rating);
-
-  return (
-    <span className="course-detail__stars">
-      <span className="course-detail__stars-row" aria-hidden="true">
-        {[1, 2, 3, 4, 5].map((star) => (
-          <StarIcon key={star} filled={star <= rounded} />
-        ))}
-      </span>
-      <span className="visually-hidden">{rating} out of 5</span>
-    </span>
-  );
-}
-
-function StarIcon({ filled }) {
-  return (
-    <svg
-      className={filled ? 'course-detail__star is-filled' : 'course-detail__star'}
-      viewBox="0 0 24 24"
-      width="16"
-      height="16"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path
-        d="M12 3.5l2.6 5.3 5.9.85-4.25 4.15 1 5.85L12 16.9l-5.25 2.75 1-5.85L3.5 9.65l5.9-.85z"
-        fill={filled ? 'currentColor' : 'none'}
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-    </svg>
   );
 }
 
 function CheckIcon() {
   return (
-    <svg
-      className="course-detail__check"
-      viewBox="0 0 24 24"
-      width="18"
-      height="18"
-      aria-hidden="true"
-      focusable="false"
-    >
+    <svg className="course-detail__check" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
       <path
         d="M20 6L9 17l-5-5"
         fill="none"
@@ -578,6 +614,60 @@ function CheckIcon() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+    </svg>
+  );
+}
+
+function UsersIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+      <circle cx="9" cy="8" r="3.5" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M2.5 19c1.2-3 3.7-4.5 6.5-4.5s5.3 1.5 6.5 4.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+      <path d="M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.8c1.6.6 2.8 2 3.5 4.2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M12 7.5V12l3 2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function CalendarIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+      <rect x="4" y="5.5" width="16" height="14.5" rx="2" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M4 10h16M8.5 3.5v4M15.5 3.5v4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ShieldIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+      <path
+        d="M12 3l7 3v6c0 4.2-2.9 7.6-7 9-4.1-1.4-7-4.8-7-9V6z"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
+      <path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ShareIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+      <circle cx="18" cy="5" r="2.5" fill="none" stroke="currentColor" strokeWidth="2" />
+      <circle cx="6" cy="12" r="2.5" fill="none" stroke="currentColor" strokeWidth="2" />
+      <circle cx="18" cy="19" r="2.5" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4" fill="none" stroke="currentColor" strokeWidth="2" />
     </svg>
   );
 }
@@ -592,28 +682,14 @@ function ChevronIcon({ open }) {
       aria-hidden="true"
       focusable="false"
     >
-      <path
-        d="M9 6l6 6-6 6"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
 
 function PlayIcon() {
   return (
-    <svg
-      className="course-detail__play"
-      viewBox="0 0 24 24"
-      width="14"
-      height="14"
-      aria-hidden="true"
-      focusable="false"
-    >
+    <svg className="course-detail__play" viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" focusable="false">
       <path d="M8 5l11 7-11 7z" fill="currentColor" />
     </svg>
   );

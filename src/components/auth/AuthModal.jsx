@@ -1,114 +1,96 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import Button from '../ui/Button.jsx';
-import useFocusTrap from '../../hooks/useFocusTrap.js';
+import Input from '../ui/Input.jsx';
+import Modal from '../ui/Modal.jsx';
 import useAuth from '../../hooks/useAuth.js';
 import { site } from '../../config/site.js';
+import { readLastEmail, rememberEmail } from '../../utils/storage.js';
+import { emailProblem } from '../../utils/validate.js';
 import './AuthModal.css';
 
-
 export default function AuthModal({ mode = 'login', onClose, onModeChange, enrollTitle }) {
-  const panelRef = useRef(null);
   const [showPassword, setShowPassword] = useState(false);
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState(() => (mode === 'login' ? readLastEmail() : ''));
   const [confirmed, setConfirmed] = useState(null);
   const isSignup = mode === 'signup';
   const titleId = useId();
-  const leadId = useId();
-
-  useFocusTrap(panelRef, true, onClose);
+  const contentRef = useRef(null);
+  const shownMode = useRef(mode);
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, []);
+    if (shownMode.current === mode) return;
+    shownMode.current = mode;
+    contentRef.current?.querySelector('input')?.focus();
+  }, [mode]);
 
   return (
-    <div className="auth-modal">
-      <button
-        type="button"
-        className="auth-modal__scrim"
-        onClick={onClose}
-        tabIndex={-1}
-        aria-hidden="true"
-      />
-
-      <section
-        ref={panelRef}
-        className={`auth-modal__dialog ${isSignup ? 'auth-modal__dialog--signup' : 'auth-modal__dialog--login'}`}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={titleId}
-        aria-describedby={leadId}
-      >
-        <button type="button" className="auth-modal__close" onClick={onClose} aria-label="Close dialog">
-          <CloseIcon />
-        </button>
-
-        <aside className={`auth-modal__promo ${isSignup ? 'auth-modal__promo--signup' : 'auth-modal__promo--login'}`}>
-          <div className="auth-modal__promo-copy">
-            {isSignup ? (
-              <>
-                <p className="auth-modal__eyebrow">Create your account</p>
-                <h2 id={titleId} className="auth-modal__headline">
-                  Join 4,200 learners already building career skills.
-                </h2>
-                <p id={leadId} className="auth-modal__lede">
-                  Build a profile, save your progress, and enrol faster from any device.
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="auth-modal__eyebrow">Welcome back!</p>
-                <h2 id={titleId} className="auth-modal__headline">
-                  Continue your learning journey with {site.name}.
-                </h2>
-                <p id={leadId} className="auth-modal__lede">
-                  Pick up where you left off and access your saved courses in one place.
-                </p>
-              </>
-            )}
-          </div>
-
-          <AuthIllustration mode={mode} />
-        </aside>
-
-        <div className="auth-modal__content">
-          {confirmed ? (
-            <AuthConfirmation
-              user={confirmed.user}
-              wasSignup={confirmed.wasSignup}
-              enrollTitle={enrollTitle}
-              onDone={onClose}
-            />
-          ) : isSignup ? (
-            <SignupForm
-              showPassword={showPassword}
-              setShowPassword={setShowPassword}
-              email={email}
-              setEmail={setEmail}
-              onSuccess={(user) => setConfirmed({ user, wasSignup: true })}
-              onSwitchMode={() => onModeChange('login')}
-            />
+    <Modal
+      onClose={onClose}
+      labelledBy={titleId}
+      className="auth-modal"
+      overlayClassName="modal--sheet"
+      closeLabel="Close dialog"
+    >
+      <aside className="auth-modal__promo">
+        <div className="auth-modal__promo-copy">
+          {isSignup ? (
+            <>
+              <p className="auth-modal__eyebrow">Create your account</p>
+              <p className="auth-modal__headline">Join 4,200 learners already building career skills.</p>
+              <p className="auth-modal__lede">
+                Save your progress, keep your certificates and enrol faster from any device.
+              </p>
+            </>
           ) : (
-            <LoginForm
-              showPassword={showPassword}
-              setShowPassword={setShowPassword}
-              email={email}
-              setEmail={setEmail}
-              onSuccess={(user) => setConfirmed({ user, wasSignup: false })}
-              onSwitchMode={() => onModeChange('signup')}
-            />
+            <>
+              <p className="auth-modal__eyebrow">Welcome back</p>
+              <p className="auth-modal__headline">Continue your learning with {site.name}.</p>
+              <p className="auth-modal__lede">
+                Pick up where you left off. Your courses and certificates are waiting.
+              </p>
+            </>
           )}
         </div>
-      </section>
-    </div>
+
+        <AuthIllustration mode={mode} />
+      </aside>
+
+      <div ref={contentRef} className="auth-modal__content">
+        {confirmed ? (
+          <AuthConfirmation
+            headingId={titleId}
+            user={confirmed.user}
+            wasSignup={confirmed.wasSignup}
+            enrollTitle={enrollTitle}
+            onDone={onClose}
+          />
+        ) : isSignup ? (
+          <SignupForm
+            headingId={titleId}
+            showPassword={showPassword}
+            setShowPassword={setShowPassword}
+            email={email}
+            setEmail={setEmail}
+            onSuccess={(user) => setConfirmed({ user, wasSignup: true })}
+            onSwitchMode={() => onModeChange('login')}
+          />
+        ) : (
+          <LoginForm
+            headingId={titleId}
+            showPassword={showPassword}
+            setShowPassword={setShowPassword}
+            email={email}
+            setEmail={setEmail}
+            onSuccess={(user) => setConfirmed({ user, wasSignup: false })}
+            onSwitchMode={() => onModeChange('signup')}
+          />
+        )}
+      </div>
+    </Modal>
   );
 }
 
-function AuthConfirmation({ user, wasSignup, enrollTitle, onDone }) {
+function AuthConfirmation({ headingId, user, wasSignup, enrollTitle, onDone }) {
   const doneRef = useRef(null);
 
   useEffect(() => {
@@ -122,9 +104,9 @@ function AuthConfirmation({ user, wasSignup, enrollTitle, onDone }) {
         <CheckIcon />
       </span>
 
-      <h3 ref={doneRef} tabIndex={-1} className="auth-confirm__heading">
+      <h2 id={headingId} ref={doneRef} tabIndex={-1} className="auth-confirm__heading">
         {wasSignup ? 'Your account is ready' : `Welcome back, ${user.name}`}
-      </h3>
+      </h2>
 
       <p className="auth-confirm__body">
         {wasSignup ? (
@@ -162,33 +144,51 @@ const PASSWORD_RULES = [
   { id: 'special', label: 'One special character', test: (v) => /[^A-Za-z0-9]/.test(v) },
 ];
 
-const isEmail = (value) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
-
-function SignupForm({
+export function SignupForm({
   showPassword,
   setShowPassword,
   email,
   setEmail,
   onSuccess,
   onSwitchMode,
+  heading = 'Sign up for free',
+  submitLabel = 'Create account',
+  headingId,
+  HeadingTag = 'h2',
 }) {
   const { register, status, error, resetError } = useAuth();
   const [values, setValues] = useState({ firstName: '', lastName: '', password: '' });
   const [touched, setTouched] = useState({});
+  const [attempts, setAttempts] = useState(0);
+  const messageRef = useRef(null);
+  const focusMessage = useRef(false);
   const isLoading = status === 'loading';
+
+  useEffect(() => {
+    resetError();
+  }, [resetError]);
+
+  useEffect(() => {
+    if (focusMessage.current && messageRef.current) {
+      focusMessage.current = false;
+      messageRef.current.focus();
+    }
+  });
 
   const fieldErrors = {
     firstName: values.firstName.trim() ? '' : 'Enter your first name.',
     lastName: values.lastName.trim() ? '' : 'Enter your last name.',
-    email: !email.trim()
-      ? 'Enter your email address.'
-      : isEmail(email)
-        ? ''
-        : 'That address is missing an @ or a domain.',
+    email: emailProblem(email),
     password: PASSWORD_RULES.every((rule) => rule.test(values.password))
       ? ''
       : 'Your password does not meet all four requirements yet.',
   };
+
+  const labels = { firstName: 'first name', lastName: 'last name', email: 'email address', password: 'password' };
+  const missing = Object.keys(fieldErrors).filter((field) => fieldErrors[field]);
+  const summary = attempts > 0 && missing.length > 0
+    ? `Check your ${joinWords(missing.map((field) => labels[field]))}.`
+    : '';
 
   const change = (field) => (event) => {
     resetError();
@@ -196,83 +196,97 @@ function SignupForm({
     else setValues((current) => ({ ...current, [field]: event.target.value }));
   };
 
-  const blur = (field) => () => setTouched((current) => ({ ...current, [field]: true }));
+  const blur = (field) => (event) => {
+    if (event.target.value.trim()){ 
+      setTouched((current) => ({ ...current, [field]: true }));
+    }
+  };
+  const shows = (field) => touched[field] || attempts > 0;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setTouched({ firstName: true, lastName: true, email: true, password: true });
+    setAttempts((count) => count + 1);
 
-    if (Object.values(fieldErrors).some(Boolean)) return;
+    if (missing.length > 0) {
+      focusMessage.current = true;
+      return;
+    }
 
     try {
       const user = await register({ ...values, email });
       onSuccess(user);
     } catch {
+      focusMessage.current = true;
     }
   };
 
   return (
-    <form className="auth-modal__form" onSubmit={handleSubmit} noValidate>
-      <div className="auth-modal__form-head">
-        <h3>Sign up for free</h3>
-      </div>
+    <form className="auth-form" onSubmit={handleSubmit} noValidate>
+      <HeadingTag id={headingId} className="auth-form__heading">
+        {heading}
+      </HeadingTag>
 
-      <div className="auth-modal__name-grid">
-        <TextField
+      <FormMessage ref={messageRef} message={error || summary} />
+
+      <div className="auth-form__pair">
+        <Input
           label="First name"
-          placeholder="Enter first name"
+          placeholder="First name"
           autoComplete="given-name"
           icon={<UserIcon />}
           value={values.firstName}
           onChange={change('firstName')}
           onBlur={blur('firstName')}
-          error={touched.firstName ? fieldErrors.firstName : ''}
+          error={shows('firstName') ? fieldErrors.firstName : ''}
+          valid={!fieldErrors.firstName}
         />
-        <TextField
+        <Input
           label="Last name"
-          placeholder="Enter last name"
+          placeholder="Last name"
           autoComplete="family-name"
           icon={<UserIcon />}
           value={values.lastName}
           onChange={change('lastName')}
           onBlur={blur('lastName')}
-          error={touched.lastName ? fieldErrors.lastName : ''}
+          error={shows('lastName') ? fieldErrors.lastName : ''}
+          valid={!fieldErrors.lastName}
         />
       </div>
 
-      <TextField
+      <Input
         label="Email address"
         type="email"
-        placeholder="Enter your email"
+        inputMode="email"
+        autoCapitalize="none"
+        spellCheck={false}
+        placeholder="you@example.com"
         autoComplete="email"
         icon={<MailIcon />}
         value={email}
         onChange={change('email')}
         onBlur={blur('email')}
-        error={touched.email ? fieldErrors.email : ''}
+        error={shows('email') ? fieldErrors.email : ''}
+        valid={!fieldErrors.email}
       />
 
-      <PasswordField
+      <PasswordInput
         label="Password"
         placeholder="Create a password"
         autoComplete="new-password"
         showPassword={showPassword}
         setShowPassword={setShowPassword}
-        icon={<LockIcon />}
         value={values.password}
         onChange={change('password')}
         onBlur={blur('password')}
+        error={shows('password') ? fieldErrors.password : ''}
       />
 
-      <ul className="auth-modal__rules" aria-label="Password requirements">
+      <ul className="auth-form__rules" aria-label="Password requirements">
         {PASSWORD_RULES.map((rule) => {
           const met = rule.test(values.password);
           return (
-            <li
-              key={rule.id}
-              className={met ? 'auth-modal__rule--met' : undefined}
-              data-met={met ? 'true' : 'false'}
-            >
+            <li key={rule.id} className={met ? 'is-met' : undefined}>
               {rule.label}
               <span className="visually-hidden">{met ? ', met' : ', not met yet'}</span>
             </li>
@@ -280,19 +294,17 @@ function SignupForm({
         })}
       </ul>
 
-      <FormError message={error} />
-
       <Button type="submit" variant="primary" size="lg" fullWidth loading={isLoading}>
-        {isLoading ? 'Creating account' : 'Create account'}
+        {isLoading ? 'Creating account' : submitLabel}
       </Button>
 
       <Divider />
 
       <ProviderButtons />
 
-      <p className="auth-modal__switchline">
+      <p className="auth-form__switchline">
         Already have an account?{' '}
-        <button type="button" className="auth-modal__switch" onClick={onSwitchMode}>
+        <button type="button" className="auth-form__switch" onClick={onSwitchMode}>
           Log in
         </button>
       </p>
@@ -300,52 +312,92 @@ function SignupForm({
   );
 }
 
-function LoginForm({
+export function LoginForm({
   showPassword,
   setShowPassword,
   email,
   setEmail,
   onSuccess,
   onSwitchMode,
+  heading = 'Log in to your account',
+  submitLabel = 'Log in',
+  headingId,
+  HeadingTag = 'h2',
 }) {
   const { login, status, error, resetError } = useAuth();
   const [password, setPassword] = useState('');
   const [touched, setTouched] = useState({});
+  const [attempts, setAttempts] = useState(0);
   const [notice, setNotice] = useState('');
+  const [remember, setRemember] = useState(true);
+  const [knownEmail] = useState(() => Boolean(email));
+  const messageRef = useRef(null);
+  const focusMessage = useRef(false);
   const isLoading = status === 'loading';
 
+  useEffect(() => {
+    resetError();
+  }, [resetError]);
+
+  useEffect(() => {
+    if (focusMessage.current && messageRef.current) {
+      focusMessage.current = false;
+      messageRef.current.focus();
+    }
+  });
+
   const fieldErrors = {
-    email: !email.trim()
-      ? 'Enter your email address.'
-      : isEmail(email)
-        ? ''
-        : 'That address is missing an @ or a domain.',
-    password: password ? '' : 'Enter your password.'
+    email: emailProblem(email),
+    password: password ? '' : 'Enter your password.',
   };
+
+  const labels = { email: 'email address', password: 'password' };
+  const missing = Object.keys(fieldErrors).filter((field) => fieldErrors[field]);
+  const summary = attempts > 0 && missing.length > 0
+    ? `Check your ${joinWords(missing.map((field) => labels[field]))}.`
+    : '';
+  const shows = (field) => touched[field] || attempts > 0;
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     setTouched({ email: true, password: true });
+    setAttempts((count) => count + 1);
 
-    if (Object.values(fieldErrors).some(Boolean)) return;
+    if (missing.length > 0) {
+      focusMessage.current = true;
+      return;
+    }
 
     try {
       const user = await login({ email, password });
+      rememberEmail(remember ? user.email : '');
       onSuccess(user);
     } catch {
+      focusMessage.current = true;
     }
   };
 
   return (
-    <form className="auth-modal__form" onSubmit={handleSubmit} noValidate>
-      <div className="auth-modal__form-head">
-        <h3>Log in to your account</h3>
-      </div>
+    <form className="auth-form" onSubmit={handleSubmit} noValidate>
+      <HeadingTag id={headingId} className="auth-form__heading">
+        {heading}
+      </HeadingTag>
 
-      <TextField
+      <FormMessage ref={messageRef} message={error || summary} />
+
+      {notice && (
+        <p className="auth-form__notice" role="status">
+          {notice}
+        </p>
+      )}
+
+      <Input
         label="Email address"
         type="email"
-        placeholder="Enter your email"
+        inputMode="email"
+        autoCapitalize="none"
+        spellCheck={false}
+        placeholder="you@example.com"
         autoComplete="email"
         icon={<MailIcon />}
         value={email}
@@ -353,40 +405,44 @@ function LoginForm({
           resetError();
           setEmail(event.target.value);
         }}
-        onBlur={() => setTouched((c) => ({ ...c, email: true }))}
-        error={touched.email ? fieldErrors.email : ''}
+        onBlur={(event) => {
+          if (event.target.value.trim()){ 
+            setTouched((current) => ({ ...current, email: true }));
+          }
+        }}
+        error={shows('email') ? fieldErrors.email : ''}
+        valid={!fieldErrors.email}
       />
 
-      <PasswordField
+      <PasswordInput
         label="Password"
-        placeholder="Enter your password"
+        placeholder="Your password"
         autoComplete="current-password"
+        data-autofocus={knownEmail || undefined}
         showPassword={showPassword}
         setShowPassword={setShowPassword}
-        icon={<LockIcon />}
         value={password}
         onChange={(event) => {
           resetError();
           setPassword(event.target.value);
         }}
-        onBlur={() => setTouched((c) => ({ ...c, password: true }))}
-        error={touched.password ? fieldErrors.password : ''}
+        error={shows('password') ? fieldErrors.password : ''}
       />
 
-      <div className="auth-modal__login-row">
-        <label className="auth-modal__remember">
-          <input type="checkbox" defaultChecked />
+      <div className="auth-form__row">
+        <label className="auth-form__remember">
+          <input type="checkbox" checked={remember} onChange={(event) => setRemember(event.target.checked)} />
           <span>Remember me</span>
         </label>
 
         <button
           type="button"
-          className="auth-modal__switch"
+          className="auth-form__switch"
           onClick={() =>
             setNotice(
-              isEmail(email)
-                ? `If ${email.trim()} has an account, a reset link is on its way.`
-                : 'Enter your email address above first, then select this again.',
+              emailProblem(email)
+                ? 'Enter your email address above first, then select this again.'
+                : `If ${email.trim()} has an account, a reset link is on its way.`,
             )
           }
         >
@@ -394,25 +450,17 @@ function LoginForm({
         </button>
       </div>
 
-      {notice && (
-        <p className="auth-modal__notice" role="status">
-          {notice}
-        </p>
-      )}
-
-      <FormError message={error} />
-
       <Button type="submit" variant="primary" size="lg" fullWidth loading={isLoading}>
-        {isLoading ? 'Logging in' : 'Log in'}
+        {isLoading ? 'Logging in' : submitLabel}
       </Button>
 
       <Divider />
 
       <ProviderButtons />
 
-      <p className="auth-modal__switchline">
+      <p className="auth-form__switchline">
         Don&apos;t have an account?{' '}
-        <button type="button" className="auth-modal__switch" onClick={onSwitchMode}>
+        <button type="button" className="auth-form__switch" onClick={onSwitchMode}>
           Sign up
         </button>
       </p>
@@ -420,14 +468,42 @@ function LoginForm({
   );
 }
 
+function joinWords(words) {
+  if (words.length < 2){ 
+    return words.join('');
+  }
+  return `${words.slice(0, -1).join(', ')} and ${words[words.length - 1]}`;
+}
 
-function FormError({ message }) {
+function FormMessage({ message, ref }) {
   if (!message) return null;
 
   return (
-    <p className="auth-modal__error" role="alert">
+    <p ref={ref} className="auth-form__error" role="alert" tabIndex={-1}>
+      <AlertIcon />
       {message}
     </p>
+  );
+}
+
+function PasswordInput({ showPassword, setShowPassword, ...rest }) {
+  return (
+    <Input
+      {...rest}
+      type={showPassword ? 'text' : 'password'}
+      icon={<LockIcon />}
+      end={
+        <button
+          type="button"
+          className="auth-form__reveal"
+          onClick={() => setShowPassword((current) => !current)}
+          aria-label={showPassword ? 'Hide password' : 'Show password'}
+          aria-pressed={showPassword}
+        >
+          {showPassword ? <EyeOffIcon /> : <EyeIcon />}
+        </button>
+      }
+    />
   );
 }
 
@@ -437,18 +513,17 @@ function ProviderButtons() {
   const providers = [
     { name: 'Google', icon: <GoogleIcon /> },
     { name: 'Microsoft', icon: <MicrosoftIcon /> },
-    { name: 'Apple', icon: <AppleIcon /> }
+    { name: 'Apple', icon: <AppleIcon /> },
   ];
 
   return (
     <>
-      <div className="auth-modal__providers">
+      <div className="auth-form__providers">
         {providers.map((provider) => (
           <Button
             key={provider.name}
             variant="secondary"
-            fullWidth
-            className="auth-modal__provider"
+            className="auth-form__provider"
             iconLeft={provider.icon}
             onClick={() =>
               setNotice(
@@ -456,13 +531,14 @@ function ProviderButtons() {
               )
             }
           >
-            Continue with {provider.name}
+            <span className="visually-hidden">Continue with </span>
+            {provider.name}
           </Button>
         ))}
       </div>
 
       {notice && (
-        <p className="auth-modal__notice" role="status">
+        <p className="auth-form__notice" role="status">
           {notice}
         </p>
       )}
@@ -470,111 +546,9 @@ function ProviderButtons() {
   );
 }
 
-function TextField({
-  label,
-  icon,
-  type = 'text',
-  placeholder,
-  autoComplete,
-  value,
-  onChange,
-  onBlur,
-  error,
-}) {
-  const id = useId();
-  const errorId = `${id}-error`;
-
-  return (
-    <div className="auth-field">
-      <label className="auth-field__label" htmlFor={id}>
-        {label}
-      </label>
-
-      <div className="auth-field__control">
-        <span className="auth-field__icon" aria-hidden="true">
-          {icon}
-        </span>
-
-        <input
-          id={id}
-          className={`auth-field__input ${error ? 'auth-field__input--error' : ''}`}
-          type={type}
-          placeholder={placeholder}
-          autoComplete={autoComplete}
-          value={value}
-          onChange={onChange}
-          onBlur={onBlur}
-          aria-invalid={error ? 'true' : undefined}
-          aria-describedby={error ? errorId : undefined}
-        />
-      </div>
-
-      <p id={errorId} className="auth-field__error" aria-live="polite">{error}</p>
-    </div>
-  );
-}
-
-function PasswordField({
-  label,
-  icon,
-  placeholder,
-  autoComplete,
-  showPassword,
-  setShowPassword,
-  value,
-  onChange,
-  onBlur,
-  error
-}) {
-  const id = useId();
-  const errorId = `${id}-error`;
-
-  return (
-    <div className="auth-field">
-      <label className="auth-field__label" htmlFor={id}>
-        {label}
-      </label>
-
-      <div className="auth-field__control auth-field__control--password">
-        <span className="auth-field__icon" aria-hidden="true">
-          {icon}
-        </span>
-
-        <input
-          id={id}
-          className={`auth-field__input auth-field__input--password ${
-            error ? 'auth-field__input--error' : ''
-          }`}
-          type={showPassword ? 'text' : 'password'}
-          placeholder={placeholder}
-          autoComplete={autoComplete}
-          value={value}
-          onChange={onChange}
-          onBlur={onBlur}
-          aria-invalid={error ? 'true' : undefined}
-          aria-describedby={error ? errorId : undefined}
-        />
-
-        <button
-          type="button"
-          className="auth-field__reveal"
-          onClick={() => setShowPassword((current) => !current)}
-          aria-label={showPassword ? 'Hide password' : 'Show password'}
-        >
-          {showPassword ? <EyeOffIcon /> : <EyeIcon />}
-        </button>
-      </div>
-
-      <p id={errorId} className="auth-field__error" aria-live="polite">
-        {error}
-      </p>
-    </div>
-  );
-}
-
 function Divider() {
   return (
-    <div className="auth-modal__divider" aria-hidden="true">
+    <div className="auth-form__divider" aria-hidden="true">
       <span>or continue with</span>
     </div>
   );
@@ -638,9 +612,9 @@ function AuthIllustration({ mode }) {
   );
 }
 
-function CheckIcon() {
+function CheckIcon({ size = 26 }) {
   return (
-    <svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 24 24" width={size} height={size} aria-hidden="true" focusable="false">
       <path
         d="M5 12.5l4.5 4.5L19 7.5"
         fill="none"
@@ -653,16 +627,12 @@ function CheckIcon() {
   );
 }
 
-function CloseIcon() {
+function AlertIcon() {
   return (
-    <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">
-      <path
-        d="M6 6l12 12M18 6L6 18"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="2"
-        strokeLinecap="round"
-      />
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M12 7.5v5.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+      <circle cx="12" cy="16.5" r="1.2" fill="currentColor" />
     </svg>
   );
 }

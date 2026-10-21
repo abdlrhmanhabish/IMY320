@@ -20,6 +20,24 @@ import course8 from '../assets/photos/course-8-lg.jpg';
 import course8Small from '../assets/photos/course-8-sm.jpg';
 import course9 from '../assets/photos/course-9-lg.jpg';
 import course9Small from '../assets/photos/course-9-sm.jpg';
+import course10 from '../assets/photos/course-10-lg.jpg';
+import course10Small from '../assets/photos/course-10-sm.jpg';
+import course11 from '../assets/photos/course-11-lg.jpg';
+import course11Small from '../assets/photos/course-11-sm.jpg';
+import course12 from '../assets/photos/course-12-lg.jpg';
+import course12Small from '../assets/photos/course-12-sm.jpg';
+import course13 from '../assets/photos/course-13-lg.jpg';
+import course13Small from '../assets/photos/course-13-sm.jpg';
+import course14 from '../assets/photos/course-14-lg.jpg';
+import course14Small from '../assets/photos/course-14-sm.jpg';
+import course15 from '../assets/photos/course-15-lg.jpg';
+import course15Small from '../assets/photos/course-15-sm.jpg';
+import course16 from '../assets/photos/course-16-lg.jpg';
+import course16Small from '../assets/photos/course-16-sm.jpg';
+import course17 from '../assets/photos/course-17-lg.jpg';
+import course17Small from '../assets/photos/course-17-sm.jpg';
+import course18 from '../assets/photos/course-18-lg.jpg';
+import course18Small from '../assets/photos/course-18-sm.jpg';
 
 export const hero = {
   src: heroPhoto,
@@ -82,6 +100,51 @@ const COURSE_PHOTOS = {
     large: course9,
     small: course9Small,
     alt: 'Three colleagues reviewing code together on one laptop',
+  },
+  10: {
+    large: course10,
+    small: course10Small,
+    alt: 'A laptop showing a sales dashboard with area charts and totals',
+  },
+  11: {
+    large: course11,
+    small: course11Small,
+    alt: 'A laptop with a code editor open on a desk beside a stack of books',
+  },
+  12: {
+    large: course12,
+    small: course12Small,
+    alt: 'A calculator, a notebook and a pen on a desk beside a laptop',
+  },
+  13: {
+    large: course13,
+    small: course13Small,
+    alt: 'A man in a suit working through figures on his laptop at a wooden table',
+  },
+  14: {
+    large: course14,
+    small: course14Small,
+    alt: 'A developer on a sofa working on a laptop covered in stickers',
+  },
+  15: {
+    large: course15,
+    small: course15Small,
+    alt: 'A wireless keyboard on a wooden desk',
+  },
+  16: {
+    large: course16,
+    small: course16Small,
+    alt: 'A manager talking through a plan with a colleague in a meeting room',
+  },
+  17: {
+    large: course17,
+    small: course17Small,
+    alt: 'A presenter sketching a page layout on a whiteboard while colleagues follow along',
+  },
+  18: {
+    large: course18,
+    small: course18Small,
+    alt: 'A fountain pen writing on lined paper',
   },
 };
 
@@ -159,5 +222,59 @@ export const photoCredits = [
     author: WOCINTECH,
     source: 'https://commons.wikimedia.org/wiki/File:Wocintech_(microsoft)_-_136_(25388863844).jpg',
     ...CC_BY_2,
+  },
+  {
+    usedFor: 'Charts and dashboards people actually read',
+    author: 'Carlos Muza',
+    source: 'https://commons.wikimedia.org/wiki/File:Statistics_on_a_laptop_(Unsplash).jpg',
+    ...CC0,
+  },
+  {
+    usedFor: 'Python to automate the weekly copy and paste',
+    author: 'Émile Perron',
+    source: 'https://commons.wikimedia.org/wiki/File:Light_Work_(Unsplash).jpg',
+    ...CC0,
+  },
+  {
+    usedFor: 'Bookkeeping for a small business',
+    author: 'an unknown photographer',
+    source: 'https://commons.wikimedia.org/wiki/File:Desktop_with_laptop_and_calculator_(Unsplash).jpg',
+    ...CC0,
+  },
+  {
+    usedFor: 'Building a financial model someone else can follow',
+    author: 'rawpixel.com',
+    source: 'https://commons.wikimedia.org/wiki/File:Man_working_on_laptop_outside_(Unsplash).jpg',
+    ...CC0,
+  },
+  {
+    usedFor: 'Git and GitHub for working in a team',
+    author: 'rawpixel.com',
+    source: 'https://commons.wikimedia.org/wiki/File:Young_man_working_on_a_couch_(Unsplash).jpg',
+    ...CC0,
+  },
+  {
+    usedFor: 'Accessible websites from the first line',
+    author: 'Mitchel Lensink',
+    source: 'https://commons.wikimedia.org/wiki/File:The_magic_is_in_the_keys_(Unsplash_1RVWGnPR2i4).jpg',
+    ...CC0,
+  },
+  {
+    usedFor: 'Leading the team you used to be part of',
+    author: WOCINTECH,
+    source: 'https://commons.wikimedia.org/wiki/File:Wocintech_(microsoft)_-_137_(25392535573).jpg',
+    ...CC_BY_2,
+  },
+  {
+    usedFor: 'Presenting to a room that did not ask to be there',
+    author: WOCINTECH,
+    source: 'https://commons.wikimedia.org/wiki/File:Wocintech_(microsoft)_-_116_(25392513823).jpg',
+    ...CC_BY_2,
+  },
+  {
+    usedFor: 'Writing at work that people finish reading',
+    author: 'Aaron Burden',
+    source: 'https://commons.wikimedia.org/wiki/File:Writing_with_a_fountain_pen_(Unsplash).jpg',
+    ...CC0,
   },
 ];

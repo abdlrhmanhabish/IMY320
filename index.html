@@ -7,6 +7,15 @@
     <meta name="theme-color" content="#4f46e5" />
     <title>SkillUP: practical career skills courses</title>
     <meta name="description" content="SkillUP teaches practical career skills in short courses taught by people who still do the work. Every learning path ends in a project you can show an employer."/>
+    <script>
+      try {
+        var saved = localStorage.getItem('skillup:theme');
+        var dark = saved ? saved === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+      } catch (error) {
+        document.documentElement.dataset.theme = 'light';
+      }
+    </script>
   </head>
   <body>
     <div id="root"></div>

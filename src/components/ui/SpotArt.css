@@ -6,28 +6,28 @@
 }
 
 .spot-art__blob {
-  fill: var(--color-action);
+  fill: var(--color-art-mid);
   opacity: 0.08;
 }
 
 .spot-art__deep {
-  fill: var(--color-brand-deep);
+  fill: var(--color-art-deep);
 }
 
 .spot-art__mid {
-  fill: var(--color-action);
+  fill: var(--color-art-mid);
 }
 
 .spot-art__accent {
-  fill: var(--color-action-hover);
+  fill: var(--color-art-accent);
 }
 
 .spot-art__soft {
-  fill: var(--color-surface-brand-soft);
+  fill: var(--color-art-soft);
 }
 
 .spot-art__pale {
-  fill: var(--color-action-subtle);
+  fill: var(--color-art-pale);
 }
 
 .spot-art__paper {
@@ -36,22 +36,22 @@
 
 .spot-art__stroke {
   fill: none;
-  stroke: var(--color-brand-deep);
+  stroke: var(--color-art-deep);
 }
 
 .spot-art__rule,
 .spot-art__track {
   fill: none;
-  stroke: var(--color-surface-brand-soft);
+  stroke: var(--color-art-soft);
 }
 
 .spot-art__path {
   fill: none;
-  stroke: var(--color-action);
+  stroke: var(--color-art-mid);
 }
 
 .spot-art__ring {
-  stroke: var(--color-surface-brand-soft);
+  stroke: var(--color-art-soft);
   stroke-width: 4;
 }
 

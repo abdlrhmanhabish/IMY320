@@ -1,43 +1,65 @@
-import { useMemo, useState, useEffect, useCallback } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { useMemo, useState, useEffect, useCallback, useRef } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import PageHeader from '../components/layout/PageHeader.jsx';
 import Button from '../components/ui/Button.jsx';
-import AddToCart from '../components/ui/AddToCart.jsx';
-import CourseImage from '../components/ui/CourseImage.jsx';
+import CourseCard, { CourseCardSkeleton } from '../components/ui/CourseCard.jsx';
+import EmptyState from '../components/ui/EmptyState.jsx';
 import { getCourses } from '../utils/fakeApi.js';
-import { formatRand, savingOn, isOnSale } from '../utils/money.js';
+import { matchCourses } from '../utils/search.js';
 import useAuth from '../hooks/useAuth.js';
-import './InfoPage.css';
+import useProgress from '../hooks/useProgress.js';
+import './Courses.css';
 
 const SORTS = [
   { value: 'popular', label: 'Most popular' },
   { value: 'rating', label: 'Top rated' },
-  { value: 'price-low', label: 'Price: low to high' },
-  { value: 'price-high', label: 'Price: high to low' },
+  { value: 'price-low', label: 'Price, low to high' },
+  { value: 'price-high', label: 'Price, high to low' },
 ];
 
-const CATEGORIES = ['All', 'Data', 'Finance', 'Development', 'Management'];
+const CATEGORIES = ['Data', 'Finance', 'Development', 'Management'];
 const LEVELS = ['Beginner', 'Intermediate', 'Advanced'];
+const SUGGESTIONS = ['Beginner', 'SQL', 'Python', 'Spreadsheets', 'Git', 'Presenting'];
+
+// four rows of three at a time. A long catalogue never turns into one endless scroll
+const PAGE_SIZE = 12;
 
 function parsePrice(priceText) {
   const number = Number(String(priceText).replace(/[^\d.]/g, ''));
   return Number.isNaN(number) ? 0 : number;
 }
 
+function sortCourses(list, sortBy) {
+  return [...list].sort((a, b) => {
+    if (sortBy === 'rating'){
+      return Number(b.rating) - Number(a.rating);
+    } 
+    if (sortBy === 'price-low'){ 
+      return parsePrice(a.price) - parsePrice(b.price);
+    }
+    if (sortBy === 'price-high'){ 
+      return parsePrice(b.price) - parsePrice(a.price);
+    }
+    return (
+      Number(String(b.reviews).replace(/[^\d]/g, '')) -
+      Number(String(a.reviews).replace(/[^\d]/g, ''))
+    );
+  });
+}
+
 export default function Courses() {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { enrolled, progressFor } = useProgress();
   const rawQuery = searchParams.get('q') || '';
-  const query = rawQuery.trim().toLowerCase();
 
-  //the search term lives in the URL so a filtered catalogue can be linked and shared
+  // the search term lives in the URL so a filtered catalogue can be linked and shared
   const updateQuery = (value) => {
     const next = new URLSearchParams(searchParams);
     if (value) {
       next.set('q', value);
-    } 
-    else {
+    } else {
       next.delete('q');
     }
     setSearchParams(next, { replace: true });
@@ -46,8 +68,11 @@ export default function Courses() {
   const [status, setStatus] = useState('loading');
   const [courses, setCourses] = useState([]);
   const [sortBy, setSortBy] = useState('popular');
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedLevels, setSelectedLevels] = useState([]);
+  const [category, setCategory] = useState('all');
+  const [level, setLevel] = useState('all');
+  const [visible, setVisible] = useState(PAGE_SIZE);
+  const [shownFor, setShownFor] = useState('');
+  const firstNewRef = useRef(null);
 
   const loadCourses = useCallback(() => {
     let alive = true;
@@ -70,287 +95,316 @@ export default function Courses() {
 
   useEffect(() => loadCourses(), [loadCourses]);
 
-  const filteredAndSorted = useMemo(() => {
-    const bySearch = courses.filter((course) => {
-      if (!query) return true;
-      const haystack = [
-        course.title,
-        course.category,
-        course.level,
-        course.instructor,
-        course.summary,
-      ]
-        .join(' ')
-        .toLowerCase();
+  const searched = useMemo(() => matchCourses(courses, rawQuery), [courses, rawQuery]);
 
-      return haystack.includes(query);
-    });
-
-    const byCategory = bySearch.filter(
-      (course) => selectedCategory === 'All' || course.category === selectedCategory
+  const results = useMemo(() => {
+    const filtered = searched.full.filter(
+      (course) =>
+        (category === 'all' || course.category === category) &&
+        (level === 'all' || course.level === level),
     );
+    return sortCourses(filtered, sortBy);
+  }, [searched, category, level, sortBy]);
 
-    const byLevel = byCategory.filter(
-      (course) => selectedLevels.length === 0 || selectedLevels.includes(course.level)
-    );
+  // a new search or filter starts the list from the top again
+  const filterKey = `${rawQuery}|${category}|${level}|${sortBy}`;
+  if (shownFor !== filterKey) {
+    setShownFor(filterKey);
+    setVisible(PAGE_SIZE);
+  }
 
-    const sorted = [...byLevel].sort((a, b) => {
-      if (sortBy === 'rating') return Number(b.rating) - Number(a.rating);
-      if (sortBy === 'price-low') return parsePrice(a.price) - parsePrice(b.price);
-      if (sortBy === 'price-high') return parsePrice(b.price) - parsePrice(a.price);
-      return (
-        Number(String(b.reviews).replace(/[^\d]/g, '')) -
-        Number(String(a.reviews).replace(/[^\d]/g, ''))
-      );
-    });
+  const query = rawQuery.trim();
+  const filtersOn = category !== 'all' || level !== 'all';
+  const shown = results.slice(0, visible);
+  const remaining = results.length - shown.length;
 
-    return sorted;
-  }, [courses, query, selectedCategory, selectedLevels, sortBy]);
-
-  const hasNarrowing = Boolean(query) || selectedCategory !== 'All' || selectedLevels.length > 0;
+  const clearFilters = () => {
+    setCategory('all');
+    setLevel('all');
+  };
 
   const clearAll = () => {
-    setSelectedCategory('All');
-    setSelectedLevels([]);
+    clearFilters();
     updateQuery('');
   };
 
-  const toggleLevel = (level) => {
-    setSelectedLevels((prev) =>
-      prev.includes(level) ? prev.filter((item) => item !== level) : [...prev, level]
-    );
+  const showMore = () => {
+    firstNewRef.current = shown.length;
+    setVisible((count) => count + PAGE_SIZE);
   };
 
-  const openSignup = (courseId) => {
+  // keyboard users land on the first course that just appeared instead of back at the button
+  useEffect(() => {
+    if (firstNewRef.current === null){ 
+      return;
+    }
+    const links = document.querySelectorAll('.catalogue__grid .course-card__link');
+    links[firstNewRef.current]?.focus();
+    firstNewRef.current = null;
+  }, [visible]);
+
+  const openSignup = () => {
     const search = new URLSearchParams(searchParams);
     search.set('auth', 'signup');
-    if (courseId) search.set('enroll', String(courseId));
     navigate({ pathname: '/courses', search: `?${search.toString()}` });
   };
+
+  const resume =
+    enrolled.find((course) => progressFor(course.id).started && !progressFor(course.id).complete) ??
+    enrolled.find((course) => !progressFor(course.id).complete);
+
+  const countText =
+    status === 'ready'
+      ? `${results.length} ${results.length === 1 ? 'course' : 'courses'}${query ? ` for "${query}"` : ''}`
+      : 'Loading courses';
 
   return (
     <>
       <PageHeader
-        eyebrow="Courses"
-        title="Browse the full course catalogue"
-        lead="Find practical, short courses by category, level and learner feedback."
-        backTo="/"
-        backLabel="Back to home"
-      />
+        title="All courses"
+        className="catalogue__header"
+        aside={
+          <>
+            <p aria-live="polite" className="catalogue__count">
+              {countText}
+            </p>
 
-      <section className="section">
-        <div className="container">
-          <nav className="courses-page__crumbs" aria-label="Breadcrumb">
-            <Link to="/">Home</Link>
-            <span className="courses-page__crumb-sep" aria-hidden="true">
-              /
-            </span>
-            <span aria-current="page">Courses</span>
-          </nav>
+            {(filtersOn || query) && status === 'ready' && (
+              <button className="catalogue__clear" type="button" onClick={clearAll}>
+                Clear search and filters
+              </button>
+            )}
+          </>
+        }
+      >
+        <div className="catalogue__toolbar">
+          <form role="search" className="catalogue__search" onSubmit={(event) => event.preventDefault()}>
+            <label htmlFor="catalogue-search" className="visually-hidden">
+              Search the catalogue
+            </label>
+            <SearchIcon />
+            <input
+              id="catalogue-search"
+              type="search"
+              className="catalogue__search-input"
+              placeholder="Search by skill, topic or teacher"
+              value={rawQuery}
+              onChange={(event) => updateQuery(event.target.value)}
+            />
+            {rawQuery && (
+              <button type="button" className="catalogue__search-clear" onClick={() => updateQuery('')}>
+                Clear
+                <span className="visually-hidden"> the search</span>
+              </button>
+            )}
+          </form>
 
-          <div className="courses-page__layout">
-            <div>
-              <form role="search" className="courses-page__search" onSubmit={(event) => event.preventDefault()}>
-                <label htmlFor="catalogue-search" className="courses-page__search-label">Search the catalogue</label>
-                <div className="courses-page__search-field">
-                  <input
-                    id="catalogue-search"
-                    type="search"
-                    className="courses-page__search-input"
-                    placeholder="Search by title, topic, level or instructor"
-                    value={rawQuery}
-                    onChange={(event) => updateQuery(event.target.value)}
-                  />
-                  {rawQuery && (
-                    <button type="button" className="courses-page__search-clear" onClick={() => updateQuery('')}>Clear</button>
-                  )}
-                </div>
-              </form>
+          <div className="catalogue__filters" role="group" aria-label="Filter and sort the courses">
+            <FilterSelect label="Category" value={category} onChange={setCategory}>
+              <option value="all">All</option>
+              {CATEGORIES.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </FilterSelect>
 
-              <div className="courses-page__controls" aria-label="Sort and filter controls">
-                <div className="courses-page__control-group" role="group" aria-label="Sort">
-                  {SORTS.map((sort) => (
-                    <button
-                      key={sort.value}
-                      type="button"
-                      className={`courses-page__chip ${sortBy === sort.value ? 'is-active' : ''}`}
-                      aria-pressed={sortBy === sort.value}
-                      onClick={() => setSortBy(sort.value)}
-                    >
-                      {sort.label}
-                    </button>
-                  ))}
-                </div>
+            <FilterSelect label="Level" value={level} onChange={setLevel}>
+              <option value="all">Any</option>
+              {LEVELS.map((item) => (
+                <option key={item} value={item}>
+                  {item}
+                </option>
+              ))}
+            </FilterSelect>
 
-                <fieldset className="courses-page__control-block">
-                  <legend>Category</legend>
-                  <div className="courses-page__options-row">
-                    {CATEGORIES.map((category) => (
-                      <label key={category} className="courses-page__choice">
-                        <input
-                          type="radio"
-                          name="course-category"
-                          checked={selectedCategory === category}
-                          onChange={() => setSelectedCategory(category)}
-                        />
-                        <span>{category}</span>
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
-
-                <fieldset className="courses-page__control-block">
-                  <legend>Level</legend>
-                  <div className="courses-page__options-row">
-                    {LEVELS.map((level) => (
-                      <label key={level} className="courses-page__choice">
-                        <input
-                          type="checkbox"
-                          checked={selectedLevels.includes(level)}
-                          onChange={() => toggleLevel(level)}
-                        />
-                        <span>{level}</span>
-                      </label>
-                    ))}
-                  </div>
-                </fieldset>
-              </div>
-
-              <div className="courses-page__results-bar">
-                <p aria-live="polite" className="courses-page__results-note">
-                  {status === 'ready'
-                    ? `${filteredAndSorted.length} ${
-                        filteredAndSorted.length === 1 ? 'course' : 'courses'
-                      }${query ? ` matching "${rawQuery.trim()}"` : ''}`
-                    : 'Loading results'}
-                </p>
-
-                {hasNarrowing && status === 'ready' && (
-                  <button className="courses-page__reset" type="button" onClick={clearAll}>Clear search and filters</button>
-                )}
-              </div>
-
-              {status === 'loading' && <CatalogueSkeleton />}
-
-              {status === 'error' && (
-                <div className="info-page__callout">
-                  <h2 className="info-page__callout-heading">We could not load the catalogue</h2>
-                  <p className="info-page__callout-body">
-                    Something went wrong on our side. Try again in a moment.
-                  </p>
-                  <div className="info-page__callout-actions">
-                    <Button variant="secondary" onClick={loadCourses}>
-                      Try again
-                    </Button>
-                  </div>
-                </div>
-              )}
-
-              {status === 'ready' && filteredAndSorted.length === 0 && (
-                <div className="info-page__callout">
-                  <h2 className="info-page__callout-heading">No matching courses yet</h2>
-                  <p className="info-page__callout-body">
-                    Nothing in the catalogue matches every filter you have set.
-                  </p>
-                  <div className="info-page__callout-actions">
-                    <Button variant="primary" onClick={clearAll}>Clear search and filters</Button>
-                  </div>
-                </div>
-              )}
-
-              {status === 'ready' && filteredAndSorted.length > 0 && (
-                <ul className="courses-page__list">
-                  {filteredAndSorted.map((course) => (
-                    <li key={course.id} className="courses-page__row" data-category={course.category}>
-                      {/* the whole row stays the target. the buttons sit above the overlay */}
-                      <div className="courses-page__row-thumb">
-                        <CourseImage course={course} decorative sizes="(max-width: 40rem) 100vw, 12rem" />
-                      </div>
-                      <div className="courses-page__row-main">
-                        <div className="courses-page__row-head">
-                          <span className="courses-page__tag">{course.category}</span>
-                          <span className="courses-page__meta">
-                            {course.duration}, {course.level}
-                          </span>
-                        </div>
-
-                        <h2 className="courses-page__row-title">
-                          <Link to={`/courses/${course.id}`} className="courses-page__row-link">
-                            {course.title}
-                          </Link>
-                        </h2>
-
-                        <p className="courses-page__row-summary">{course.summary}</p>
-                        <p className="courses-page__row-meta">
-                          {course.rating} rating ({course.reviews} reviews), {course.instructor}
-                        </p>
-                      </div>
-
-                      <div className="courses-page__row-buy">
-                        <p className="courses-page__row-price">{course.price}</p>
-
-                        {isOnSale(course) && (
-                          <>
-                            <p className="courses-page__row-was">{course.listPrice}</p>
-                            <p className="courses-page__row-save">
-                              Save {formatRand(savingOn(course))}
-                            </p>
-                          </>
-                        )}
-
-                        <AddToCart course={course} fullWidth />
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-
-            <aside className="courses-page__sticky-panel" aria-labelledby="catalogue-panel-heading">
-              {user ? (
-                <>
-                  <h2 id="catalogue-panel-heading">Signed in as {user.name}</h2>
-                  <p>Open any course in the list to see the full curriculum and enrol.</p>
-                  <Button to="/about" variant="secondary" size="lg">How our courses work</Button>
-                </>
-              ) : (
-                <>
-                  <h2 id="catalogue-panel-heading">Start learning this week</h2>
-                  <p>Create an account to save courses and enrol directly from any listing.</p>
-                  <Button size="lg" onClick={() => openSignup()}>Create free account</Button>
-                </>
-              )}
-            </aside>
+            <FilterSelect label="Sort" value={sortBy} onChange={setSortBy} wide>
+              {SORTS.map((sort) => (
+                <option key={sort.value} value={sort.value}>
+                  {sort.label}
+                </option>
+              ))}
+            </FilterSelect>
           </div>
+        </div>
+      </PageHeader>
+
+      <section className="catalogue" aria-label="Courses">
+        <div className="container">
+          {status === 'loading' && (
+            <div className="catalogue__grid">
+              {Array.from({ length: 6 }, (_, index) => (
+                <CourseCardSkeleton key={index} />
+              ))}
+              <p className="visually-hidden">Loading the catalogue</p>
+            </div>
+          )}
+
+          {status === 'error' && (
+            <EmptyState
+              title="We could not load the catalogue"
+              body="Something went wrong on our side. Try again in a moment."
+            >
+              <Button variant="secondary" onClick={loadCourses}>
+                Try again
+              </Button>
+            </EmptyState>
+          )}
+
+          {status === 'ready' && results.length === 0 && (
+            <NoResults
+              query={query}
+              searched={searched}
+              filtersOn={filtersOn}
+              onClearFilters={clearFilters}
+              onClearAll={clearAll}
+              onSuggest={updateQuery}
+            />
+          )}
+
+          {status === 'ready' && results.length > 0 && (
+            <>
+              <ul className="catalogue__grid">
+                {shown.map((course) => (
+                  <li key={course.id}>
+                    <CourseCard course={course} headingLevel={2} />
+                  </li>
+                ))}
+              </ul>
+
+              {remaining > 0 && (
+                <div className="catalogue__more">
+                  <p className="catalogue__more-note">
+                    Showing {shown.length} of {results.length} courses
+                  </p>
+                  <Button variant="secondary" onClick={showMore}>
+                    Show {Math.min(remaining, PAGE_SIZE)} more {remaining === 1 ? 'course' : 'courses'}
+                  </Button>
+                </div>
+              )}
+            </>
+          )}
+
+          {status === 'ready' &&
+            (user ? (
+              <aside className="catalogue__banner" aria-labelledby="catalogue-banner-heading">
+                <div>
+                  <h2 id="catalogue-banner-heading" className="catalogue__banner-heading">
+                    {resume ? `Pick up ${resume.title}` : `Signed in as ${user.name}`}
+                  </h2>
+                  <p className="catalogue__banner-text">
+                    {resume
+                      ? 'Your place is saved. Carry on from the lesson you stopped at.'
+                      : 'Every course you buy appears in My learning with your progress saved.'}
+                  </p>
+                </div>
+                <Button to={resume ? `/learn/${resume.id}` : '/learning'} variant="secondary">
+                  Continue learning
+                </Button>
+              </aside>
+            ) : (
+              <aside className="catalogue__banner" aria-labelledby="catalogue-banner-heading">
+                <div>
+                  <h2 id="catalogue-banner-heading" className="catalogue__banner-heading">
+                    New to SkillUP?
+                  </h2>
+                  <p className="catalogue__banner-text">
+                    Create a free account to save your progress and keep every certificate you earn.
+                  </p>
+                </div>
+                <Button variant="primary" onClick={openSignup}>
+                  Create free account
+                </Button>
+              </aside>
+            ))}
         </div>
       </section>
     </>
   );
 }
 
-// a plain "loading" line tells somebody nothing. rows in roughly the right shape make the wait read as the page arriving rather than the page stalling
-function CatalogueSkeleton() {
+function FilterSelect({ label, value, onChange, wide = false, children }) {
   return (
-    <div className="courses-page__skeletons">
-      <p className="visually-hidden">Loading the catalogue</p>
+    <label className={wide ? 'catalogue__filter catalogue__filter--wide' : 'catalogue__filter'}>
+      <span className="catalogue__filter-label">{label}</span>
+      <select value={value} onChange={(event) => onChange(event.target.value)}>
+        {children}
+      </select>
+      <ChevronIcon />
+    </label>
+  );
+}
 
-      {[0, 1, 2, 3].map((row) => (
-        <div key={row} className="courses-page__skeleton" aria-hidden="true">
-          <span className="courses-page__skeleton-block courses-page__skeleton-thumb" />
-          <div className="courses-page__skeleton-main">
-            <span className="courses-page__skeleton-line courses-page__skeleton-line--tag" />
-            <span className="courses-page__skeleton-line courses-page__skeleton-line--title" />
-            <span className="courses-page__skeleton-line" />
-            <span className="courses-page__skeleton-line courses-page__skeleton-line--short" />
-          </div>
+// an empty list always says why it is empty and offers a way forward
+function NoResults({ query, searched, filtersOn, onClearFilters, onClearAll, onSuggest }) {
+  if (searched.full.length > 0 && filtersOn) {
+    return (
+      <EmptyState
+        title="No match with these filters"
+        body={
+          query
+            ? `There are courses for "${query}", but none at this category or level.`
+            : 'No course fits this category and level together yet.'
+        }
+      >
+        <Button variant="primary" onClick={onClearFilters}>
+          Clear the filters
+        </Button>
+      </EmptyState>
+    );
+  }
 
-          <div className="courses-page__skeleton-buy">
-            <span className="courses-page__skeleton-line courses-page__skeleton-line--price" />
-            <span className="courses-page__skeleton-block" />
-          </div>
-        </div>
-      ))}
+  return (
+    <div className="catalogue__empty">
+      <EmptyState
+        title={<>Nothing matches &ldquo;{query}&rdquo; yet</>}
+        body="Check the spelling or try a shorter search. These searches all find courses:"
+      >
+        <ul className="catalogue__suggestions" aria-label="Suggested searches">
+          {SUGGESTIONS.map((suggestion) => (
+            <li key={suggestion}>
+              <button type="button" className="catalogue__suggestion" onClick={() => onSuggest(suggestion)}>
+                {suggestion}
+              </button>
+            </li>
+          ))}
+        </ul>
+        <Button variant="secondary" onClick={onClearAll}>
+          Show every course
+        </Button>
+      </EmptyState>
+
+      {searched.partial.length > 0 && (
+        <section className="catalogue__partial" aria-labelledby="partial-heading">
+          <h2 id="partial-heading" className="catalogue__partial-heading">
+            These match some of your words
+          </h2>
+          <ul className="catalogue__grid">
+            {searched.partial.slice(0, 3).map((course) => (
+              <li key={course.id}>
+                <CourseCard course={course} headingLevel={3} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </div>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg className="catalogue__search-icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">
+      <circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M16.5 16.5L21 21" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function ChevronIcon() {
+  return (
+    <svg className="catalogue__filter-chevron" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+      <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
