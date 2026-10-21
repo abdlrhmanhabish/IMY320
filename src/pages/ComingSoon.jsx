@@ -1,6 +1,7 @@
 import { useParams } from 'react-router-dom';
 import PageHeader from '../components/layout/PageHeader.jsx';
 import Button from '../components/ui/Button.jsx';
+import EmptyState from '../components/ui/EmptyState.jsx';
 import { site } from '../config/site.js';
 import './InfoPage.css';
 
@@ -54,28 +55,18 @@ export default function ComingSoon({ page }) {
 
   return (
     <>
-      <PageHeader
-        eyebrow={content.eyebrow}
-        title={content.title}
-        lead={content.lead}
-        backTo="/"
-        backLabel="Back to home"
-      />
+      <PageHeader eyebrow={content.eyebrow} title={content.title} lead={content.lead} />
 
-      <section className="section">
-        <div className="container">
-          <div className="info-page__callout">
-            <h2 className="info-page__callout-heading">Not published yet</h2>
-            <p className="info-page__callout-body">{content.body}</p>
-            <div className="info-page__callout-actions">
-              <Button to="/about" variant="primary">
-                Read about us
-              </Button>
-              <Button to="/" variant="secondary">
-                Back to home
-              </Button>
-            </div>
-          </div>
+      <section className="section section--tight">
+        <div className="container info-page__note">
+          <EmptyState title="Not published yet" body={content.body}>
+            <Button to="/courses" variant="primary">
+              Browse courses
+            </Button>
+            <Button to="/about" variant="secondary">
+              Read about us
+            </Button>
+          </EmptyState>
         </div>
       </section>
     </>
@@ -89,22 +80,18 @@ function UnknownPage() {
         eyebrow="Legal"
         title="We cannot find that document"
         lead="The address may be out of date. The documents we do have are listed in the footer."
-        backTo="/"
-        backLabel="Back to home"
       />
 
-      <section className="section">
-        <div className="container">
-          <div className="info-page__callout">
-            <h2 className="info-page__callout-heading">Try one of these instead</h2>
-            <p className="info-page__callout-body">
-              Terms of use, the privacy policy and our accessibility statement are all
-              linked from the bottom of every page.
-            </p>
+      <section className="section section--tight">
+        <div className="container info-page__note">
+          <EmptyState
+            title="Try one of these instead"
+            body="Terms of use, the privacy policy and our accessibility statement are all linked from the bottom of every page."
+          >
             <Button to="/" variant="primary">
               Back to home
             </Button>
-          </div>
+          </EmptyState>
         </div>
       </section>
     </>

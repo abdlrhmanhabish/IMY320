@@ -54,31 +54,34 @@ src/
 ├── config/
 │   ├── site.js                # platform name, tagline, nav links
 │   ├── auth.js                # providers, legal links, password policy
-│   └── credits.js             # EVERY library and asset used, rendered in the footer
+│   └── credits.js             # every library and asset used, shown on the Credits page
 ├── styles/
 │   ├── tokens.css             # primitive and semantic design tokens
 │   └── global.css             # reset, base elements, focus ring, utilities
 ├── components/
 │   ├── layout/                # Navbar, Footer, PageShell
-│   ├── ui/                    # Button, Input, Card, Modal, Toast, Spinner, Carousel
+│   ├── ui/                    # Button, Input, Card, Modal, Toast, Spinner, Carousel,
+│   │                          # StepBar, LevelTag, Certificate, CourseReview,
+│   │                          # CourseCard, Badge, Rating, EmptyState
 │   └── auth/                  # AuthPanel, LoginForm, RegisterForm, ProviderButtons
 ├── pages/
 │   ├── Landing/                # hero, featured courses, resume strip
 │   ├── About.jsx
-│   ├── Courses.jsx             # catalogue with search, filters and add to cart
+│   ├── Courses.jsx             # catalogue grid with search, filters and add to cart
 │   ├── CourseDetail.jsx        # full course page and buying panel
 │   ├── Cart.jsx                # cart with the saving shown in rands
 │   ├── Checkout.jsx            # payment, the waiting screen and the receipt
 │   ├── Learning.jsx            # dashboard, daily goal, streak, progress bars
-│   └── CoursePlayer.jsx        # lesson player and the completion celebration
+│   ├── CoursePlayer.jsx        # lesson player and the completion celebration
+│   └── CertificatePage.jsx     # the certificate for a finished course, to download or print
 ├── context/
-│   ├── AuthContext.jsx        # fake session, localStorage-backed
+│   ├── AuthContext.jsx        # session, kept in the browser
 │   ├── CartContext.jsx        # cart, localStorage-backed
 │   ├── ProgressContext.jsx    # enrolments, lesson ticks, daily goal, streak
 │   └── ToastProvider.jsx      # the quiet end of the feedback ladder
 ├── hooks/
 ├── data/                      # courses.json, testimonials.json, users.json
-└── utils/                     # fakeApi.js, money.js, progress.js
+└── utils/                     # fakeApi.js, money.js, progress.js, storage.js, search.js, certificate.js, validate.js
 ```
 
 `docs/ux/` holds the UEQ research reports for each submission and `docs/design/` holds the
@@ -86,6 +89,5 @@ justification documents.
 
 ## Testing the prototype
 
-- Any email with a password of eight characters or more logs in. Use `locked@skillup.example` to see a failed login, and `taken@skillup.example` to see a rejected sign up.
-- At checkout, any sixteen digits work. A card number ending in `0000` is declined so the error path can be checked.
-- Run `window.forceApiFailure(true)` in the browser console to make every request fail, and `window.forceApiFailure(false)` to put it back.
+- Everything runs in your browser. Nothing you type is sent to a server and no real payment is taken. Do not enter a real password or real card details.
+- Carts and progress are saved per account. Logging out clears them from the screen, and logging back in with the same email brings them back.

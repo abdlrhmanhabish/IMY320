@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { AuthContext } from '../context/authContext.js';
 
-// this reads the simulated session
 export default function useAuth() {
   const context = useContext(AuthContext);
 

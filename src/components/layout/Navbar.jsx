@@ -1,14 +1,17 @@
-
 import { primaryNav } from '../../config/site.js';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { NavLink, useNavigate, useLocation, Link } from 'react-router-dom';
 import useFocusTrap from '../../hooks/useFocusTrap.js';
 import useAuth from '../../hooks/useAuth.js';
 import useCart from '../../hooks/useCart.js';
 import useTheme from '../../hooks/useTheme.js';
+import useToast from '../../hooks/useToast.js';
 import Button from '../ui/Button.jsx';
 import Logo from './Logo.jsx';
 import './Navbar.css';
+
+// these are pages that only make sense for the person who is signed in
+const ACCOUNT_PAGES = ['/learning', '/learn/', '/checkout', '/certificate/'];
 
 export default function Navbar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -17,6 +20,7 @@ export default function Navbar() {
   const location = useLocation();
   const { user, logout } = useAuth();
   const { count } = useCart();
+  const { notify } = useToast();
   const { theme, toggle: toggleTheme } = useTheme();
 
   const closeDrawer = useCallback(() => setDrawerOpen(false), []);
@@ -37,7 +41,7 @@ export default function Navbar() {
 
 
   useEffect(() => {
-    const media = window.matchMedia('(min-width: 48rem)');
+    const media = window.matchMedia('(min-width: 56rem)');
     const handleChange = (event) => {
       if (event.matches) closeDrawer();
     };
@@ -50,6 +54,21 @@ export default function Navbar() {
     closeDrawer();
     const trimmed = query.trim();
     navigate(trimmed ? `/courses?q=${encodeURIComponent(trimmed)}` : '/courses');
+  };
+
+  const handleLogout = () => {
+    logout();
+    closeDrawer();
+
+    notify({
+      tone: 'info',
+      title: 'You are logged out',
+      body: 'Your cart and courses are saved to your account and no longer show on this device.',
+    });
+
+    if (ACCOUNT_PAGES.some((path) => location.pathname.startsWith(path))) {
+      navigate('/');
+    }
   };
 
   return (
@@ -103,21 +122,20 @@ export default function Navbar() {
           <label htmlFor="navbar-search" className="visually-hidden">
             Search courses
           </label>
-          <SearchIcon />
           <input
             id="navbar-search"
             type="search"
             className="navbar__search-input"
-            placeholder="What do you want to learn?"
+            placeholder="Search for a skill or course"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
-          <button type="submit" className="visually-hidden">
-            Search
+          <button type="submit" className="navbar__search-button">
+            <SearchIcon />
+            <span className="visually-hidden">Search</span>
           </button>
         </form>
 
-        {/* this swaps for z signed in user name once a session exists */}
         <div className="navbar__end">
           <button
             type="button"
@@ -131,14 +149,7 @@ export default function Navbar() {
           <CartButton count={count} />
 
           {user ? (
-            <>
-              <span className="navbar__user" title={user.email}>
-                {user.name}
-              </span>
-              <Button variant="secondary" size="sm" onClick={logout}>
-                Log out
-              </Button>
-            </>
+            <AccountMenu user={user} onLogout={handleLogout} />
           ) : (
             <>
               <Button to={authLink('login')} variant="ghost" size="sm">
@@ -160,7 +171,7 @@ export default function Navbar() {
         onSearch={handleSearch}
         authLink={authLink}
         user={user}
-        onLogout={logout}
+        onLogout={handleLogout}
         theme={theme}
         onToggleTheme={toggleTheme}
       />
@@ -197,17 +208,17 @@ function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink, user
           <label htmlFor="drawer-search" className="visually-hidden">
             Search courses
           </label>
-          <SearchIcon />
           <input
             id="drawer-search"
             type="search"
             className="navbar__search-input"
-            placeholder="What do you want to learn?"
+            placeholder="Search for a skill or course"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
-          <button type="submit" className="visually-hidden">
-            Search
+          <button type="submit" className="navbar__search-button">
+            <SearchIcon />
+            <span className="visually-hidden">Search</span>
           </button>
         </form>
 
@@ -247,14 +258,7 @@ function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink, user
           {user ? (
             <>
               <p className="navbar__drawer-user">Signed in as {user.name}</p>
-              <Button
-                variant="secondary"
-                fullWidth
-                onClick={() => {
-                  onLogout();
-                  onClose();
-                }}
-              >
+              <Button variant="secondary" fullWidth onClick={onLogout}>
                 Log out
               </Button>
             </>
@@ -271,6 +275,128 @@ function MobileDrawer({ open, onClose, query, setQuery, onSearch, authLink, user
         </div>
       </div>
     </div>
+  );
+}
+
+function AccountMenu({ user, onLogout }) {
+  const [open, setOpen] = useState(false);
+  const wrapRef = useRef(null);
+  const buttonRef = useRef(null);
+  const panelId = useId();
+
+  const initials = user.name
+    .split(' ')
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0].toUpperCase())
+    .join('');
+  const firstName = user.name.split(' ')[0];
+
+  useEffect(() => {
+    if (!open){ 
+      return undefined;
+    }
+
+    const handlePointer = (event) => {
+      if (!wrapRef.current?.contains(event.target)){ 
+        setOpen(false);
+      }
+    };
+
+    const handleKey = (event) => {
+      if (event.key === 'Escape') {
+        setOpen(false);
+        buttonRef.current?.focus();
+      }
+    };
+
+    document.addEventListener('pointerdown', handlePointer);
+    document.addEventListener('keydown', handleKey);
+
+    return () => {
+      document.removeEventListener('pointerdown', handlePointer);
+      document.removeEventListener('keydown', handleKey);
+    };
+  }, [open]);
+
+  const close = () => setOpen(false);
+
+  // tabbing past the last link closes the panel instead of leaving it open behind the page
+  const handleBlur = (event) => {
+    if (!wrapRef.current?.contains(event.relatedTarget)) setOpen(false);
+  };
+
+  return (
+    <div className="account-menu" ref={wrapRef} onBlur={handleBlur}>
+      <button
+        ref={buttonRef}
+        type="button"
+        className="account-menu__button"
+        aria-expanded={open}
+        aria-controls={panelId}
+        onClick={() => setOpen((current) => !current)}
+      >
+        <span className="account-menu__avatar" aria-hidden="true">
+          {initials}
+        </span>
+        <span className="account-menu__name">{firstName}</span>
+        <span className="visually-hidden">, your account</span>
+        <ChevronIcon open={open} />
+      </button>
+
+      {open && (
+        <div id={panelId} className="account-menu__panel">
+          <div className="account-menu__who">
+            <p className="account-menu__full-name">{user.name}</p>
+            <p className="account-menu__email">{user.email}</p>
+          </div>
+
+          <ul className="account-menu__links">
+            <li>
+              <Link to="/learning" className="account-menu__link" onClick={close}>
+                My learning
+              </Link>
+            </li>
+            <li>
+              <Link to="/learning#certificates" className="account-menu__link" onClick={close}>
+                Certificates
+              </Link>
+            </li>
+            <li>
+              <Link to="/cart" className="account-menu__link" onClick={close}>
+                Cart
+              </Link>
+            </li>
+          </ul>
+
+          <button
+            type="button"
+            className="account-menu__logout"
+            onClick={() => {
+              close();
+              onLogout();
+            }}
+          >
+            Log out
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ChevronIcon({ open }) {
+  return (
+    <svg
+      className={open ? 'account-menu__chevron is-open' : 'account-menu__chevron'}
+      viewBox="0 0 24 24"
+      width="16"
+      height="16"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
   );
 }
 

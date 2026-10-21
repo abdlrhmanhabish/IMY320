@@ -722,6 +722,7 @@
     "language": "English",
     "updated": "May 2026",
     "enrolled": "7,240",
+    "badge": "Bestseller",
     "description": [
       "Plenty of people learn a framework before they can write a page. It works until something breaks in a way the framework did not cause, and then there is nowhere to stand.",
       "This course builds three pages from empty files. You write the markup, lay it out with modern CSS, make it work on a phone, and put it on the internet where somebody else can open it."
@@ -1195,6 +1196,1181 @@
         "role": "Tech lead",
         "rating": 4,
         "body": "I put my whole team through the testing modules. The flaky test lesson paid for itself."
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Charts and dashboards people actually read",
+    "instructor": "Lerato Dube",
+    "role": "Data visualisation lead",
+    "rating": "4.7",
+    "reviews": "530",
+    "duration": "7 hours",
+    "level": "Beginner",
+    "price": "R 590",
+    "listPrice": "R 590",
+    "category": "Data",
+    "summary": "Turn a table of numbers into a chart a manager understands in five seconds. Ends with a one page dashboard built from your own data.",
+    "tagline": "If the chart needs a legend to explain the legend, start again.",
+    "language": "English",
+    "updated": "August 2026",
+    "enrolled": "1,860",
+    "description": [
+      "Most charts at work are made in a hurry from whatever the spreadsheet suggested first. The result is a pie chart with eleven slices, a dashboard nobody opens and a meeting spent asking which line is which.",
+      "This course starts from the question the reader is asking and works back to the chart that answers it. You practise on real sales, staffing and survey data, and finish by rebuilding a dashboard that people at your work already ignore."
+    ],
+    "outcomes": [
+      "Pick the chart that fits the question, not the one the software offers first",
+      "Strip a chart down until only the point is left",
+      "Use colour to show one thing instead of decorating everything",
+      "Write titles that say what the chart shows",
+      "Lay out a one page dashboard that reads top to bottom",
+      "Check a chart for the tricks that mislead, including your own"
+    ],
+    "modules": [
+      {
+        "title": "Start with the question",
+        "duration": "1h 30m",
+        "lessons": [
+          "What the reader needs to decide",
+          "Choosing between a bar, a line and a table",
+          "Why the pie chart keeps letting you down"
+        ]
+      },
+      {
+        "title": "Clean, then design",
+        "duration": "2h",
+        "lessons": [
+          "Removing everything that is not data",
+          "Colour that points at one thing",
+          "Titles that state the finding",
+          "Labels instead of legends"
+        ]
+      },
+      {
+        "title": "Honest charts",
+        "duration": "1h 30m",
+        "lessons": [
+          "Axes that start where they should",
+          "Averages that hide the story",
+          "Spotting a misleading chart in someone else's slides"
+        ]
+      },
+      {
+        "title": "Build the dashboard",
+        "duration": "2h",
+        "lessons": [
+          "Deciding what earns a place on the page",
+          "Laying out a one page dashboard",
+          "Testing it on someone who has not seen it",
+          "Review: before and after dashboards from past learners"
+        ]
+      }
+    ],
+    "requirements": [
+      "Basic spreadsheet skills, such as sorting and simple formulas",
+      "Any spreadsheet tool. The examples use Excel and Google Sheets"
+    ],
+    "audience": [
+      "Anyone who sends charts to a manager or a client",
+      "Analysts whose dashboards get opened once and then forgotten",
+      "Team leads who present numbers in monthly meetings"
+    ],
+    "instructorBio": "Lerato designs the reporting for a national logistics company, where a dashboard has to make sense to a depot manager reading it on a phone. She has redrawn more pie charts than she can count and still finds new ones.",
+    "instructorCredential": "10 years in reporting and design. Teaches 1,860 learners on SkillUP",
+    "includes": [
+      "7 hours of video across 4 modules",
+      "Three practice data sets",
+      "A chart choosing guide you can print",
+      "A dashboard layout template",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 74
+      },
+      {
+        "stars": 4,
+        "share": 21
+      },
+      {
+        "stars": 3,
+        "share": 3
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Busisiwe K.",
+        "role": "Sales coordinator",
+        "rating": 5,
+        "body": "My monthly report went from twelve charts to four. My manager asked what had changed because she suddenly understood it."
+      },
+      {
+        "name": "Marco D.",
+        "role": "HR analyst",
+        "rating": 5,
+        "body": "The module on honest charts made me fix two of my own slides before a board meeting. Slightly embarrassing, very useful."
+      },
+      {
+        "name": "Nomvula S.",
+        "role": "Operations assistant",
+        "rating": 4,
+        "body": "Clear and practical. I wanted a little more on Google Sheets, but the ideas work in any tool."
+      }
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Python to automate the weekly copy and paste",
+    "instructor": "Kagiso Molefe",
+    "role": "Data engineer",
+    "rating": "4.8",
+    "reviews": "690",
+    "duration": "12 hours",
+    "level": "Intermediate",
+    "price": "R 840",
+    "listPrice": "R 1 200",
+    "category": "Data",
+    "summary": "Write small Python scripts that clean files, join spreadsheets and send the weekly report for you. No computer science background needed.",
+    "tagline": "If you do it every Monday, a script can do it on Sunday night.",
+    "language": "English",
+    "updated": "September 2026",
+    "enrolled": "2,050",
+    "description": [
+      "Every office has a job that takes two hours a week: download three files, copy columns between them, fix the dates and email the result. It is boring, it is easy to get wrong, and it is exactly what a short script is good at.",
+      "You learn just enough Python to automate that kind of work and nothing you will not use. Each module ends with a script you can run on your own files, and the last one strings them together into a report that builds itself."
+    ],
+    "outcomes": [
+      "Read and write CSV and Excel files without opening them by hand",
+      "Clean messy columns, dates and duplicates with pandas",
+      "Combine several spreadsheets into one tidy table",
+      "Rename, sort and move hundreds of files in seconds",
+      "Schedule a script so the report is ready before you are",
+      "Read an error message and fix the problem instead of starting over"
+    ],
+    "modules": [
+      {
+        "title": "Just enough Python",
+        "duration": "2h 30m",
+        "lessons": [
+          "Installing Python and running your first script",
+          "Variables, lists and loops for office work",
+          "Reading an error message without panicking",
+          "Practice: a script that tidies a folder"
+        ]
+      },
+      {
+        "title": "Files and folders",
+        "duration": "2h",
+        "lessons": [
+          "Finding, renaming and moving files",
+          "Reading and writing CSV files",
+          "Practice: sort a month of downloads"
+        ]
+      },
+      {
+        "title": "Spreadsheets with pandas",
+        "duration": "3h",
+        "lessons": [
+          "Loading Excel sheets into a table",
+          "Cleaning dates, text and blanks",
+          "Joining two sheets on a shared column",
+          "Grouping and totals for the weekly report"
+        ]
+      },
+      {
+        "title": "Sending it out",
+        "duration": "2h",
+        "lessons": [
+          "Writing a finished Excel file with formatting",
+          "Emailing a report from a script",
+          "Running a script on a schedule"
+        ]
+      },
+      {
+        "title": "Build the automation",
+        "duration": "2h 30m",
+        "lessons": [
+          "Mapping the manual process step by step",
+          "Turning each step into code",
+          "Testing on last month's files",
+          "Review: three automations from past learners"
+        ]
+      }
+    ],
+    "requirements": [
+      "Confident spreadsheet use, including lookups and filters",
+      "No programming experience needed",
+      "A Windows, Mac or Linux computer you can install software on"
+    ],
+    "audience": [
+      "Analysts and coordinators who repeat the same spreadsheet steps every week",
+      "Anyone who finished SQL for people who write reports and wants the next step",
+      "Finance and operations staff who move data between systems by hand"
+    ],
+    "instructorBio": "Kagiso builds data pipelines for an insurance company and started out as an administrator copying figures between spreadsheets. He wrote his first script to get his Fridays back and has been automating other people's Fridays ever since.",
+    "instructorCredential": "8 years in data engineering. Teaches 2,050 learners on SkillUP",
+    "includes": [
+      "12 hours of video across 5 modules",
+      "Practice files for every module",
+      "Starter scripts you can adapt for your own work",
+      "A cheat sheet of the pandas commands used most",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 82
+      },
+      {
+        "stars": 4,
+        "share": 14
+      },
+      {
+        "stars": 3,
+        "share": 2
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Thato M.",
+        "role": "Finance administrator",
+        "rating": 5,
+        "body": "The Monday reconciliation used to take me most of the morning. It now runs before I get to the office."
+      },
+      {
+        "name": "Jessica L.",
+        "role": "Marketing analyst",
+        "rating": 5,
+        "body": "I had tried two Python courses before and quit both. This one used my kind of problems, so I actually finished."
+      },
+      {
+        "name": "Sizwe N.",
+        "role": "Stock controller",
+        "rating": 4,
+        "body": "Very good. The scheduling lesson took me a few tries on my work laptop, but the support team helped."
+      }
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Bookkeeping for a small business",
+    "instructor": "Ayesha Patel",
+    "role": "Chartered accountant",
+    "rating": "4.6",
+    "reviews": "410",
+    "duration": "6 hours",
+    "level": "Beginner",
+    "price": "R 520",
+    "listPrice": "R 520",
+    "category": "Finance",
+    "summary": "Keep tidy books for your own business, so you always know what you earned, what you owe and what tax is coming.",
+    "tagline": "A shoebox of receipts is not a system.",
+    "language": "English",
+    "updated": "August 2026",
+    "enrolled": "1,340",
+    "description": [
+      "Most small business owners are good at the work and behind on the books. The receipts pile up, the bank statement never quite matches, and tax season arrives as a surprise every single year.",
+      "This course sets up a simple weekly routine that takes less than an hour. You learn the few accounting ideas you need, record a month of real transactions and finish with a profit and loss you can take to an accountant or a bank."
+    ],
+    "outcomes": [
+      "Separate business and personal money for good",
+      "Record income and expenses in a simple weekly routine",
+      "Match your records to the bank statement every month",
+      "Keep receipts and invoices the way an accountant wants them",
+      "Read your own profit and loss and cash position",
+      "Set money aside for tax before it is due"
+    ],
+    "modules": [
+      {
+        "title": "The basics without the jargon",
+        "duration": "1h 20m",
+        "lessons": [
+          "What bookkeeping is actually for",
+          "Income, expenses, assets and what you owe",
+          "Opening a separate business account"
+        ]
+      },
+      {
+        "title": "A weekly routine",
+        "duration": "1h 40m",
+        "lessons": [
+          "Recording sales and invoices",
+          "Recording expenses and keeping receipts",
+          "Choosing between a spreadsheet and an app",
+          "Practice: a month of transactions"
+        ]
+      },
+      {
+        "title": "Checking the numbers",
+        "duration": "1h 30m",
+        "lessons": [
+          "Matching your books to the bank statement",
+          "Following up on unpaid invoices",
+          "Spotting a mistake before it grows"
+        ]
+      },
+      {
+        "title": "Reports and tax",
+        "duration": "1h 30m",
+        "lessons": [
+          "Reading your profit and loss",
+          "Cash flow, and why profit is not money in the bank",
+          "VAT in plain language",
+          "Putting money aside for tax"
+        ]
+      }
+    ],
+    "requirements": [
+      "No accounting knowledge needed",
+      "Your own bank statements, or the sample business provided"
+    ],
+    "audience": [
+      "Owners of one or two person businesses",
+      "Freelancers and contractors who invoice clients",
+      "Anyone about to start a side business"
+    ],
+    "instructorBio": "Ayesha runs a small accounting practice in Durban that looks after about sixty owner managed businesses. Most of her clients first arrived with a box of receipts, and this course is the talk she gives every one of them in their first meeting.",
+    "instructorCredential": "15 years in practice. Teaches 1,340 learners on SkillUP",
+    "includes": [
+      "6 hours of video across 4 modules",
+      "A bookkeeping spreadsheet ready to use",
+      "A sample business with a month of transactions",
+      "A monthly checklist",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 70
+      },
+      {
+        "stars": 4,
+        "share": 22
+      },
+      {
+        "stars": 3,
+        "share": 5
+      },
+      {
+        "stars": 2,
+        "share": 2
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Amara N.",
+        "role": "Owner, interior design studio",
+        "rating": 5,
+        "body": "I finally know whether a good month was actually a good month. The weekly routine takes me forty minutes on a Sunday."
+      },
+      {
+        "name": "Pieter van Wyk",
+        "role": "Freelance photographer",
+        "rating": 4,
+        "body": "Simple and no lectures. The bank matching lesson found R 3 000 I had forgotten to invoice."
+      },
+      {
+        "name": "Zodwa M.",
+        "role": "Catering business owner",
+        "rating": 5,
+        "body": "My accountant said my books were the neatest she had seen from a new client. That has never happened before."
+      }
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Building a financial model someone else can follow",
+    "instructor": "Fatima Adams",
+    "role": "Financial planning lead",
+    "rating": "4.7",
+    "reviews": "320",
+    "duration": "10 hours",
+    "level": "Advanced",
+    "price": "R 990",
+    "listPrice": "R 990",
+    "category": "Finance",
+    "summary": "Build a three statement model with clear inputs, honest assumptions and checks that catch your own mistakes. Ends with a model a colleague can pick up without you.",
+    "tagline": "If you have to be in the room to explain it, the model is not finished.",
+    "language": "English",
+    "updated": "September 2026",
+    "enrolled": "980",
+    "description": [
+      "Financial models tend to grow one tab at a time until only their author understands them. Then the author goes on leave, the budget is due and someone has to guess which typed in number in cell AF214 matters.",
+      "This course builds a model the other way round. You set up inputs, calculations and outputs as separate layers, link the income statement, balance sheet and cash flow, and add the checks and scenarios that let a reviewer trust it."
+    ],
+    "outcomes": [
+      "Lay out a model so inputs, workings and outputs never mix",
+      "Link the income statement, balance sheet and cash flow properly",
+      "Build a cash flow that ties back to the balance sheet every period",
+      "Add checks that flag an error the moment it appears",
+      "Run best, base and worst cases from one switch",
+      "Hand over a model with notes a reviewer can follow"
+    ],
+    "modules": [
+      {
+        "title": "Structure before formulas",
+        "duration": "1h 40m",
+        "lessons": [
+          "Why most models become unreadable",
+          "Inputs, workings and outputs",
+          "Naming, colour codes and one formula per row"
+        ]
+      },
+      {
+        "title": "The three statements",
+        "duration": "2h 40m",
+        "lessons": [
+          "Building the income statement from assumptions",
+          "The balance sheet and what has to balance",
+          "Deriving the cash flow",
+          "Practice: link all three for a small retailer"
+        ]
+      },
+      {
+        "title": "Checks and controls",
+        "duration": "1h 40m",
+        "lessons": [
+          "Balance checks that cannot be ignored",
+          "Catching circular references",
+          "Auditing someone else's formulas"
+        ]
+      },
+      {
+        "title": "Scenarios and sensitivity",
+        "duration": "2h",
+        "lessons": [
+          "One switch for best, base and worst case",
+          "Data tables for sensitivity",
+          "Showing the range, not just one answer"
+        ]
+      },
+      {
+        "title": "Handing it over",
+        "duration": "2h",
+        "lessons": [
+          "A cover sheet that explains the model",
+          "Charts for the people who will not open the workings",
+          "Review: a model handed to a stranger",
+          "Final project: model a business of your choice"
+        ]
+      }
+    ],
+    "requirements": [
+      "Strong Excel skills, including lookups and absolute references",
+      "A basic grasp of the three financial statements, for example from Reading a company's numbers"
+    ],
+    "audience": [
+      "Analysts in finance, strategy or business development",
+      "Founders preparing numbers for investors or a bank",
+      "Accountants moving into planning and analysis"
+    ],
+    "instructorBio": "Fatima leads financial planning for a renewable energy developer, where every project lives or dies on a model. She reviews models built by banks, consultants and her own team, and has strong opinions about merged cells.",
+    "instructorCredential": "13 years in corporate finance. Teaches 980 learners on SkillUP",
+    "includes": [
+      "10 hours of video across 5 modules",
+      "A model template with the checks built in",
+      "A worked model for a small retailer",
+      "A review checklist for other people's models",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 75
+      },
+      {
+        "stars": 4,
+        "share": 19
+      },
+      {
+        "stars": 3,
+        "share": 4
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Rudi B.",
+        "role": "Business analyst",
+        "rating": 5,
+        "body": "The structure module changed how I build everything, not just models. My manager now asks me to review other people's spreadsheets."
+      },
+      {
+        "name": "Keabetswe T.",
+        "role": "Startup founder",
+        "rating": 5,
+        "body": "I took my final project model to two banks. Both asked who built it, which I took as a good sign."
+      },
+      {
+        "name": "Chloe M.",
+        "role": "Management accountant",
+        "rating": 4,
+        "body": "Demanding but fair. Expect to watch the cash flow lesson at least twice."
+      }
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Git and GitHub for working in a team",
+    "instructor": "Sibusiso Ndlovu",
+    "role": "Software engineer",
+    "rating": "4.8",
+    "reviews": "960",
+    "duration": "6 hours",
+    "level": "Beginner",
+    "price": "R 560",
+    "listPrice": "R 800",
+    "category": "Development",
+    "summary": "Stop emailing files called final_v3. Track your work, branch safely and review changes with a team using Git and GitHub.",
+    "tagline": "Undo is the most useful feature in software. Git gives you one for everything.",
+    "language": "English",
+    "updated": "July 2026",
+    "enrolled": "3,320",
+    "description": [
+      "Git has a reputation for being confusing, mostly because people learn it from a list of commands with no idea what each one protects them from. The first time a merge goes wrong, they copy the folder and start again.",
+      "This course explains what Git is doing before it shows you how. You work in a practice team repository from the second module, open pull requests, review a teammate's change and fix a real merge conflict without losing anything."
+    ],
+    "outcomes": [
+      "Explain what a commit, a branch and a merge actually are",
+      "Save your work in small commits with messages that help later",
+      "Use branches to try things without breaking the main code",
+      "Open a pull request and respond to review comments",
+      "Resolve a merge conflict calmly instead of starting over",
+      "Undo a mistake, even one that is already pushed"
+    ],
+    "modules": [
+      {
+        "title": "What Git is doing",
+        "duration": "1h 20m",
+        "lessons": [
+          "Why version control exists",
+          "Commits as save points",
+          "Installing Git and making your first commit"
+        ]
+      },
+      {
+        "title": "Branches",
+        "duration": "1h 30m",
+        "lessons": [
+          "Working on a branch",
+          "Merging when the work is done",
+          "Writing commit messages people can use",
+          "Practice: a feature on its own branch"
+        ]
+      },
+      {
+        "title": "Working on GitHub",
+        "duration": "1h 40m",
+        "lessons": [
+          "Pushing to a shared repository",
+          "Opening a pull request",
+          "Reviewing a teammate's change",
+          "Keeping your branch up to date"
+        ]
+      },
+      {
+        "title": "When things go wrong",
+        "duration": "1h 30m",
+        "lessons": [
+          "Reading a merge conflict",
+          "Undoing a commit safely",
+          "Recovering work you thought was gone"
+        ]
+      }
+    ],
+    "requirements": [
+      "Comfort using a computer and installing software",
+      "No programming experience needed, though it helps"
+    ],
+    "audience": [
+      "New developers joining their first team",
+      "Designers, analysts and writers who share files with developers",
+      "Students who have only ever worked alone on code"
+    ],
+    "instructorBio": "Sibusiso works on a payments platform with a team of forty engineers spread over three cities. He runs onboarding for every new developer and has untangled more broken branches than he would like to admit.",
+    "instructorCredential": "7 years in software teams. Teaches 3,320 learners on SkillUP",
+    "includes": [
+      "6 hours of video across 4 modules",
+      "A practice team repository",
+      "A one page command guide",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 83
+      },
+      {
+        "stars": 4,
+        "share": 13
+      },
+      {
+        "stars": 3,
+        "share": 2
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Ntombi P.",
+        "role": "Junior developer",
+        "rating": 5,
+        "body": "Three weeks into my first job I was scared of Git. After this course I fixed a merge conflict on a team call and nobody noticed I had been nervous."
+      },
+      {
+        "name": "Daniel R.",
+        "role": "UX designer",
+        "rating": 5,
+        "body": "I finally understand what the developers mean by a branch. I now open pull requests for copy changes myself."
+      },
+      {
+        "name": "Yusuf A.",
+        "role": "Computer science student",
+        "rating": 4,
+        "body": "The recovery lesson saved a group project. I would have liked a little more on the command line itself."
+      }
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Accessible websites from the first line",
+    "instructor": "Megan Fourie",
+    "role": "Accessibility specialist",
+    "rating": "4.9",
+    "reviews": "240",
+    "duration": "8 hours",
+    "level": "Intermediate",
+    "price": "R 780",
+    "listPrice": "R 780",
+    "category": "Development",
+    "summary": "Build pages that work with a keyboard, a screen reader and a zoomed screen, and test them yourself before anyone else has to.",
+    "tagline": "Accessibility added at the end costs far more than accessibility built in.",
+    "language": "English",
+    "updated": "October 2026",
+    "enrolled": "640",
+    "badge": "New",
+    "description": [
+      "About one in six people lives with a significant disability, and many more use a site one handed, in bright sun or with the text turned up. Most accessibility problems are not hard to fix. They are found late, when every fix means reworking a finished page.",
+      "This course builds accessibility into the way you write HTML, CSS and JavaScript from the start. You test with a keyboard, a screen reader and a contrast checker in every module, and finish by auditing and repairing a real page against WCAG 2.2."
+    ],
+    "outcomes": [
+      "Write semantic HTML that screen readers understand without extra work",
+      "Make every control usable with a keyboard and a visible focus",
+      "Choose colours and text sizes that pass WCAG contrast",
+      "Label forms and errors so nobody is left guessing",
+      "Use ARIA only where HTML cannot do the job",
+      "Test a page with a screen reader and fix what you find"
+    ],
+    "modules": [
+      {
+        "title": "Who you are building for",
+        "duration": "1h 30m",
+        "lessons": [
+          "How people with different abilities use the web",
+          "WCAG 2.2 in plain language",
+          "Testing with only a keyboard"
+        ]
+      },
+      {
+        "title": "Structure and meaning",
+        "duration": "2h 10m",
+        "lessons": [
+          "Headings, landmarks and reading order",
+          "Links, buttons and when each is right",
+          "Images and the alt text they need",
+          "Practice: rebuild a page with semantic HTML"
+        ]
+      },
+      {
+        "title": "Forms, colour and motion",
+        "duration": "2h 20m",
+        "lessons": [
+          "Labels, hints and error messages",
+          "Contrast, text size and zoom",
+          "Focus that is always visible",
+          "Respecting reduced motion"
+        ]
+      },
+      {
+        "title": "Testing and fixing",
+        "duration": "2h",
+        "lessons": [
+          "Using a screen reader for the first time",
+          "Automated checks and what they miss",
+          "Auditing a real page",
+          "Review: fixing the ten most common issues"
+        ]
+      }
+    ],
+    "requirements": [
+      "Comfortable writing HTML and CSS, for example after HTML and CSS you can actually ship",
+      "Some JavaScript helps but is not required"
+    ],
+    "audience": [
+      "Front end developers who want to build accessibility in rather than bolt it on",
+      "Designers who hand over work to developers",
+      "Teams preparing for an accessibility review"
+    ],
+    "instructorBio": "Megan audits websites for banks, universities and government departments, and tests with a screen reader every day. She started in front end development and moved into accessibility after watching a blind user try to book a flight on a site she had built.",
+    "instructorCredential": "9 years in front end and accessibility. Teaches 640 learners on SkillUP",
+    "includes": [
+      "8 hours of video across 4 modules",
+      "A page to audit and repair",
+      "A WCAG 2.2 checklist in plain language",
+      "A screen reader quick start guide",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 89
+      },
+      {
+        "stars": 4,
+        "share": 9
+      },
+      {
+        "stars": 3,
+        "share": 1
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 0
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Tumi R.",
+        "role": "Front end developer",
+        "rating": 5,
+        "body": "I thought our site was fine until I tried it with only a keyboard. We fixed the menu and the checkout the following week."
+      },
+      {
+        "name": "Grace O.",
+        "role": "Product designer",
+        "rating": 5,
+        "body": "I now design focus states and error messages before a developer has to ask for them. Every web team should take this."
+      }
+    ]
+  },
+  {
+    "id": 16,
+    "title": "Leading the team you used to be part of",
+    "instructor": "Zanele Khoza",
+    "role": "Operations manager",
+    "rating": "4.6",
+    "reviews": "580",
+    "duration": "7 hours",
+    "level": "Intermediate",
+    "price": "R 680",
+    "listPrice": "R 950",
+    "category": "Management",
+    "summary": "Your first ninety days as a manager, when your old teammates now report to you. Covers one to ones, feedback, delegation and the awkward conversations.",
+    "tagline": "Yesterday you complained about the manager. Today you are the manager.",
+    "language": "English",
+    "updated": "June 2026",
+    "enrolled": "2,180",
+    "description": [
+      "Most people are promoted because they were good at the job, then handed a team with no training at all. The hardest part is not the tasks. It is managing friends, giving feedback to people who taught you, and letting go of the work you were best at.",
+      "This course follows your first three months in the role. Each module gives you a conversation to have, a template to use and a habit to start, so you build a working routine with your team instead of improvising every week."
+    ],
+    "outcomes": [
+      "Reset relationships with former peers without losing them",
+      "Run one to ones that people look forward to",
+      "Give feedback that is specific, kind and acted on",
+      "Delegate work you could do faster yourself",
+      "Handle your first difficult conversation without putting it off",
+      "Set goals your team understands and can track"
+    ],
+    "modules": [
+      {
+        "title": "The first week",
+        "duration": "1h 10m",
+        "lessons": [
+          "What changes when you become the manager",
+          "The conversation with each former peer",
+          "What to stop doing straight away"
+        ]
+      },
+      {
+        "title": "One to ones",
+        "duration": "1h 20m",
+        "lessons": [
+          "Why weekly one to ones matter",
+          "A simple structure that works",
+          "Listening for what is not being said"
+        ]
+      },
+      {
+        "title": "Feedback both ways",
+        "duration": "1h 30m",
+        "lessons": [
+          "Praise that is specific",
+          "Raising a problem early",
+          "Asking your team for feedback on you"
+        ]
+      },
+      {
+        "title": "Delegation",
+        "duration": "1h 30m",
+        "lessons": [
+          "Deciding what to hand over",
+          "Handing over the outcome, not the steps",
+          "Checking in without micromanaging"
+        ]
+      },
+      {
+        "title": "Hard conversations and goals",
+        "duration": "1h 30m",
+        "lessons": [
+          "Preparing for a difficult conversation",
+          "When performance does not improve",
+          "Setting goals for the next quarter"
+        ]
+      }
+    ],
+    "requirements": [
+      "Recently promoted, or about to be",
+      "No management training needed"
+    ],
+    "audience": [
+      "New team leads and supervisors in their first year",
+      "Senior team members acting up while a manager is away",
+      "Managers who were never trained and want a structure"
+    ],
+    "instructorBio": "Zanele runs operations for a contact centre with two hundred staff, most of them led by managers promoted from the floor, as she was. She coaches every new team lead through their first quarter and built this course from those sessions.",
+    "instructorCredential": "16 years in operations. Teaches 2,180 learners on SkillUP",
+    "includes": [
+      "7 hours of video across 5 modules",
+      "One to one and feedback templates",
+      "A ninety day plan for new managers",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 69
+      },
+      {
+        "stars": 4,
+        "share": 23
+      },
+      {
+        "stars": 3,
+        "share": 5
+      },
+      {
+        "stars": 2,
+        "share": 2
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Kabelo S.",
+        "role": "Team lead, customer service",
+        "rating": 5,
+        "body": "The module on former peers was exactly my situation. I had the conversation with my best friend on the team and it went far better than I feared."
+      },
+      {
+        "name": "Melissa J.",
+        "role": "Retail store manager",
+        "rating": 4,
+        "body": "Practical and honest. The one to one template is now taped to my desk."
+      },
+      {
+        "name": "Andile M.",
+        "role": "Engineering supervisor",
+        "rating": 5,
+        "body": "I stopped redoing my team's work at night. Delegation was the lesson I needed most."
+      }
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Presenting to a room that did not ask to be there",
+    "instructor": "Lwazi Zulu",
+    "role": "Communications lead",
+    "rating": "4.7",
+    "reviews": "870",
+    "duration": "5 hours",
+    "level": "Beginner",
+    "price": "R 480",
+    "listPrice": "R 480",
+    "category": "Management",
+    "summary": "Plan a talk around one message, build slides that support you instead of competing with you, and handle questions without freezing.",
+    "tagline": "Nobody remembers your slides. They remember whether you made sense.",
+    "language": "English",
+    "updated": "May 2026",
+    "enrolled": "2,960",
+    "description": [
+      "Most presentations at work are a document read aloud from a slide. The audience reads ahead, the speaker loses them by slide four, and the one thing that mattered gets buried under everything else.",
+      "This course starts with the single message you want people to leave with and builds the talk around it. You practise openings, pacing and questions on camera, and finish with a ten minute talk you can give at work."
+    ],
+    "outcomes": [
+      "Boil any topic down to one message the room will remember",
+      "Structure a talk with a clear start, middle and ask",
+      "Make slides that support you instead of repeating you",
+      "Manage nerves with preparation rather than willpower",
+      "Answer hard questions, including ones you cannot answer",
+      "Adapt the same talk for five minutes or thirty"
+    ],
+    "modules": [
+      {
+        "title": "One message",
+        "duration": "1h 10m",
+        "lessons": [
+          "What the audience needs to leave with",
+          "Cutting what does not serve the message",
+          "Writing the talk in three sentences"
+        ]
+      },
+      {
+        "title": "Structure and slides",
+        "duration": "1h 30m",
+        "lessons": [
+          "Openings that earn attention",
+          "Slides with one idea each",
+          "Turning a table of data into one clear chart",
+          "Practice: rebuild a slide deck"
+        ]
+      },
+      {
+        "title": "Delivery",
+        "duration": "1h 20m",
+        "lessons": [
+          "Nerves and what actually helps",
+          "Pace, pauses and where to look",
+          "Presenting on a video call"
+        ]
+      },
+      {
+        "title": "Questions and next steps",
+        "duration": "1h",
+        "lessons": [
+          "Handling hard questions",
+          "Saying you do not know",
+          "Final project: a ten minute talk on camera"
+        ]
+      }
+    ],
+    "requirements": [
+      "No presenting experience needed",
+      "A phone or webcam to record practice talks"
+    ],
+    "audience": [
+      "Anyone who dreads presenting at team or client meetings",
+      "Specialists asked to explain their work to managers",
+      "New managers presenting to their own teams for the first time"
+    ],
+    "instructorBio": "Lwazi coaches executives and engineers before investor days, conferences and board meetings. He used to be the person who read his slides aloud, and he can still show you the recording.",
+    "instructorCredential": "12 years in communications. Teaches 2,960 learners on SkillUP",
+    "includes": [
+      "5 hours of video across 4 modules",
+      "A talk planning worksheet",
+      "A slide template with examples",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 74
+      },
+      {
+        "stars": 4,
+        "share": 20
+      },
+      {
+        "stars": 3,
+        "share": 4
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Nadia H.",
+        "role": "Project engineer",
+        "rating": 5,
+        "body": "I presented our quarterly results to the whole company and someone asked for my slides afterwards. That was a first."
+      },
+      {
+        "name": "Bongani Z.",
+        "role": "Sales representative",
+        "rating": 4,
+        "body": "The section on questions is the best part. I no longer panic when a client asks something I did not prepare for."
+      }
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Writing at work that people finish reading",
+    "instructor": "Nandi Sithole",
+    "role": "Editor and communications trainer",
+    "rating": "4.6",
+    "reviews": "190",
+    "duration": "4 hours",
+    "level": "Beginner",
+    "price": "R 450",
+    "listPrice": "R 450",
+    "category": "Management",
+    "summary": "Write emails, updates and reports that get read, understood and acted on. Short lessons with before and after rewrites from real workplaces.",
+    "tagline": "If the request is in paragraph four, nobody will find it.",
+    "language": "English",
+    "updated": "October 2026",
+    "enrolled": "520",
+    "badge": "New",
+    "description": [
+      "Most workplace writing fails in the same few ways. The point arrives late, the sentences run long, and the reader has to work out what they are being asked to do. So they skim, miss the deadline and reply with a question the email already answered.",
+      "This course fixes those habits with short lessons and plenty of rewriting. You practise on real examples from offices and on your own emails, and finish with templates for the messages you send most often."
+    ],
+    "outcomes": [
+      "Put the point and the request in the first two lines",
+      "Cut a long email in half without losing anything that matters",
+      "Write subject lines that say what the email needs",
+      "Structure a report so busy readers can skim it",
+      "Match your tone to the reader, from a client to the chief executive",
+      "Edit your own writing quickly before you press send"
+    ],
+    "modules": [
+      {
+        "title": "Lead with the point",
+        "duration": "1h",
+        "lessons": [
+          "Why people skim, and how to write for it",
+          "The point and the request up front",
+          "Subject lines that do their job"
+        ]
+      },
+      {
+        "title": "Shorter and clearer",
+        "duration": "1h 10m",
+        "lessons": [
+          "Cutting words that add nothing",
+          "Short sentences and plain words",
+          "Lists, headings and white space"
+        ]
+      },
+      {
+        "title": "Different kinds of writing",
+        "duration": "1h",
+        "lessons": [
+          "Status updates people actually read",
+          "Reports for busy managers",
+          "Difficult emails and saying no politely"
+        ]
+      },
+      {
+        "title": "Editing",
+        "duration": "50m",
+        "lessons": [
+          "A five minute edit before you send",
+          "Reading your own writing as a stranger",
+          "Practice: rewrite three of your own emails"
+        ]
+      }
+    ],
+    "requirements": [
+      "No writing training needed",
+      "A few of your own work emails or documents to practise on"
+    ],
+    "audience": [
+      "Anyone whose emails get ignored or misunderstood",
+      "Specialists who write for readers outside their field",
+      "Team leads who send updates to their managers"
+    ],
+    "instructorBio": "Nandi spent ten years as a newspaper sub-editor before moving into corporate communications. She now trains teams at banks and government departments to write the way people read, which is quickly and from the top.",
+    "instructorCredential": "18 years in editing and communications. Teaches 520 learners on SkillUP",
+    "includes": [
+      "4 hours of video across 4 modules",
+      "Email and report templates",
+      "A one page editing checklist",
+      "Certificate of completion"
+    ],
+    "ratingBreakdown": [
+      {
+        "stars": 5,
+        "share": 68
+      },
+      {
+        "stars": 4,
+        "share": 25
+      },
+      {
+        "stars": 3,
+        "share": 5
+      },
+      {
+        "stars": 2,
+        "share": 1
+      },
+      {
+        "stars": 1,
+        "share": 1
+      }
+    ],
+    "learnerReviews": [
+      {
+        "name": "Priyanka G.",
+        "role": "Policy analyst",
+        "rating": 5,
+        "body": "My director replied to an update with one word: clear. That has never happened in three years."
+      },
+      {
+        "name": "Willem K.",
+        "role": "Site manager",
+        "rating": 4,
+        "body": "Short and to the point, which feels right for this subject. The subject line lesson alone cut my follow up calls."
       }
     ]
   }

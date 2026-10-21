@@ -1,45 +1,46 @@
 .input {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2);
+  min-width: 0;
 }
 
 .input__label {
   display: flex;
-  align-items: center;
-  gap: var(--space-1);
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-2);
   color: var(--color-text);
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-medium);
 }
 
-.input__required {
-  color: var(--color-danger);
+.input__optional {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
 }
 
 .input__hint {
   margin-top: calc(var(--space-1) * -1);
+  margin-bottom: var(--space-2);
   color: var(--color-text-muted);
   font-size: var(--font-size-sm);
 }
-.input__control::placeholder {
-  color: var(--color-text-muted);
-}
-
-.input__control:hover {
-  border-color: var(--color-text-muted);
-}
-
-.input__control--error {
-  border-color: var(--color-danger);
-}
 
 .input__control {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input__field {
   width: 100%;
+  min-height: 3rem;
   padding: var(--space-3) var(--space-4);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border-strong);
+  border: 1px solid var(--color-border-input);
   border-radius: var(--radius-control);
+  background-color: var(--color-surface);
   color: var(--color-text);
   font-size: var(--font-size-base);
   transition:
@@ -47,16 +48,78 @@
     box-shadow var(--duration-fast) var(--ease-out);
 }
 
-textarea.input__control {
-  min-height: var(--space-24);
+.input__field::placeholder {
+  color: var(--color-text-muted);
+}
+
+.input__field:hover {
+  border-color: var(--color-text-muted);
+}
+
+.input__field:focus-visible {
+  border-color: var(--color-text);
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}
+
+textarea.input__field {
+  min-height: 6rem;
   resize: vertical;
 }
 
+.input__field--icon {
+  padding-left: 2.75rem;
+}
+
+.input__field--end {
+  padding-right: 3rem;
+}
+
+.input__icon {
+  position: absolute;
+  left: var(--space-4);
+  display: inline-flex;
+  color: var(--color-text-muted);
+  pointer-events: none;
+}
+
+.input__end {
+  position: absolute;
+  right: var(--space-2);
+  display: inline-flex;
+}
+
+.input__tick {
+  position: absolute;
+  right: var(--space-4);
+  display: inline-flex;
+  color: var(--color-success);
+  pointer-events: none;
+  animation: input-tick-in var(--duration-base) var(--ease-out) both;
+}
+
+.input--valid .input__field {
+  border-color: var(--color-success);
+}
+
+.input--error .input__field {
+  border-color: var(--color-danger);
+}
+
+/* the message stays in the page while empty */
 .input__error {
   color: var(--color-danger);
   font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
 }
 
-.input__error:empty {
-  display: none;
+.input__error:not(:empty) {
+  margin-top: var(--space-2);
+}
+
+@keyframes input-tick-in {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
 }
