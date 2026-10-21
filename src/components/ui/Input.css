@@ -104,7 +104,6 @@ textarea.input__field {
 
 .input--error .input__field {
   border-color: var(--color-danger);
-  box-shadow: inset 3px 0 0 var(--color-danger);
 }
 
 /* the message stays in the page while empty */

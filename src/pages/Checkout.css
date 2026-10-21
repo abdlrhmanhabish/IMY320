@@ -96,7 +96,7 @@
 
 .checkout__failure {
   padding: var(--space-4);
-  border-left: 3px solid var(--color-danger);
+  border: 1px solid color-mix(in srgb, var(--color-danger) 35%, transparent);
   border-radius: var(--radius-control);
   background-color: var(--color-danger-subtle);
   color: var(--color-danger);
@@ -395,7 +395,6 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-2);
-  border-left: 3px solid var(--color-category-ink);
   border-radius: var(--radius-control);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-sm);

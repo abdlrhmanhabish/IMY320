@@ -16,8 +16,8 @@
 }
 
 .course-card:hover {
-  border-color: var(--color-border);
-  box-shadow: var(--shadow-card-hover);
+  border-color: var(--color-category-ink);
+  box-shadow: 0 0 0 1px var(--color-category-ink), var(--shadow-card-hover);
   transform: translateY(-2px);
 }
 
@@ -88,6 +88,7 @@
 
 .course-card:hover .course-card__link {
   text-decoration: underline;
+  text-decoration-color: var(--color-category-ink);
   text-decoration-thickness: 2px;
   text-underline-offset: 0.2em;
 }

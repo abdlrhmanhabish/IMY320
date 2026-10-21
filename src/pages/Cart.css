@@ -25,6 +25,14 @@
   border-radius: var(--radius-card);
   background-color: var(--color-surface);
   box-shadow: var(--shadow-card);
+  transition:
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.cart__row:hover {
+  border-color: var(--color-category-ink);
+  box-shadow: 0 0 0 1px var(--color-category-ink), var(--shadow-card);
 }
 
 .cart__thumb {

@@ -262,7 +262,7 @@ export default function CoursePlayer() {
         <CourseReview compact review={reviewFor(id)} onSave={(review) => saveReview(id, review)} />
       </Celebration>
 
-      <div className="player">
+      <div className="player" data-category={course.category}>
         <aside ref={sideRef} className="player__side" aria-label="Course contents">
           <div className="player__side-head">
             <Link to="/learning" className="player__back">

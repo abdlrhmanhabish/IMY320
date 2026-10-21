@@ -23,6 +23,29 @@ import salesforceLogo from '../../assets/salesforce.png';
 const categories = ['All', 'Data', 'Finance', 'Development', 'Management'];
 const FEATURED_LIMIT = 4;
 
+const STEPS = [
+  {
+    title: 'Pick a path',
+    body: 'Select a goal-oriented career path instead of guessing random courses.',
+    Icon: CompassIcon,
+  },
+  {
+    title: 'Bite-sized modules',
+    body: 'Study in short, focused evening modules built around working schedules.',
+    Icon: ClockIcon,
+  },
+  {
+    title: 'Build a project',
+    body: 'Complete a practical project reviewed by industry practitioners.',
+    Icon: ProjectIcon,
+  },
+  {
+    title: 'Show employers',
+    body: 'Share your certificate and completed project link directly on your CV.',
+    Icon: AwardIcon,
+  },
+];
+
 const partnerLogos = [
   { src: microsoftLogo, alt: 'Microsoft', crop: 'wide' },
   { src: googleLogo, alt: 'Google' },
@@ -183,30 +206,23 @@ export default function Landing() {
           <h2>How {site.name} works</h2>
           <p className="subtitle">Four steps to building skills that count</p>
 
+          
           <ol className="steps-grid">
-            <li className="step-card">
-              <span className="step-number">1</span>
-              <h3>Pick a path</h3>
-              <p>Select a goal-oriented career path instead of guessing random courses.</p>
-            </li>
+            {STEPS.map((step, index) => (
+              <li key={step.title} className="step-card">
+                <span className="step-icon" aria-hidden="true">
+                  <step.Icon />
+                </span>
+                <h3>{step.title}</h3>
+                <p>{step.body}</p>
 
-            <li className="step-card">
-              <span className="step-number">2</span>
-              <h3>Bite-sized modules</h3>
-              <p>Study in short, focused evening modules built around working schedules.</p>
-            </li>
-
-            <li className="step-card">
-              <span className="step-number">3</span>
-              <h3>Build a project</h3>
-              <p>Complete a practical project reviewed by industry practitioners.</p>
-            </li>
-
-            <li className="step-card">
-              <span className="step-number">4</span>
-              <h3>Show employers</h3>
-              <p>Share your certificate and completed project link directly on your CV.</p>
-            </li>
+                {index < STEPS.length - 1 && (
+                  <span className="step-arrow" aria-hidden="true">
+                    <StepArrowIcon />
+                  </span>
+                )}
+              </li>
+            ))}
           </ol>
         </div>
       </section>
@@ -358,5 +374,56 @@ function ResumeStrip({ enrolled, progressFor, streak }) {
         </Button>
       </div>
     </section>
+  );
+}
+
+function StepArrowIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="16" height="16" focusable="false">
+      <path
+        d="M5 12h14M13 6l6 6-6 6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CompassIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" focusable="false">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M15.5 8.5l-2 5-5 2 2-5z" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ClockIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" focusable="false">
+      <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function ProjectIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" focusable="false">
+      <rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M3 9h18M8.5 14.5l2.5 2.5 4.5-4.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function AwardIcon() {
+  return (
+    <svg viewBox="0 0 24 24" width="22" height="22" focusable="false">
+      <circle cx="12" cy="9" r="6" fill="none" stroke="currentColor" strokeWidth="2" />
+      <path d="M8.5 14l-1.5 7 5-2.5 5 2.5-1.5-7" fill="none" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" />
+    </svg>
   );
 }
